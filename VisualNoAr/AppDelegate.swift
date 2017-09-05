@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  MyTube
+//  VisualNoAr
 //
 //  Created by Eduardo Vieira on 03/05/17.
-//  Copyright © 2017 Pinguino Tech Labs. All rights reserved.
+//  Copyright © 2017 Visual no Ar. All rights reserved.
 //
 
 import UIKit
