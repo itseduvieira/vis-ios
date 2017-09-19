@@ -1,0 +1,6 @@
+framework module Pods_VisualNoAr {
+  umbrella header "Pods-VisualNoAr-umbrella.h"
+
+  export *
+  module * { export * }
+}

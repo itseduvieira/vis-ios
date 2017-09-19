@@ -1,0 +1,34 @@
+PODS:
+  - Mapbox-iOS-SDK (3.6.3)
+  - MaterialComponents/AnimationTiming (35.0.0)
+  - MaterialComponents/Palettes (35.0.0)
+  - MaterialComponents/private/Application (35.0.0)
+  - MaterialComponents/private/Math (35.0.0)
+  - MaterialComponents/private/RTL (35.0.0)
+  - MaterialComponents/TextFields (35.0.0):
+    - MaterialComponents/TextFields/ColorThemer (= 35.0.0)
+    - MaterialComponents/TextFields/Component (= 35.0.0)
+  - MaterialComponents/TextFields/ColorThemer (35.0.0):
+    - MaterialComponents/TextFields/Component
+    - MaterialComponents/Themes
+  - MaterialComponents/TextFields/Component (35.0.0):
+    - MaterialComponents/AnimationTiming
+    - MaterialComponents/Palettes
+    - MaterialComponents/private/Math
+    - MaterialComponents/private/RTL
+    - MaterialComponents/Typography
+  - MaterialComponents/Themes (35.0.0)
+  - MaterialComponents/Typography (35.0.0):
+    - MaterialComponents/private/Application
+
+DEPENDENCIES:
+  - Mapbox-iOS-SDK (~> 3.6)
+  - MaterialComponents/TextFields
+
+SPEC CHECKSUMS:
+  Mapbox-iOS-SDK: 27805cb5f36d2bffe732b1d392278f4e408d06d2
+  MaterialComponents: c45311601868f5df6dc307feb4ce24db20ca3e9e
+
+PODFILE CHECKSUM: b38247d58bb632f82291c0149c2dc95b966507bf
+
+COCOAPODS: 1.3.1

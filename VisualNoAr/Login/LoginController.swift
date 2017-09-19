@@ -7,14 +7,27 @@
 //
 
 import UIKit
+import MaterialComponents.MaterialTextFields
 
-class LoginController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
+class LoginController: UIViewController, UITextFieldDelegate {
     //MARK: Properties
+    @IBOutlet weak var loginContainer: UIView!
+    @IBOutlet weak var btnLogin: UIButton!
+    @IBOutlet weak var txtEmail: MDCTextField!
     
     //MARK: Actions
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        loginContainer.setRadius(radius: 3)
+        
+        btnLogin.setRadius(radius: 22)
+        
+        txtEmail.delegate = self
+        
+        let txtEmailController = MDCTextInputControllerDefault(textInput: txtEmail)
+        txtEmailController.activeColor = UIColor(hexString: "#00BAE1")
+        txtEmailController.isFloatingEnabled = true
+    }
 }
 
