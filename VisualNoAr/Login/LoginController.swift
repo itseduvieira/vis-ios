@@ -14,6 +14,7 @@ class LoginController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var loginContainer: UIView!
     @IBOutlet weak var btnLogin: UIButton!
     @IBOutlet weak var txtEmail: MDCTextField!
+    @IBOutlet weak var txtPassword: MDCTextField!
     
     //MARK: Actions
     override func viewDidLoad() {
@@ -23,6 +24,7 @@ class LoginController: UIViewController, UITextFieldDelegate {
         
         btnLogin.setRadius(radius: 22)
         
+        txtEmail.delegate = self
         txtEmail.delegate = self
         
         let txtEmailController = MDCTextInputControllerDefault(textInput: txtEmail)

@@ -14,6 +14,9 @@
 		3441B73C1F5E6722008935D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3441B73A1F5E6661008935D0 /* Main.storyboard */; };
 		3445B5901EBAC02F00B4C7CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3445B58F1EBAC02F00B4C7CA /* AppDelegate.swift */; };
 		3445B5921EBAC02F00B4C7CA /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3445B5911EBAC02F00B4C7CA /* LoginController.swift */; };
+		344A43001F75638C00825713 /* PlaneAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344A42FF1F75638C00825713 /* PlaneAnnotationView.swift */; };
+		3450B3DB1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3450B3DA1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift */; };
+		3451040C1F71E34C00F36D6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3451040B1F71E34B00F36D6B /* GoogleService-Info.plist */; };
 		3494BA5E1F7044D800F0B8FE /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3494BA5D1F7044D800F0B8FE /* PageController.swift */; };
 		349B65101F5E3A5400867E3E /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349B650F1F5E3A5400867E3E /* DetailController.swift */; };
 		34A5851E1F709BA1006E05E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34A5851D1F709BA1006E05E6 /* Assets.xcassets */; };
@@ -33,6 +36,9 @@
 		3445B58F1EBAC02F00B4C7CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3445B5911EBAC02F00B4C7CA /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		3445B59B1EBAC02F00B4C7CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		344A42FF1F75638C00825713 /* PlaneAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaneAnnotationView.swift; sourceTree = "<group>"; };
+		3450B3DA1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2DExtensions.swift; sourceTree = "<group>"; };
+		3451040B1F71E34B00F36D6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3494BA5D1F7044D800F0B8FE /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		349B650F1F5E3A5400867E3E /* DetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
 		34A5851D1F709BA1006E05E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -82,6 +88,8 @@
 			children = (
 				34D87C3A1F47DC7200CCEC9E /* UIViewExtensions.swift */,
 				341C99B81F7182920017BFE1 /* UIStoryboardSegueSlide.swift */,
+				344A42FF1F75638C00825713 /* PlaneAnnotationView.swift */,
+				3450B3DA1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -90,10 +98,10 @@
 			isa = PBXGroup;
 			children = (
 				34A5851F1F70B3F6006E05E6 /* Podfile */,
-				3445B58E1EBAC02F00B4C7CA /* VisualNoAr */,
-				3445B58D1EBAC02F00B4C7CA /* Products */,
 				34D87C401F47E1E500CCEC9E /* Frameworks */,
 				D962EA4C3622BA367135D675 /* Pods */,
+				3445B58D1EBAC02F00B4C7CA /* Products */,
+				3445B58E1EBAC02F00B4C7CA /* VisualNoAr */,
 			);
 			sourceTree = "<group>";
 		};
@@ -114,6 +122,7 @@
 				3441B7391F5E657A008935D0 /* LaunchScreen.storyboard */,
 				3445B58F1EBAC02F00B4C7CA /* AppDelegate.swift */,
 				3445B59B1EBAC02F00B4C7CA /* Info.plist */,
+				3451040B1F71E34B00F36D6B /* GoogleService-Info.plist */,
 				34A5851D1F709BA1006E05E6 /* Assets.xcassets */,
 			);
 			path = VisualNoAr;
@@ -204,6 +213,7 @@
 				3441B73B1F5E671C008935D0 /* LaunchScreen.storyboard in Resources */,
 				34D87C3D1F47DE2500CCEC9E /* Campaign.storyboard in Resources */,
 				34A5851E1F709BA1006E05E6 /* Assets.xcassets in Resources */,
+				3451040C1F71E34C00F36D6B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,15 +227,23 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-VisualNoAr/Pods-VisualNoAr-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
+				"${BUILT_PRODUCTS_DIR}/MapboxGeocoder.swift/MapboxGeocoder.framework",
 				"${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxGeocoder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MaterialComponents.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -273,7 +291,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3445B5921EBAC02F00B4C7CA /* LoginController.swift in Sources */,
+				3450B3DB1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift in Sources */,
 				34D87C3B1F47DC7200CCEC9E /* UIViewExtensions.swift in Sources */,
+				344A43001F75638C00825713 /* PlaneAnnotationView.swift in Sources */,
 				341C99B91F7182920017BFE1 /* UIStoryboardSegueSlide.swift in Sources */,
 				340D72E71F47FFBB00425434 /* TutorialController.swift in Sources */,
 				340D72E91F48034800425434 /* MapController.swift in Sources */,
