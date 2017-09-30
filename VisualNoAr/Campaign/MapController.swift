@@ -17,6 +17,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     @IBOutlet weak var mapView: MGLMapView!
     @IBOutlet weak var topInfoContainer: UIView!
     @IBOutlet weak var imgStatus: UIImageView!
+    @IBOutlet weak var txtAltitude: UILabel!
     
     let locationManager = CLLocationManager()
     
@@ -74,10 +75,12 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         return annotationView
     }
     
-    private func showPlane(latitude: Double, longitude: Double) {
+    private func showPlane(latitude: Double, longitude: Double, altitude: Double) {
         var plane: MGLPointAnnotation
         
         let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
+        txtAltitude.text = String(format: "%.0fm", altitude)
         
         if mapView.annotations == nil {
             let plane = MGLPointAnnotation()
@@ -116,10 +119,13 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
             
             let content = (snapshot.value as? NSDictionary)
             
+            print(content!)
+            
             let latitude = content?["latitude"] as! Double
             let longitude = content?["longitude"] as! Double
+            let altitude = content?["altitude"] as! Double
             
-            self.showPlane(latitude: latitude, longitude: longitude)
+            self.showPlane(latitude: latitude, longitude: longitude, altitude: altitude)
         })
     }
     

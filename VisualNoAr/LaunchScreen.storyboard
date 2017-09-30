@@ -32,16 +32,14 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="B8N-UN-WDL">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="VISUAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcn-1Z-cHy">
-                                <rect key="frame" x="39" y="277" width="296" height="84"/>
-                                <autoresizingMask key="autoresizingMask"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VISUAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcn-1Z-cHy">
+                                <rect key="frame" x="45" y="275" width="285" height="118"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="100"/>
                                 <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="NO AR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfJ-Zh-wdX">
-                                <rect key="frame" x="154" y="369" width="66" height="21"/>
-                                <autoresizingMask key="autoresizingMask"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO AR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfJ-Zh-wdX">
+                                <rect key="frame" x="155" y="388" width="64.5" height="24"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -52,7 +50,11 @@
                             <constraint firstAttribute="trailing" secondItem="B8N-UN-WDL" secondAttribute="trailing" id="9Rk-YH-uvg"/>
                             <constraint firstItem="B8N-UN-WDL" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="SFE-V3-oky"/>
                             <constraint firstAttribute="bottom" secondItem="B8N-UN-WDL" secondAttribute="bottom" id="Vzz-6q-amj"/>
+                            <constraint firstItem="lfJ-Zh-wdX" firstAttribute="top" secondItem="qcn-1Z-cHy" secondAttribute="bottom" constant="-5" id="Xhm-Yj-k28"/>
                             <constraint firstItem="B8N-UN-WDL" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="bqR-K0-nP5"/>
+                            <constraint firstItem="qcn-1Z-cHy" firstAttribute="centerX" secondItem="B8N-UN-WDL" secondAttribute="centerX" id="cJl-H0-Pgz"/>
+                            <constraint firstItem="qcn-1Z-cHy" firstAttribute="centerY" secondItem="B8N-UN-WDL" secondAttribute="centerY" id="khG-61-MIk"/>
+                            <constraint firstItem="lfJ-Zh-wdX" firstAttribute="centerX" secondItem="B8N-UN-WDL" secondAttribute="centerX" id="ooY-mD-Be8"/>
                         </constraints>
                     </view>
                 </viewController>
