@@ -5,6 +5,6 @@ target 'VisualNoAr' do
     
     pod 'Mapbox-iOS-SDK', '~> 3.6'
     pod 'MapboxGeocoder.swift', '~> 0.6'
-    pod 'MaterialComponents/TextFields'
     pod 'Firebase/Database'
+    pod 'Firebase/Auth'
 end

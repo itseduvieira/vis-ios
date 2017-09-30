@@ -28,4 +28,13 @@ class PageController: UIViewController {
     @IBAction func showNextPage(_ sender: Any) {
         parentVC?.nextPage()
     }
+    
+    @IBAction func goToCampaign() {
+        UserDefaults.standard.set(true, forKey: "tutorial")
+        
+        let sb = UIStoryboard(name: "Campaign", bundle:nil)
+        let next = sb.instantiateViewController(withIdentifier: "MapViewController")
+        self.present(next, animated: true, completion: nil)
+    }
+    
 }

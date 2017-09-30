@@ -23,6 +23,7 @@
 		34A585201F70B3F6006E05E6 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 34A5851F1F70B3F6006E05E6 /* Podfile */; };
 		34D87C3B1F47DC7200CCEC9E /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D87C3A1F47DC7200CCEC9E /* UIViewExtensions.swift */; };
 		34D87C3D1F47DE2500CCEC9E /* Campaign.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34D87C3C1F47DE2500CCEC9E /* Campaign.storyboard */; };
+		34EEC0321F8000C2002FC0B6 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EEC0311F8000C2002FC0B6 /* Credentials.swift */; };
 		752C7FE6393ECD0DB421B3DB /* Pods_VisualNoAr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C90AEDC26D88B86D0B1DEF68 /* Pods_VisualNoAr.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		34A5851F1F70B3F6006E05E6 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		34D87C3A1F47DC7200CCEC9E /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		34D87C3C1F47DE2500CCEC9E /* Campaign.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Campaign.storyboard; sourceTree = "<group>"; };
+		34EEC0311F8000C2002FC0B6 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		B159C955CEC692D89B2F1F34 /* Pods-VisualNoAr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisualNoAr.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VisualNoAr/Pods-VisualNoAr.debug.xcconfig"; sourceTree = "<group>"; };
 		C90AEDC26D88B86D0B1DEF68 /* Pods_VisualNoAr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VisualNoAr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F91B8E07010A443762B27FD7 /* Pods-VisualNoAr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisualNoAr.release.xcconfig"; path = "Pods/Target Support Files/Pods-VisualNoAr/Pods-VisualNoAr.release.xcconfig"; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 		3445B58E1EBAC02F00B4C7CA /* VisualNoAr */ = {
 			isa = PBXGroup;
 			children = (
+				34EEC0301F8000A2002FC0B6 /* Model */,
 				341C99B71F71826B0017BFE1 /* Util */,
 				340D72E51F47FEF000425434 /* Campaign */,
 				340D72E41F47FEE000425434 /* Login */,
@@ -134,6 +137,14 @@
 				C90AEDC26D88B86D0B1DEF68 /* Pods_VisualNoAr.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		34EEC0301F8000A2002FC0B6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				34EEC0311F8000C2002FC0B6 /* Credentials.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		D962EA4C3622BA367135D675 /* Pods */ = {
@@ -227,21 +238,21 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-VisualNoAr/Pods-VisualNoAr-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/MapboxGeocoder.swift/MapboxGeocoder.framework",
-				"${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxGeocoder.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MaterialComponents.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -295,6 +306,7 @@
 				34D87C3B1F47DC7200CCEC9E /* UIViewExtensions.swift in Sources */,
 				344A43001F75638C00825713 /* PlaneAnnotationView.swift in Sources */,
 				341C99B91F7182920017BFE1 /* UIStoryboardSegueSlide.swift in Sources */,
+				34EEC0321F8000C2002FC0B6 /* Credentials.swift in Sources */,
 				340D72E71F47FFBB00425434 /* TutorialController.swift in Sources */,
 				340D72E91F48034800425434 /* MapController.swift in Sources */,
 				3494BA5E1F7044D800F0B8FE /* PageController.swift in Sources */,
