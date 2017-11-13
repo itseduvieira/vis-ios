@@ -18,6 +18,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     @IBOutlet weak var topInfoContainer: UIView!
     @IBOutlet weak var imgStatus: UIImageView!
     @IBOutlet weak var txtAltitude: UILabel!
+    @IBOutlet weak var txtLocation: UILabel!
     
     let locationManager = CLLocationManager()
     
@@ -28,6 +29,12 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     var actualRadian: Double! = 0.0
     
     var geocoder: Geocoder!
+    
+    var latitude: Double!
+    var longitude: Double!
+    var altitude: Double!
+    
+    var timer: DispatchSourceTimer?
     
     //MARK: Actions
     override func viewDidLoad() {
@@ -47,17 +54,31 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         brazil = MGLCoordinateBounds(sw: sw, ne: ne)
         mapView.setVisibleCoordinateBounds(brazil, animated: false)
         
-        if let path = Bundle.main.path(forResource: "Info", ofType: "plist") {
-            let dictRoot = NSDictionary(contentsOfFile: path)
-            if let dict = dictRoot {
-                geocoder = Geocoder(accessToken: dict["MGLMapboxAccessToken"] as? String)
-            }
-        }
+        geocoder = Geocoder.shared
         
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-        listenPlaneLocation()
+        ref.observe(.value, with: { (snapshot: DataSnapshot) in
+            guard snapshot.hasChildren() else {
+                return
+            }
+            
+            let content = (snapshot.value as? NSDictionary)
+            let active = content?["active"] as! Bool
+            
+            if active {
+                self.startListenLocation()
+                self.startTimer()
+            } else {
+                self.stopLocationListener()
+                self.stopTimer()
+            }
+        })
+    }
+    
+    private func stopLocationListener() {
+        ref.removeAllObservers()
     }
     
     func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
@@ -75,18 +96,18 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         return annotationView
     }
     
-    private func showPlane(latitude: Double, longitude: Double, altitude: Double) {
+    private func showPlane() {
         var plane: MGLPointAnnotation
         
-        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
         
-        txtAltitude.text = String(format: "%.0fm", altitude)
+        txtAltitude.text = String(format: "%.0fm", self.altitude)
         
         if mapView.annotations == nil {
             let plane = MGLPointAnnotation()
             plane.coordinate = coordinate
             
-            mapView.setCenter(coordinate, zoomLevel: mapView.zoomLevel + 2, animated: true)
+            mapView.setCenter(coordinate, zoomLevel: 12, animated: true)
             mapView.addAnnotation(plane)
         } else {
             plane = mapView.annotations?.first as! MGLPointAnnotation
@@ -95,24 +116,52 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
             
             self.setBearing(radian: previousCoordinate.bearingRadianTo(location: coordinate))
             
-            let options = ReverseGeocodeOptions(coordinate: previousCoordinate)
-            geocoder.geocode(options) { (placemarks, attribution, error) in
-                guard let placemark = placemarks?.first else {
-                    return
-                }
-                
-                print(placemark.administrativeRegion?.name ?? "")
-                // New York
-                print(placemark.administrativeRegion?.neighborhood ?? "")
-                // US-NY
-            }
-            
             plane.coordinate = coordinate
+            
+            mapView.setCenter(coordinate, zoomLevel: 12, animated: true)
         }
     }
     
-    private func listenPlaneLocation() {
-        ref.observe(.value, with: { (snapshot: DataSnapshot) in
+    func startTimer() {
+        timer = DispatchSource.makeTimerSource(queue: DispatchQueue.main)
+        timer!.scheduleRepeating(deadline: .now(), interval: .seconds(5))
+        timer!.setEventHandler { [weak self] in
+            self!.showLocationName()
+        }
+        timer!.resume()
+    }
+    
+    func stopTimer() {
+        timer?.cancel()
+        timer = nil
+    }
+    
+    deinit {
+        self.stopTimer()
+    }
+    
+    private func showLocationName() {
+        guard let latitude = self.latitude, let longitude = self.longitude else {
+            return
+        }
+        
+        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
+        let options = ReverseGeocodeOptions(coordinate: coordinate)
+        
+        geocoder.geocode(options) { (placemarks, attribution, error) in
+            guard let placemark = placemarks?.first else {
+                return
+            }
+            
+            self.txtLocation.text = placemark.administrativeRegion?.name ?? "Buscando localidade..."
+            
+            print(placemark)
+        }
+    }
+    
+    private func startListenLocation() {
+        ref.child("location").observe(.value, with: { (snapshot: DataSnapshot) in
             guard snapshot.hasChildren() else {
                 return
             }
@@ -121,11 +170,11 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
             
             print(content!)
             
-            let latitude = content?["latitude"] as! Double
-            let longitude = content?["longitude"] as! Double
-            let altitude = content?["altitude"] as! Double
+            self.latitude = content?["latitude"] as! Double
+            self.longitude = content?["longitude"] as! Double
+            self.altitude = content?["altitude"] as! Double
             
-            self.showPlane(latitude: latitude, longitude: longitude, altitude: altitude)
+            self.showPlane()
         })
     }
     
