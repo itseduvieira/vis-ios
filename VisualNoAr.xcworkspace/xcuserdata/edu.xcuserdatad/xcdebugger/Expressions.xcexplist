@@ -3,6 +3,25 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "MapController.mapViewDidFinishLoadingMap(_:):MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "userRef">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in MapController.mapViewDidFinishLoadingMap(_:):MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "snapshot.value as! Int">
+            </PersistentString>
+            <PersistentString
+               value = "String(describing: campaignId)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "MapController.mapView(_:viewFor:):MapController.swift">
          <PersistentStrings>
             <PersistentString

@@ -10,6 +10,7 @@ import UIKit
 import Mapbox
 import MapboxGeocoder
 import FirebaseDatabase
+import FirebaseAuth
 
 class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDelegate {
     
@@ -23,7 +24,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     let locationManager = CLLocationManager()
     
     var brazil: MGLCoordinateBounds!
-    var ref: DatabaseReference!
+    var userRef, campaignRef: DatabaseReference!
     
     var previousRadian: Double! = 0.0
     var actualRadian: Double! = 0.0
@@ -39,8 +40,6 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     //MARK: Actions
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        ref = Database.database().reference(withPath: "/campaign/1")
         
         mapView.delegate = self
         mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height * 1.4, 0, 0, 0), animated: false)
@@ -59,26 +58,38 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-        ref.observe(.value, with: { (snapshot: DataSnapshot) in
-            guard snapshot.hasChildren() else {
-                return
-            }
+        guard let user = Auth.auth().currentUser else {
+            return
+        }
+        
+        print(user.uid)
+        
+        userRef = Database.database().reference(withPath: "user").child(user.uid)
+        
+        userRef.child("campaign").observe(DataEventType.value, with: { (snapshot) in
+            let campaignId = snapshot.value as! Int
             
-            let content = (snapshot.value as? NSDictionary)
-            let active = content?["active"] as! Bool
-            
-            if active {
-                self.startListenLocation()
-                self.startTimer()
-            } else {
-                self.stopLocationListener()
-                self.stopTimer()
+            self.campaignRef = Database.database().reference(withPath: "campaign").child(String(campaignId))
+            self.campaignRef.child("active").observe(DataEventType.value, with: { (snapshot) in
+                let active = snapshot.value as! Bool
+                
+                if active {
+                    self.startListenLocation()
+                    self.startTimer()
+                } else {
+                    self.stopLocationListener()
+                    self.stopTimer()
+                }
+            }) { (error) in
+                print(error.localizedDescription)
             }
-        })
+        }) { (error) in
+            print(error.localizedDescription)
+        }
     }
     
     private func stopLocationListener() {
-        ref.removeAllObservers()
+        campaignRef.removeAllObservers()
     }
     
     func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
@@ -107,7 +118,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
             let plane = MGLPointAnnotation()
             plane.coordinate = coordinate
             
-            mapView.setCenter(coordinate, zoomLevel: 12, animated: true)
+            mapView.setCenter(coordinate, zoomLevel: 13, animated: true)
             mapView.addAnnotation(plane)
         } else {
             plane = mapView.annotations?.first as! MGLPointAnnotation
@@ -118,13 +129,13 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
             
             plane.coordinate = coordinate
             
-            mapView.setCenter(coordinate, zoomLevel: 12, animated: true)
+            mapView.setCenter(coordinate, zoomLevel: 13, animated: true)
         }
     }
     
     func startTimer() {
         timer = DispatchSource.makeTimerSource(queue: DispatchQueue.main)
-        timer!.scheduleRepeating(deadline: .now(), interval: .seconds(5))
+        timer!.schedule(deadline: .now(), repeating: .seconds(5))
         timer!.setEventHandler { [weak self] in
             self!.showLocationName()
         }
@@ -161,7 +172,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     }
     
     private func startListenLocation() {
-        ref.child("location").observe(.value, with: { (snapshot: DataSnapshot) in
+        campaignRef.child("location").observe(.value, with: { (snapshot: DataSnapshot) in
             guard snapshot.hasChildren() else {
                 return
             }

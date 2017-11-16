@@ -40,6 +40,8 @@ class PlaneAnnotationView: MGLAnnotationView {
             position.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
             position.duration = 4
             
+            //controller.mapView.setCenter(<#T##coordinate: CLLocationCoordinate2D##CLLocationCoordinate2D#>, animated: <#T##Bool#>)
+            
             let animation = CAAnimationGroup()
             animation.animations = [rotation, position]
             animation.duration = 5
