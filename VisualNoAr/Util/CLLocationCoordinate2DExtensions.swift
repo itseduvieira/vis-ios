@@ -10,26 +10,20 @@ import Mapbox
 
 extension CLLocationCoordinate2D {
     
-    func getRadiansFrom(degrees: Double) -> Double {
-        
+    func getRadiansFrom(degrees: CGFloat) -> CGFloat {
         return degrees * .pi / 180
-        
     }
     
-    func getDegreesFrom(radians: Double) -> Double {
-        
+    func getDegreesFrom(radians: CGFloat) -> CGFloat {
         return radians * 180 / .pi
-        
     }
     
-    
-    func bearingRadianTo(location: CLLocationCoordinate2D) -> Double {
+    func bearingRadianTo(location: CLLocationCoordinate2D) -> CGFloat {
+        let lat1 = self.getRadiansFrom(degrees: CGFloat(self.latitude))
+        let lon1 = self.getRadiansFrom(degrees: CGFloat(self.longitude))
         
-        let lat1 = self.getRadiansFrom(degrees: self.latitude)
-        let lon1 = self.getRadiansFrom(degrees: self.longitude)
-        
-        let lat2 = self.getRadiansFrom(degrees: location.latitude)
-        let lon2 = self.getRadiansFrom(degrees: location.longitude)
+        let lat2 = self.getRadiansFrom(degrees: CGFloat(location.latitude))
+        let lon2 = self.getRadiansFrom(degrees: CGFloat(location.longitude))
         
         let dLon = lon2 - lon1
         
@@ -39,20 +33,13 @@ extension CLLocationCoordinate2D {
         var radiansBearing = atan2(y, x)
         
         if radiansBearing < 0.0 {
-            
             radiansBearing += 2 * .pi
-            
         }
         
-        
-        return radiansBearing
+        return CGFloat(radiansBearing)
     }
     
-    func bearingDegreesTo(location: CLLocationCoordinate2D) -> Double {
-        
+    func bearingDegreesTo(location: CLLocationCoordinate2D) -> CGFloat {
         return self.getDegreesFrom(radians: self.bearingRadianTo(location: location))
-        
     }
-    
-    
 }

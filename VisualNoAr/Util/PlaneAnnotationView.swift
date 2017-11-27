@@ -31,26 +31,20 @@ class PlaneAnnotationView: MGLAnnotationView {
     
     override func action(for layer: CALayer, forKey event: String) -> CAAction? {
         if (event == "position" && controller != nil) {
-            let rotation = CABasicAnimation(keyPath: "transform.rotation")
-            rotation.fromValue = controller.actualRadian
-            rotation.toValue = controller.actualRadian
-            rotation.duration = 5
-            
             let position = CABasicAnimation(keyPath: event)
             position.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
-            position.duration = 4
-            
-            //controller.mapView.setCenter(<#T##coordinate: CLLocationCoordinate2D##CLLocationCoordinate2D#>, animated: <#T##Bool#>)
-            
-            let animation = CAAnimationGroup()
-            animation.animations = [rotation, position]
-            animation.duration = 5
-            animation.isRemovedOnCompletion = false
-            animation.fillMode = kCAFillModeForwards
-            
-            return animation
+            position.duration = 5
+
+            return position
         }
-        
+
         return super.action(for: layer, forKey: event)
+    }
+    
+    func rotate(radians: CGFloat) {
+        UIView.animate(withDuration: 2, animations: {
+            print(radians)
+            self.transform = CGAffineTransform(rotationAngle: radians)
+        })
     }
 }

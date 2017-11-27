@@ -8,7 +8,6 @@
 
 import UIKit
 import Mapbox
-import MapboxGeocoder
 import FirebaseDatabase
 import FirebaseAuth
 
@@ -26,16 +25,12 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     var brazil: MGLCoordinateBounds!
     var userRef, campaignRef: DatabaseReference!
     
-    var previousRadian: Double! = 0.0
-    var actualRadian: Double! = 0.0
-    
-    var geocoder: Geocoder!
-    
     var latitude: Double!
     var longitude: Double!
     var altitude: Double!
+    var location: String!
     
-    var timer: DispatchSourceTimer?
+    var annotationView: PlaneAnnotationView?
     
     //MARK: Actions
     override func viewDidLoad() {
@@ -52,9 +47,6 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         let sw = CLLocationCoordinate2D(latitude: -35.237824, longitude: -61.368507)
         brazil = MGLCoordinateBounds(sw: sw, ne: ne)
         mapView.setVisibleCoordinateBounds(brazil, animated: false)
-        
-        geocoder = Geocoder.shared
-        
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
@@ -75,10 +67,8 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
                 
                 if active {
                     self.startListenLocation()
-                    self.startTimer()
                 } else {
                     self.stopLocationListener()
-                    self.stopTimer()
                 }
             }) { (error) in
                 print(error.localizedDescription)
@@ -97,7 +87,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
             return nil
         }
         
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "plane") as? PlaneAnnotationView
+        annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "plane") as? PlaneAnnotationView
         
         if annotationView == nil {
             annotationView = PlaneAnnotationView(reuseIdentifier: "plane", image: UIImage(named: "Plane")!)
@@ -113,61 +103,25 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         let coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
         
         txtAltitude.text = String(format: "%.0fm", self.altitude)
+        txtLocation.text = self.location
         
         if mapView.annotations == nil {
             let plane = MGLPointAnnotation()
             plane.coordinate = coordinate
             
-            mapView.setCenter(coordinate, zoomLevel: 13, animated: true)
             mapView.addAnnotation(plane)
+            mapView.setCenter(coordinate, zoomLevel: 11, animated: false)
         } else {
+            let camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 4200, pitch: 15, heading: 0)
+            mapView.setCamera(camera, withDuration: 8, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
+            
             plane = mapView.annotations?.first as! MGLPointAnnotation
             
             let previousCoordinate: CLLocationCoordinate2D = plane.coordinate
             
-            self.setBearing(radian: previousCoordinate.bearingRadianTo(location: coordinate))
+            annotationView?.rotate(radians: previousCoordinate.bearingRadianTo(location: coordinate))
             
             plane.coordinate = coordinate
-            
-            mapView.setCenter(coordinate, zoomLevel: 13, animated: true)
-        }
-    }
-    
-    func startTimer() {
-        timer = DispatchSource.makeTimerSource(queue: DispatchQueue.main)
-        timer!.schedule(deadline: .now(), repeating: .seconds(5))
-        timer!.setEventHandler { [weak self] in
-            self!.showLocationName()
-        }
-        timer!.resume()
-    }
-    
-    func stopTimer() {
-        timer?.cancel()
-        timer = nil
-    }
-    
-    deinit {
-        self.stopTimer()
-    }
-    
-    private func showLocationName() {
-        guard let latitude = self.latitude, let longitude = self.longitude else {
-            return
-        }
-        
-        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        
-        let options = ReverseGeocodeOptions(coordinate: coordinate)
-        
-        geocoder.geocode(options) { (placemarks, attribution, error) in
-            guard let placemark = placemarks?.first else {
-                return
-            }
-            
-            self.txtLocation.text = placemark.administrativeRegion?.name ?? "Buscando localidade..."
-            
-            print(placemark)
         }
     }
     
@@ -179,18 +133,35 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
             
             let content = (snapshot.value as? NSDictionary)
             
-            print(content!)
+            let newLat = content?["latitude"] as! Double
+            let newLon = content?["longitude"] as! Double
+            let newAlt = content?["altitude"] as! Double
             
-            self.latitude = content?["latitude"] as! Double
-            self.longitude = content?["longitude"] as! Double
-            self.altitude = content?["altitude"] as! Double
+            if newLat == self.latitude &&
+                newLon == self.longitude &&
+                    newAlt == self.altitude {
+                return
+            }
+            
+            print(content!)
+            print("---")
+            
+            self.latitude = newLat
+            self.longitude = newLon
+            self.altitude = newAlt
+            
+            if let location = content?["description"] as? String {
+                self.location = location
+            }
             
             self.showPlane()
         })
     }
     
-    func setBearing(radian: Double) {
-        previousRadian = actualRadian
-        actualRadian = radian
+    @IBAction func center() {
+        let coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
+        
+        let camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 4200, pitch: 15, heading: 0)
+        mapView.setCamera(camera, withDuration: 4, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
     }
 }

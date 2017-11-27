@@ -27,10 +27,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dbd-Zf-pn4" customClass="MGLMapView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="552"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aNF-j5-bxb">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.42511237157534248" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="7xa-MD-eEq"/>
@@ -45,10 +45,11 @@
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="styleURL__" value="mapbox://styles/mapbox/streets-v10"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="allowsRotating" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q4C-mC-kfk">
-                                <rect key="frame" x="0.0" y="552" width="600" height="48"/>
+                                <rect key="frame" x="0.0" y="619" width="375" height="48"/>
                                 <color key="backgroundColor" red="0.0" green="0.72941176470588232" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="ZHV-Wk-DzL"/>
@@ -62,7 +63,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fF9-KN-9kp">
-                                <rect key="frame" x="12" y="35" width="576" height="60"/>
+                                <rect key="frame" x="12" y="35" width="351" height="60"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Buscando localidade..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jLY-z7-M8c">
                                         <rect key="frame" x="34" y="28" width="271" height="21"/>
@@ -83,7 +84,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IDf-ls-h7Q">
-                                        <rect key="frame" x="514" y="20" width="50" height="21"/>
+                                        <rect key="frame" x="289" y="20" width="50" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="8V6-Mi-hAX"/>
                                             <constraint firstAttribute="height" constant="21" id="bbh-4A-xTc"/>
@@ -92,22 +93,32 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaz-47-AiV">
+                                        <rect key="frame" x="-11" y="-10" width="377" height="81"/>
+                                        <connections>
+                                            <action selector="center" destination="exs-0R-cc5" eventType="touchUpInside" id="lES-Wm-vE1"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="IDf-ls-h7Q" secondAttribute="trailing" constant="12" id="089-yT-Y6S"/>
                                     <constraint firstAttribute="height" constant="60" id="8mL-WB-5C0"/>
+                                    <constraint firstAttribute="bottom" secondItem="vaz-47-AiV" secondAttribute="bottom" id="AZE-Yb-2Z4"/>
                                     <constraint firstItem="IDf-ls-h7Q" firstAttribute="centerY" secondItem="fF9-KN-9kp" secondAttribute="centerY" id="KIK-fp-Gi2"/>
+                                    <constraint firstItem="vaz-47-AiV" firstAttribute="leading" secondItem="fF9-KN-9kp" secondAttribute="leading" id="UJy-fs-xXv"/>
+                                    <constraint firstItem="vaz-47-AiV" firstAttribute="top" secondItem="fF9-KN-9kp" secondAttribute="top" id="Wh0-eH-mbS"/>
+                                    <constraint firstAttribute="trailing" secondItem="vaz-47-AiV" secondAttribute="trailing" id="Zdf-fv-UtT"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X9j-47-Sre">
-                                <rect key="frame" x="0.0" y="482" width="600" height="70"/>
+                                <rect key="frame" x="0.0" y="549" width="375" height="70"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9rn-Ja-igx">
-                                        <rect key="frame" x="0.0" y="0.0" width="198.5" height="70"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="124.5" height="70"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VERÃO 2018" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Am8-jY-kC2">
-                                                <rect key="frame" x="4" y="17" width="190.5" height="21"/>
+                                                <rect key="frame" x="4" y="17" width="116.5" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="ipB-J1-edy"/>
                                                 </constraints>
@@ -116,7 +127,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Campanha" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WHa-jb-1CP">
-                                                <rect key="frame" x="4" y="34" width="190.5" height="21"/>
+                                                <rect key="frame" x="4" y="34" width="116.5" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="bhl-iJ-X6P"/>
                                                 </constraints>
@@ -136,10 +147,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aC0-58-NG9">
-                                        <rect key="frame" x="199.5" y="0.0" width="203" height="70"/>
+                                        <rect key="frame" x="125.5" y="0.0" width="126.5" height="70"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PT-XYZ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17m-Im-wKc">
-                                                <rect key="frame" x="4" y="17" width="195" height="21"/>
+                                                <rect key="frame" x="4" y="17" width="118.5" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="bAB-23-TKm"/>
                                                 </constraints>
@@ -148,7 +159,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prefixo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SnQ-SA-xgb">
-                                                <rect key="frame" x="4" y="34" width="195" height="21"/>
+                                                <rect key="frame" x="4" y="34" width="118.5" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="zao-Xc-mhC"/>
                                                 </constraints>
@@ -168,10 +179,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8jc-L3-vqo">
-                                        <rect key="frame" x="403.5" y="0.0" width="197.5" height="70"/>
+                                        <rect key="frame" x="253" y="0.0" width="123" height="70"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LITORAL SUL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WrR-IA-Jmq">
-                                                <rect key="frame" x="4.5" y="17" width="189.5" height="21"/>
+                                                <rect key="frame" x="5" y="17" width="115" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="8br-gv-ALh"/>
                                                 </constraints>
@@ -180,7 +191,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Praça" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXF-CZ-tCZ">
-                                                <rect key="frame" x="4.5" y="34" width="189.5" height="21"/>
+                                                <rect key="frame" x="5" y="34" width="115" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="9up-ba-1Ug"/>
                                                 </constraints>
