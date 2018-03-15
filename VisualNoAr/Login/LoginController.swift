@@ -29,6 +29,16 @@ class LoginController: UIViewController {
         self.checkAndFillSavedCredentials()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = .lightContent
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.shared.statusBarStyle = .default
+    }
+    
     @IBAction func login() {
         if let email = txtEmail.text, let password = txtPassword.text {
             Auth.auth().signIn(withEmail: email, password: password) { (user, error) in

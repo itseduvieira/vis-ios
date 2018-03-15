@@ -149,7 +149,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aC0-58-NG9">
                                         <rect key="frame" x="125.5" y="0.0" width="126.5" height="70"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PT-XYZ" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17m-Im-wKc">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PT-INA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="17m-Im-wKc">
                                                 <rect key="frame" x="4" y="17" width="118.5" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="bAB-23-TKm"/>
@@ -182,7 +182,7 @@
                                         <rect key="frame" x="253" y="0.0" width="123" height="70"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LITORAL SUL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WrR-IA-Jmq">
-                                                <rect key="frame" x="5" y="17" width="115" height="21"/>
+                                                <rect key="frame" x="4" y="17" width="115" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="8br-gv-ALh"/>
                                                 </constraints>
@@ -191,7 +191,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Praça" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXF-CZ-tCZ">
-                                                <rect key="frame" x="5" y="34" width="115" height="21"/>
+                                                <rect key="frame" x="4" y="34" width="115" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="21" id="9up-ba-1Ug"/>
                                                 </constraints>
@@ -279,13 +279,13 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="241.5"/>
                                                 <color key="backgroundColor" red="0.97488261010362709" green="0.97488261010362709" blue="0.97488261010362709" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CESSNA 172" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NKb-xU-iG8">
-                                                <rect key="frame" x="20" y="186" width="72" height="14"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BRANCO E AZUL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NKb-xU-iG8">
+                                                <rect key="frame" x="20" y="186" width="96" height="14"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2017" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGl-jh-eXU">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2018" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGl-jh-eXU">
                                                 <rect key="frame" x="292" y="197" width="63" height="33"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="28"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -297,13 +297,13 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PT-XYZ" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jbM-hh-zXo">
-                                                <rect key="frame" x="20" y="197" width="94" height="33"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PT-INA" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jbM-hh-zXo">
+                                                <rect key="frame" x="20" y="197" width="88" height="33"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="28"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="T4F" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eer-WS-Niv">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MONSTER JAM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eer-WS-Niv">
                                                 <rect key="frame" x="24" y="259.5" width="327" height="26"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="26" id="YPE-2o-iwO"/>
@@ -312,7 +312,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RIO DE JANEIRO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTD-5z-sqG">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LITORAL SUL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTD-5z-sqG">
                                                 <rect key="frame" x="24" y="375.5" width="327" height="15"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="15" id="0Kl-3V-UVH"/>
@@ -327,10 +327,10 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kc9-Qp-Nkd">
                                                         <rect key="frame" x="8" y="8.5" width="110" height="76"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="104" placeholderIntrinsicHeight="89" image="ExampleBeach1" translatesAutoresizingMaskIntoConstraints="NO" id="RTq-3p-k41">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="104" placeholderIntrinsicHeight="89" image="PraiaGrande" translatesAutoresizingMaskIntoConstraints="NO" id="RTq-3p-k41">
                                                                 <rect key="frame" x="0.0" y="0.5" width="110" height="76"/>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IPANEMA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="axX-15-HaF">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRAIA GRANDE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="axX-15-HaF">
                                                                 <rect key="frame" x="0.0" y="30.5" width="110" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="5rf-Ru-zGQ"/>
@@ -355,10 +355,10 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hle-O2-U9V">
                                                         <rect key="frame" x="128.5" y="8.5" width="110.5" height="76"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="104" placeholderIntrinsicHeight="89" image="ExampleBeach2" translatesAutoresizingMaskIntoConstraints="NO" id="StH-YU-Rhg">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="104" placeholderIntrinsicHeight="89" image="Santos" translatesAutoresizingMaskIntoConstraints="NO" id="StH-YU-Rhg">
                                                                 <rect key="frame" x="0.5" y="0.5" width="110.5" height="76"/>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COPACABANA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PBN-To-sqM">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SANTOS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PBN-To-sqM">
                                                                 <rect key="frame" x="0.5" y="30.5" width="110.5" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="CJF-aS-HVf"/>
@@ -383,10 +383,10 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iVb-YZ-OC1">
                                                         <rect key="frame" x="249" y="8.5" width="110" height="76"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="104" placeholderIntrinsicHeight="89" image="ExampleBeach3" translatesAutoresizingMaskIntoConstraints="NO" id="raZ-Ly-Ikj">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="104" placeholderIntrinsicHeight="89" image="Guaruja" translatesAutoresizingMaskIntoConstraints="NO" id="raZ-Ly-Ikj">
                                                                 <rect key="frame" x="0.0" y="0.5" width="110" height="76"/>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ARPOADOR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j7X-5q-VU0">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GUARUJA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j7X-5q-VU0">
                                                                 <rect key="frame" x="0.0" y="30.5" width="110" height="15"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="15" id="vAi-W2-rcA"/>
@@ -426,7 +426,7 @@
                                                     <constraint firstItem="kc9-Qp-Nkd" firstAttribute="leading" secondItem="zpv-uD-R47" secondAttribute="leading" constant="8" id="xXt-RB-IiS"/>
                                                 </constraints>
                                             </view>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ExampleCampaignBand" translatesAutoresizingMaskIntoConstraints="NO" id="62r-Iq-UqH">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="FaixaMonsterJam" translatesAutoresizingMaskIntoConstraints="NO" id="62r-Iq-UqH">
                                                 <rect key="frame" x="4" y="297.5" width="367" height="60"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="YAt-Ec-v0s"/>
@@ -507,10 +507,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ExampleBeach1" width="330" height="240"/>
-        <image name="ExampleBeach2" width="330" height="240"/>
-        <image name="ExampleBeach3" width="330" height="240"/>
-        <image name="ExampleCampaignBand" width="363" height="61"/>
         <image name="ExampleCampaignPlane" width="373" height="324"/>
+        <image name="FaixaMonsterJam" width="1000" height="253"/>
+        <image name="Guaruja" width="1600" height="1024"/>
+        <image name="PraiaGrande" width="620" height="465"/>
+        <image name="Santos" width="1024" height="685"/>
     </resources>
 </document>
