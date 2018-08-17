@@ -29,6 +29,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) CLLocationCoordinate2D MGLCoordinateValue;
 
 /**
+ Creates a new value object containing the specified Mapbox map point structure.
+
+ @param point The value for the new object.
+ @return A new value object that contains the coordinate and zoom level information.
+ */
++ (instancetype)valueWithMGLMapPoint:(MGLMapPoint)point;
+
+/**
+ The Mapbox map point structure representation of the value.
+ */
+@property (readonly) MGLMapPoint MGLMapPointValue;
+
+/**
  Creates a new value object containing the specified Mapbox coordinate span
  structure.
 
@@ -55,6 +68,20 @@ NS_ASSUME_NONNULL_BEGIN
  The Mapbox coordinate bounds structure representation of the value.
  */
 @property (readonly) MGLCoordinateBounds MGLCoordinateBoundsValue;
+
+/**
+ Creates a new value object containing the specified Mapbox coordinate 
+ quad structure.
+
+ @param quad The value for the new object.
+ @return A new value object that contains the coordinate quad information.
+ */
++ (instancetype)valueWithMGLCoordinateQuad:(MGLCoordinateQuad)quad;
+
+/**
+ The Mapbox coordinate quad structure representation of the value.
+ */
+- (MGLCoordinateQuad)MGLCoordinateQuadValue;
 
 #pragma mark Working with Offline Map Values
 

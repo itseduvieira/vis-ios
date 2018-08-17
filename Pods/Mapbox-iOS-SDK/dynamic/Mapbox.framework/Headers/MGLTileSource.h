@@ -41,6 +41,20 @@ extern MGL_EXPORT const MGLTileSourceOption MGLTileSourceOptionMinimumZoomLevel;
  */
 extern MGL_EXPORT const MGLTileSourceOption MGLTileSourceOptionMaximumZoomLevel;
 
+/**
+ An `NSValue` object containing an `MGLCoordinateBounds` struct that specifies
+ the geographic extent of the source.
+ 
+ If this option is specified, the SDK avoids requesting any tile that falls
+ outside of the coordinate bounds. Otherwise, the SDK requests any tile needed
+ to cover the viewport, as it does by default.
+
+ This option corresponds to the `bounds` key in the
+ <a href="https://github.com/mapbox/tilejson-spec/tree/master/2.1.0">TileJSON</a>
+ specification.
+ */
+extern MGL_EXPORT const MGLTileSourceOption MGLTileSourceOptionCoordinateBounds;
+
 #if TARGET_OS_IPHONE
 /**
  An HTML string defining the buttons to be displayed in an action sheet when the
@@ -103,6 +117,7 @@ extern MGL_EXPORT const MGLTileSourceOption MGLTileSourceOptionAttributionInfos;
  */
 extern MGL_EXPORT const MGLTileSourceOption MGLTileSourceOptionTileCoordinateSystem;
 
+
 /**
  Tile coordinate systems that determine how tile coordinates in tile URLs are
  interpreted.
@@ -127,6 +142,35 @@ typedef NS_ENUM(NSUInteger, MGLTileCoordinateSystem) {
     MGLTileCoordinateSystemTMS
 };
 
+
+/**
+ An `NSNumber` object containing an unsigned integer that specifies the encoding
+ formula for raster-dem tilesets. The integer corresponds to one of
+ the constants described in `MGLDEMEncoding`.
+
+ The default value for this option is `MGLDEMEncodingMapbox`.
+
+ This option is not supported by the TileJSON spec.
+ */
+extern MGL_EXPORT const MGLTileSourceOption MGLTileSourceOptionDEMEncoding;
+
+/**
+ The encoding formula used to generate the raster-dem tileset
+*/
+
+typedef NS_ENUM(NSUInteger, MGLDEMEncoding) {
+
+    /**
+     Raster tiles generated with the [Mapbox encoding formula](https://www.mapbox.com/help/access-elevation-data/#mapbox-terrain-rgb).
+    */
+    MGLDEMEncodingMapbox = 0,
+
+    /**
+     Raster tiles generated with the [Mapzen Terrarium encoding formula](https://aws.amazon.com/public-datasets/terrain/).
+    */
+    MGLDEMEncodingTerrarium
+};
+
 /**
  `MGLTileSource` is a map content source that supplies map tiles to be shown on
  the map. The location of and metadata about the tiles are defined either by an
@@ -140,9 +184,9 @@ typedef NS_ENUM(NSUInteger, MGLTileCoordinateSystem) {
  Mapbox-hosted tile set, view it in
  <a href="https://www.mapbox.com/studio/tilesets/">Mapbox Studio’s Tilesets editor</a>.
 
- Create instances of `MGLRasterSource` and `MGLVectorSource` in order to use
- `MGLTileSource`'s properties and methods. Do not create instances of `MGLTileSource`
- directly, and do not create your own subclasses of this class.
+ Create instances of `MGLRasterTileSource` and `MGLVectorTileSource` in order
+ to use `MGLTileSource`'s properties and methods. Do not create instances of
+ `MGLTileSource` directly, and do not create your own subclasses of this class.
  */
 MGL_EXPORT
 @interface MGLTileSource : MGLSource
@@ -168,7 +212,7 @@ MGL_EXPORT
  configuration URL, this array is also empty until the configuration JSON file
  is loaded.
  */
-@property (nonatomic, copy, readonly) NS_ARRAY_OF(MGLAttributionInfo *) *attributionInfos;
+@property (nonatomic, copy, readonly) NSArray<MGLAttributionInfo *> *attributionInfos;
 
 @end
 

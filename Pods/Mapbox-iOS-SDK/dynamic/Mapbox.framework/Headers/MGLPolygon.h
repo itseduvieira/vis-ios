@@ -17,8 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 
  You can add polygon shapes to the map by adding them to an `MGLShapeSource`
  object. Configure the appearance of an `MGLShapeSource`’s or
- `MGLVectorSource`’s polygons collectively using an `MGLFillStyleLayer` or
- `MGLSymbolStyleLayer` object.
+ `MGLVectorTileSource`’s polygons collectively using an `MGLFillStyleLayer` or
+ `MGLSymbolStyleLayer` object. To access a polygon’s attributes, use an
+ `MGLPolygonFeature` object.
 
  Alternatively, you can add a polygon overlay directly to a map view using the
  `-[MGLMapView addAnnotation:]` or `-[MGLMapView addOverlay:]` method. Configure
@@ -56,7 +57,7 @@ MGL_EXPORT
 
  If there are no interior polygons, the value of this property is `nil`.
  */
-@property (nonatomic, nullable, readonly) NS_ARRAY_OF(MGLPolygon *) *interiorPolygons;
+@property (nonatomic, nullable, readonly) NSArray<MGLPolygon *> *interiorPolygons;
 
 /**
  Creates and returns an `MGLPolygon` object from the specified set of
@@ -81,7 +82,7 @@ MGL_EXPORT
     is considered to have no interior polygons.
  @return A new polygon object.
  */
-+ (instancetype)polygonWithCoordinates:(const CLLocationCoordinate2D *)coords count:(NSUInteger)count interiorPolygons:(nullable NS_ARRAY_OF(MGLPolygon *) *)interiorPolygons;
++ (instancetype)polygonWithCoordinates:(const CLLocationCoordinate2D *)coords count:(NSUInteger)count interiorPolygons:(nullable NSArray<MGLPolygon *> *)interiorPolygons;
 
 @end
 
@@ -95,8 +96,8 @@ MGL_EXPORT
 
  You can add multipolygon shapes to the map by adding them to an
  `MGLShapeSource` object. Configure the appearance of an `MGLShapeSource`’s or
- `MGLVectorSource`’s multipolygons collectively using an `MGLFillStyleLayer` or
- `MGLSymbolStyleLayer` object.
+ `MGLVectorTileSource`’s multipolygons collectively using an `MGLFillStyleLayer`
+ or `MGLSymbolStyleLayer` object.
 
  You cannot add an `MGLMultiPolygon` object directly to a map view using
  `-[MGLMapView addAnnotation:]` or `-[MGLMapView addOverlay:]`. However, you can
@@ -108,7 +109,7 @@ MGL_EXPORT
 /**
  An array of polygons forming the multipolygon.
  */
-@property (nonatomic, copy, readonly) NS_ARRAY_OF(MGLPolygon *) *polygons;
+@property (nonatomic, copy, readonly) NSArray<MGLPolygon *> *polygons;
 
 /**
  Creates and returns a multipolygon object consisting of the given polygons.
@@ -116,7 +117,7 @@ MGL_EXPORT
  @param polygons The array of polygons defining the shape.
  @return A new multipolygon object.
  */
-+ (instancetype)multiPolygonWithPolygons:(NS_ARRAY_OF(MGLPolygon *) *)polygons;
++ (instancetype)multiPolygonWithPolygons:(NSArray<MGLPolygon *> *)polygons;
 
 @end
 

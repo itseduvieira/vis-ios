@@ -33,7 +33,7 @@ extension UIColor {
         var int = UInt32()
         Scanner(string: hex).scanHexInt32(&int)
         let a, r, g, b: UInt32
-        switch hex.characters.count {
+        switch hex.count {
         case 3: // RGB (12-bit)
             (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
         case 6: // RGB (24-bit)
@@ -106,5 +106,81 @@ extension UIViewController {
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    func presentAlert() {
+        let nib = UINib(nibName: "CustomAlertLoadingView", bundle: nil)
+        let customAlert = nib.instantiate(withOwner: self, options: nil).first as! CustomAlertLoadingView
+        
+        customAlert.tag = 12345
+        customAlert.indicator.startAnimating()
+        customAlert.container.setRadius(radius: 10)
+        customAlert.alpha = 0
+        
+        let screen = UIScreen.main.bounds
+        customAlert.center = CGPoint(x: screen.midX, y: screen.midY)
+        
+        self.view.addSubview(customAlert)
+        
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.8, animations: {
+                customAlert.alpha = 1.0
+            })
+        }
+    }
+    
+    func dismissCustomAlert() {
+        if let view = self.view.viewWithTag(12345) {
+            view.removeFromSuperview()
+        }
+    }
+}
+
+extension CALayer {
+    
+    func addBorder(edge: UIRectEdge, color: UIColor, thickness: CGFloat) {
+        
+        let border = CALayer()
+        
+        switch edge {
+        case UIRectEdge.top:
+            border.frame = CGRect.init(x: 0, y: 0, width: frame.width, height: thickness)
+            break
+        case UIRectEdge.bottom:
+            border.frame = CGRect.init(x: 0, y: frame.height - thickness, width: frame.width, height: thickness)
+            break
+        case UIRectEdge.left:
+            border.frame = CGRect.init(x: 0, y: 0, width: thickness, height: frame.height)
+            break
+        case UIRectEdge.right:
+            border.frame = CGRect.init(x: frame.width - thickness, y: 0, width: thickness, height: frame.height)
+            break
+        default:
+            break
+        }
+        
+        border.backgroundColor = color.cgColor;
+        
+        self.addSublayer(border)
+    }
+}
+
+extension UITextField {    
+    func applyBottomBorder(_ color: UIColor) {
+        let border = CALayer()
+        let width = CGFloat(1)
+        
+        border.borderColor = color.cgColor
+        border.frame = CGRect(x: 0, y: self.frame.size.height - width, width:  self.frame.size.width, height: self.frame.size.height)
+        
+        border.borderWidth = width
+        self.layer.addSublayer(border)
+        self.layer.masksToBounds = true
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 8))
+        self.leftView = paddingView
+        self.rightView = paddingView
+        self.leftViewMode = .always
+        self.rightViewMode = .always
     }
 }

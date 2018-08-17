@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14092" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14081.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CustomAlertLoadingView" customModule="Plandoc" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lby-CG-jeW">
+                    <rect key="frame" x="87" y="298.5" width="200" height="90"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Carregando..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9D-9q-NbJ">
+                            <rect key="frame" x="61.5" y="18" width="77.5" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="rRB-Pc-Qje"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="90" id="8nY-eT-6lt"/>
+                        <constraint firstItem="J9D-9q-NbJ" firstAttribute="top" secondItem="Lby-CG-jeW" secondAttribute="top" constant="18" id="ISY-eF-OJZ"/>
+                        <constraint firstItem="J9D-9q-NbJ" firstAttribute="centerX" secondItem="Lby-CG-jeW" secondAttribute="centerX" id="by2-lT-p1l"/>
+                        <constraint firstAttribute="width" constant="200" id="rGk-kn-k9x"/>
+                    </constraints>
+                </view>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="I02-EE-kgr">
+                    <rect key="frame" x="177" y="345.5" width="20" height="20"/>
+                </activityIndicatorView>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="I02-EE-kgr" firstAttribute="centerY" secondItem="Lby-CG-jeW" secondAttribute="centerY" constant="12" id="CGk-ft-KLo"/>
+                <constraint firstItem="Lby-CG-jeW" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="YTB-s1-eFT"/>
+                <constraint firstItem="Lby-CG-jeW" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="Zg7-n4-gq3"/>
+                <constraint firstItem="I02-EE-kgr" firstAttribute="centerX" secondItem="Lby-CG-jeW" secondAttribute="centerX" id="eeY-HG-VcP"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="container" destination="Lby-CG-jeW" id="Yac-Nq-FJc"/>
+                <outlet property="indicator" destination="I02-EE-kgr" id="Rma-c0-c6n"/>
+                <outlet property="titleAlertLabel" destination="J9D-9q-NbJ" id="HTp-5V-Lmq"/>
+            </connections>
+        </view>
+    </objects>
+</document>

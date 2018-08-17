@@ -15,6 +15,8 @@ class LoginController: UIViewController {
     @IBOutlet weak var btnLogin: UIButton!
     @IBOutlet weak var txtEmail: UITextField!
     @IBOutlet weak var txtPassword: UITextField!
+    @IBOutlet weak var background: UIImageView!
+    @IBOutlet weak var controls: UIView!
     
     //MARK: Actions
     override func viewDidLoad() {
@@ -22,24 +24,30 @@ class LoginController: UIViewController {
         
         self.hideKeyboardWhenTappedAround()
         
-        loginContainer.setRadius(radius: 3)
+        txtEmail.applyBottomBorder(UIColor.white)
+        txtPassword.applyBottomBorder(UIColor.white)
         
         btnLogin.setRadius(radius: 22)
         
         self.checkAndFillSavedCredentials()
+        
+        UIView.animate(withDuration: 1.5, animations: {
+            self.background.alpha = 0.4
+        })
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        UIApplication.shared.statusBarStyle = .lightContent
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        UIApplication.shared.statusBarStyle = .default
+    @IBAction func showOrHidePass(_ sender: UIButton) {
+        txtPassword.isSecureTextEntry = !txtPassword.isSecureTextEntry
+        if txtPassword.isSecureTextEntry {
+            sender.setImage(UIImage(named: "RevealPasswordIcon"), for: .normal)
+        } else {
+            sender.setImage(UIImage(named: "HidePasswordIcon"), for: .normal)
+        }
     }
     
     @IBAction func login() {
+        self.presentAlert()
+        
         if let email = txtEmail.text, let password = txtPassword.text {
             Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
                     if let error = error {

@@ -70,7 +70,7 @@ typedef NSString *MGLOfflinePackUserInfoKey NS_EXTENSIBLE_STRING_ENUM;
  */
 extern MGL_EXPORT const MGLOfflinePackUserInfoKey MGLOfflinePackUserInfoKeyState;
 
-extern MGL_EXPORT NSString * const MGLOfflinePackStateUserInfoKey __attribute__((deprecated("Use MGLOfflinePackUserInfoKeyState")));
+extern MGL_EXPORT NSString * const MGLOfflinePackStateUserInfoKey __attribute__((unavailable("Use MGLOfflinePackUserInfoKeyState")));
 
 /**
  The key for an `NSValue` object that indicates an offline pack’s current
@@ -81,7 +81,7 @@ extern MGL_EXPORT NSString * const MGLOfflinePackStateUserInfoKey __attribute__(
  */
 extern MGL_EXPORT const MGLOfflinePackUserInfoKey MGLOfflinePackUserInfoKeyProgress;
 
-extern MGL_EXPORT NSString * const MGLOfflinePackProgressUserInfoKey __attribute__((deprecated("Use MGLOfflinePackUserInfoKeyProgress")));
+extern MGL_EXPORT NSString * const MGLOfflinePackProgressUserInfoKey __attribute__((unavailable("Use MGLOfflinePackUserInfoKeyProgress")));
 
 /**
  The key for an `NSError` object that is encountered in the course of
@@ -91,7 +91,7 @@ extern MGL_EXPORT NSString * const MGLOfflinePackProgressUserInfoKey __attribute
  */
 extern MGL_EXPORT const MGLOfflinePackUserInfoKey MGLOfflinePackUserInfoKeyError;
 
-extern MGL_EXPORT NSString * const MGLOfflinePackErrorUserInfoKey __attribute__((deprecated("Use MGLOfflinePackUserInfoKeyError")));
+extern MGL_EXPORT NSString * const MGLOfflinePackErrorUserInfoKey __attribute__((unavailable("Use MGLOfflinePackUserInfoKeyError")));
 
 /**
  The key for an `NSNumber` object that indicates the maximum number of
@@ -103,7 +103,7 @@ extern MGL_EXPORT NSString * const MGLOfflinePackErrorUserInfoKey __attribute__(
  */
 extern MGL_EXPORT const MGLOfflinePackUserInfoKey MGLOfflinePackUserInfoKeyMaximumCount;
 
-extern MGL_EXPORT NSString * const MGLOfflinePackMaximumCountUserInfoKey __attribute__((deprecated("Use MGLOfflinePackUserInfoKeyMaximumCount")));
+extern MGL_EXPORT NSString * const MGLOfflinePackMaximumCountUserInfoKey __attribute__((unavailable("Use MGLOfflinePackUserInfoKeyMaximumCount")));
 
 /**
  A block to be called once an offline pack has been completely created and
@@ -154,6 +154,8 @@ typedef NS_ENUM(NSUInteger, MGLResourceKind) {
     /** JSON part of a sprite sheet. It is constructed of the prefix in
         https://www.mapbox.com/mapbox-gl-js/style-spec/#root-sprite and a JSON file extension. */
     MGLResourceKindSpriteJSON,
+    /** Image data for a georeferenced image source. **/
+    MGLResourceKindImage,
 };
 
 /**
@@ -168,7 +170,7 @@ MGL_EXPORT
 /**
  Returns the shared offline storage object.
  */
-+ (instancetype)sharedOfflineStorage;
+@property (class, nonatomic, readonly) MGLOfflineStorage *sharedOfflineStorage;
 
 #pragma mark - Accessing the Delegate
 
@@ -197,7 +199,7 @@ MGL_EXPORT
  `packs` property, observe KVO change notifications on the `packs` key path.
  The initial load results in an `NSKeyValueChangeSetting` change.
  */
-@property (nonatomic, strong, readonly, nullable) NS_ARRAY_OF(MGLOfflinePack *) *packs;
+@property (nonatomic, strong, readonly, nullable) NSArray<MGLOfflinePack *> *packs;
 
 /**
  Creates and registers an offline pack that downloads the resources needed to

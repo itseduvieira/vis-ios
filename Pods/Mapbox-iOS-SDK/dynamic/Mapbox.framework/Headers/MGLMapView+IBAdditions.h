@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) IBInspectable double latitude;
 @property (nonatomic) IBInspectable double longitude;
 @property (nonatomic) IBInspectable double zoomLevel;
+@property (nonatomic) IBInspectable double minimumZoomLevel;
+@property (nonatomic) IBInspectable double maximumZoomLevel;
 
 // Renamed properties. Interface Builder derives the display name of each
 // inspectable from the runtime name, but runtime names don’t always make sense
@@ -42,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) IBInspectable BOOL allowsTilting;
 @property (nonatomic) IBInspectable BOOL showsUserLocation;
 @property (nonatomic) IBInspectable BOOL showsHeading;
+@property (nonatomic) IBInspectable BOOL showsScale;
 
 @end
 

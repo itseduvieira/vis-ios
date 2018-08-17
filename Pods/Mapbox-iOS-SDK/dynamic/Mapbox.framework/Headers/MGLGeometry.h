@@ -14,6 +14,24 @@ typedef struct __attribute__((objc_boxable)) MGLCoordinateSpan {
     CLLocationDegrees longitudeDelta;
 } MGLCoordinateSpan;
 
+/* Defines a point on the map in Mercator projection for a specific zoom level. */
+typedef struct __attribute__((objc_boxable)) MGLMapPoint {
+    /** X coordinate representing a longitude in Mercator projection. */
+    CGFloat x;
+    /** Y coordinate representing  a latitide in Mercator projection. */
+    CGFloat y;
+    /** Zoom level at which the X and Y coordinates are valid. */
+    CGFloat zoomLevel;
+} MGLMapPoint;
+
+/* Defines a 4x4 matrix. */
+typedef struct MGLMatrix4 {
+    double m00, m01, m02, m03;
+    double m10, m11, m12, m13;
+    double m20, m21, m22, m23;
+    double m30, m31, m32, m33;
+} MGLMatrix4;
+
 /**
  Creates a new `MGLCoordinateSpan` from the given latitudinal and longitudinal
  deltas.
@@ -23,6 +41,17 @@ NS_INLINE MGLCoordinateSpan MGLCoordinateSpanMake(CLLocationDegrees latitudeDelt
     span.latitudeDelta = latitudeDelta;
     span.longitudeDelta = longitudeDelta;
     return span;
+}
+
+/**
+ Creates a new `MGLMapPoint` from the given X and Y coordinates, and zoom level.
+ */
+NS_INLINE MGLMapPoint MGLMapPointMake(CGFloat x, CGFloat y, CGFloat zoomLevel) {
+    MGLMapPoint point;
+    point.x = x;
+    point.y = y;
+    point.zoomLevel = zoomLevel;
+    return point;
 }
 
 /**
@@ -45,6 +74,24 @@ typedef struct __attribute__((objc_boxable)) MGLCoordinateBounds {
     CLLocationCoordinate2D ne;
 } MGLCoordinateBounds;
 
+/** 
+ A quadrilateral area as measured on a two-dimensional map projection.
+ `MGLCoordinateQuad` differs from `MGLCoordinateBounds` in that it allows
+ representation of non-axis aligned bounds and non-rectangular quadrilaterals.
+ The coordinates are described in counter clockwise order from top left.
+ */
+typedef struct MGLCoordinateQuad {
+    /** Coordinate at the top left corner. */
+    CLLocationCoordinate2D topLeft;
+    /** Coordinate at the bottom left corner. */
+    CLLocationCoordinate2D bottomLeft;
+    /** Coordinate at the bottom right corner. */
+    CLLocationCoordinate2D bottomRight;
+    /** Coordinate at the top right corner. */
+    CLLocationCoordinate2D topRight;
+} MGLCoordinateQuad;
+
+
 /**
  Creates a new `MGLCoordinateBounds` structure from the given southwest and
  northeast coordinates.
@@ -54,6 +101,33 @@ NS_INLINE MGLCoordinateBounds MGLCoordinateBoundsMake(CLLocationCoordinate2D sw,
     bounds.sw = sw;
     bounds.ne = ne;
     return bounds;
+}
+
+/**
+ Creates a new `MGLCoordinateQuad` structure from the given top left,
+  bottom left, bottom right, and top right coordinates.
+ */
+NS_INLINE MGLCoordinateQuad MGLCoordinateQuadMake(CLLocationCoordinate2D topLeft, CLLocationCoordinate2D bottomLeft, CLLocationCoordinate2D bottomRight, CLLocationCoordinate2D topRight) {
+    MGLCoordinateQuad quad;
+    quad.topLeft = topLeft;
+    quad.bottomLeft = bottomLeft;
+    quad.bottomRight = bottomRight;
+    quad.topRight = topRight;
+    return quad;
+}
+
+/**
+ Creates a new `MGLCoordinateQuad` structure from the given `MGLCoordinateBounds`.
+ The returned quad uses the bounds' northeast coordinate as the top right, and the
+  southwest coordinate at the bottom left.
+ */
+NS_INLINE MGLCoordinateQuad MGLCoordinateQuadFromCoordinateBounds(MGLCoordinateBounds bounds) {
+    MGLCoordinateQuad quad;
+    quad.topLeft = CLLocationCoordinate2DMake(bounds.ne.latitude, bounds.sw.longitude);
+    quad.bottomLeft = bounds.sw;
+    quad.bottomRight = CLLocationCoordinate2DMake(bounds.sw.latitude, bounds.ne.longitude);
+    quad.topRight = bounds.ne;
+    return quad;
 }
 
 /** Returns `YES` if the two coordinate bounds are equal to each other. */
@@ -117,6 +191,15 @@ NS_INLINE NSString *MGLStringFromCoordinateBounds(MGLCoordinateBounds bounds) {
             bounds.ne.latitude, bounds.ne.longitude];
 }
 
+/** Returns a formatted string for the given coordinate quad. */
+NS_INLINE NSString *MGLStringFromCoordinateQuad(MGLCoordinateQuad quad) {
+    return [NSString stringWithFormat:@"{ topleft = {%.1f, %.1f}, bottomleft = {%.1f, %.1f}}, bottomright = {%.1f, %.1f}, topright = {%.1f, %.1f}",
+            quad.topLeft.latitude, quad.topLeft.longitude,
+            quad.bottomLeft.latitude, quad.bottomLeft.longitude,
+            quad.bottomRight.latitude, quad.bottomRight.longitude,
+            quad.topRight.latitude, quad.topRight.longitude];
+}
+
 /** Returns radians, converted from degrees. */
 NS_INLINE CGFloat MGLRadiansFromDegrees(CLLocationDegrees degrees) {
     return (CGFloat)(degrees * M_PI) / 180;
@@ -126,5 +209,8 @@ NS_INLINE CGFloat MGLRadiansFromDegrees(CLLocationDegrees degrees) {
 NS_INLINE CLLocationDegrees MGLDegreesFromRadians(CGFloat radians) {
     return radians * 180 / M_PI;
 }
+
+/** Returns Mercator projection of a WGS84 coordinate at the specified zoom level. */
+extern MGL_EXPORT MGLMapPoint MGLMapPointForCoordinate(CLLocationCoordinate2D coordinate, double zoomLevel);
 
 NS_ASSUME_NONNULL_END
