@@ -20,6 +20,10 @@
 		3450B3DB1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3450B3DA1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift */; };
 		3451040C1F71E34C00F36D6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3451040B1F71E34B00F36D6B /* GoogleService-Info.plist */; };
 		346CF64D210D098100C01290 /* Campaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346CF64C210D098100C01290 /* Campaign.swift */; };
+		3477E8FB2128D79700B0E5F1 /* NavigationDrawerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3477E8F92128D79600B0E5F1 /* NavigationDrawerOptions.swift */; };
+		3477E8FC2128D79700B0E5F1 /* NavigationDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3477E8FA2128D79600B0E5F1 /* NavigationDrawer.swift */; };
+		3477E8FE2129337C00B0E5F1 /* EmptyStateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3477E8FD2129337C00B0E5F1 /* EmptyStateView.xib */; };
+		3477E90021293BA800B0E5F1 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3477E8FF21293BA800B0E5F1 /* EmptyStateView.swift */; };
 		3494BA5E1F7044D800F0B8FE /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3494BA5D1F7044D800F0B8FE /* PageController.swift */; };
 		349B65101F5E3A5400867E3E /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349B650F1F5E3A5400867E3E /* DetailController.swift */; };
 		34A5851E1F709BA1006E05E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34A5851D1F709BA1006E05E6 /* Assets.xcassets */; };
@@ -28,7 +32,7 @@
 		34D87C3D1F47DE2500CCEC9E /* Campaign.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34D87C3C1F47DE2500CCEC9E /* Campaign.storyboard */; };
 		34E9DBD12127309B0017BB11 /* MyMapbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E9DBD02127309B0017BB11 /* MyMapbox.swift */; };
 		34EEC0321F8000C2002FC0B6 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EEC0311F8000C2002FC0B6 /* Credentials.swift */; };
-		34F938962127512900766310 /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F938952127512900766310 /* DrawerController.swift */; };
+		34F938962127512900766310 /* DrawerMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F938952127512900766310 /* DrawerMenuController.swift */; };
 		752C7FE6393ECD0DB421B3DB /* Pods_VisualNoAr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C90AEDC26D88B86D0B1DEF68 /* Pods_VisualNoAr.framework */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +52,10 @@
 		3450B3DA1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2DExtensions.swift; sourceTree = "<group>"; };
 		3451040B1F71E34B00F36D6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		346CF64C210D098100C01290 /* Campaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campaign.swift; sourceTree = "<group>"; };
+		3477E8F92128D79600B0E5F1 /* NavigationDrawerOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationDrawerOptions.swift; sourceTree = "<group>"; };
+		3477E8FA2128D79600B0E5F1 /* NavigationDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationDrawer.swift; sourceTree = "<group>"; };
+		3477E8FD2129337C00B0E5F1 /* EmptyStateView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyStateView.xib; sourceTree = "<group>"; };
+		3477E8FF21293BA800B0E5F1 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		3494BA5D1F7044D800F0B8FE /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		349B650F1F5E3A5400867E3E /* DetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
 		34A5851D1F709BA1006E05E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -56,7 +64,7 @@
 		34D87C3C1F47DE2500CCEC9E /* Campaign.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Campaign.storyboard; sourceTree = "<group>"; };
 		34E9DBD02127309B0017BB11 /* MyMapbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMapbox.swift; sourceTree = "<group>"; };
 		34EEC0311F8000C2002FC0B6 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
-		34F938952127512900766310 /* DrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
+		34F938952127512900766310 /* DrawerMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerMenuController.swift; sourceTree = "<group>"; };
 		B159C955CEC692D89B2F1F34 /* Pods-VisualNoAr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisualNoAr.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VisualNoAr/Pods-VisualNoAr.debug.xcconfig"; sourceTree = "<group>"; };
 		C90AEDC26D88B86D0B1DEF68 /* Pods_VisualNoAr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VisualNoAr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F91B8E07010A443762B27FD7 /* Pods-VisualNoAr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisualNoAr.release.xcconfig"; path = "Pods/Target Support Files/Pods-VisualNoAr/Pods-VisualNoAr.release.xcconfig"; sourceTree = "<group>"; };
@@ -91,7 +99,7 @@
 				34D87C3C1F47DE2500CCEC9E /* Campaign.storyboard */,
 				340D72E81F48034800425434 /* MapController.swift */,
 				349B650F1F5E3A5400867E3E /* DetailController.swift */,
-				34F938952127512900766310 /* DrawerController.swift */,
+				34F938952127512900766310 /* DrawerMenuController.swift */,
 			);
 			path = Campaign;
 			sourceTree = "<group>";
@@ -100,12 +108,16 @@
 			isa = PBXGroup;
 			children = (
 				343E3EF2210CB89900A5E9F3 /* CustomAlertLoadingView.xib */,
+				3477E8FD2129337C00B0E5F1 /* EmptyStateView.xib */,
+				3477E8FA2128D79600B0E5F1 /* NavigationDrawer.swift */,
+				3477E8F92128D79600B0E5F1 /* NavigationDrawerOptions.swift */,
 				343E3EF1210CB89800A5E9F3 /* CustomAlertLoadingView.swift */,
 				34D87C3A1F47DC7200CCEC9E /* UIViewExtensions.swift */,
 				341C99B81F7182920017BFE1 /* UIStoryboardSegueSlide.swift */,
 				344A42FF1F75638C00825713 /* PlaneAnnotationView.swift */,
 				3450B3DA1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift */,
 				34E9DBD02127309B0017BB11 /* MyMapbox.swift */,
+				3477E8FF21293BA800B0E5F1 /* EmptyStateView.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -241,6 +253,7 @@
 				34D87C3D1F47DE2500CCEC9E /* Campaign.storyboard in Resources */,
 				34A5851E1F709BA1006E05E6 /* Assets.xcassets in Resources */,
 				3451040C1F71E34C00F36D6B /* GoogleService-Info.plist in Resources */,
+				3477E8FE2129337C00B0E5F1 /* EmptyStateView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,8 +268,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-VisualNoAr/Pods-VisualNoAr-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/KYDrawerController/KYDrawerController.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/MapboxGeocoder.swift/MapboxGeocoder.framework",
@@ -265,8 +277,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KYDrawerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxGeocoder.framework",
@@ -315,6 +326,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3477E90021293BA800B0E5F1 /* EmptyStateView.swift in Sources */,
 				3445B5921EBAC02F00B4C7CA /* LoginController.swift in Sources */,
 				3450B3DB1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift in Sources */,
 				34E9DBD12127309B0017BB11 /* MyMapbox.swift in Sources */,
@@ -324,11 +336,13 @@
 				34EEC0321F8000C2002FC0B6 /* Credentials.swift in Sources */,
 				340D72E71F47FFBB00425434 /* TutorialController.swift in Sources */,
 				343E3EF3210CB89900A5E9F3 /* CustomAlertLoadingView.swift in Sources */,
+				3477E8FB2128D79700B0E5F1 /* NavigationDrawerOptions.swift in Sources */,
 				340D72E91F48034800425434 /* MapController.swift in Sources */,
 				3494BA5E1F7044D800F0B8FE /* PageController.swift in Sources */,
-				34F938962127512900766310 /* DrawerController.swift in Sources */,
+				34F938962127512900766310 /* DrawerMenuController.swift in Sources */,
 				346CF64D210D098100C01290 /* Campaign.swift in Sources */,
 				349B65101F5E3A5400867E3E /* DetailController.swift in Sources */,
+				3477E8FC2128D79700B0E5F1 /* NavigationDrawer.swift in Sources */,
 				3445B5901EBAC02F00B4C7CA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

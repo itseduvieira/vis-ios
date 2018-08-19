@@ -29,11 +29,15 @@ class LoginController: UIViewController {
         
         btnLogin.setRadius(radius: 22)
         
-        self.checkAndFillSavedCredentials()
-        
         UIView.animate(withDuration: 1.5, animations: {
             self.background.alpha = 0.4
         })
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.checkAndFillSavedCredentials()
     }
     
     @IBAction func showOrHidePass(_ sender: UIButton) {
@@ -46,12 +50,31 @@ class LoginController: UIViewController {
     }
     
     @IBAction func login() {
-        self.presentAlert()
-        
         if let email = txtEmail.text, let password = txtPassword.text {
+            self.presentAlert()
+            
             Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
                     if let error = error {
-                        print(error.localizedDescription)
+                        self.dismissCustomAlert()
+                        
+                        var errorMsg = "Erro ao realizar login."
+                        
+                        let errCode = AuthErrorCode(rawValue: error._code)!
+                        
+                        switch errCode {
+                        case .userNotFound, .wrongPassword:
+                            errorMsg = "Usuário ou senha inválidos."
+                            break
+                        default:
+                            print(error)
+                        }
+                        
+                        let alertController = UIAlertController(title: "Erro", message: errorMsg, preferredStyle: .alert)
+                        
+                        let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                        alertController.addAction(defaultAction)
+                        
+                        self.present(alertController, animated: true, completion: nil)
                         
                         return
                     }
@@ -62,7 +85,12 @@ class LoginController: UIViewController {
                 self.goToNextScene()
             }
         } else {
-            print("email/password can't be empty")
+            let alertController = UIAlertController(title: "Erro", message: "Preencha os campos de email e senha.", preferredStyle: .alert)
+            
+            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+            alertController.addAction(defaultAction)
+            
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -84,6 +112,7 @@ class LoginController: UIViewController {
         }
         
         let next = sb?.instantiateViewController(withIdentifier: controllerId)
+        
         self.present(next!, animated: true, completion: nil)
     }
 }

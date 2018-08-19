@@ -10,8 +10,9 @@ import UIKit
 import Mapbox
 import FirebaseDatabase
 import FirebaseAuth
+import FirebaseStorage
 
-class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDelegate {
+class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDelegate, NavigationDrawerDelegate {
     
     //MARK: Properties
     @IBOutlet weak var mapView: MGLMapView!
@@ -25,6 +26,8 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     @IBOutlet weak var btnDetail: UIButton!
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var navItem: UINavigationItem!
+    
+    let options = NavigationDrawerOptions()
     
     var id: String!
     var name: String!
@@ -40,9 +43,12 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     var altitude: Double!
     var location: String!
     
+    let navigationDrawer = NavigationDrawer.sharedInstance
+    
     var annotationView: PlaneAnnotationView?
     
-    var userRef: DatabaseReference!
+    var userRef, campaignRef: DatabaseReference!
+    var active: Bool!
     
     @IBAction func unwindToMap(segue: UIStoryboardSegue) {}
     
@@ -52,6 +58,40 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         
         setNavigationBar()
         
+        setMapConfig()
+        
+        setNavigationDrawer()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        NavigationDrawer.sharedInstance.initialize(forViewController: self)
+        
+        //listenCampaign()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+//        if self.campaignRef != nil {
+//            self.campaignRef.removeAllObservers()
+//        }
+//        self.userRef.removeAllObservers()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SegueMapToDetail" {
+            let detailVC = segue.destination as! DetailController
+            
+            detailVC.id = self.id
+            detailVC.name = self.name
+            detailVC.plane = self.plane
+            detailVC.place = self.place
+        }
+    }
+    
+    func setMapConfig() {
         mapView.delegate = self
         mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height * 1.4, 0, 0, 0), animated: false)
         
@@ -65,16 +105,6 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         mapView.setVisibleCoordinateBounds(brazil, animated: false)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "SegueDetail" {
-            let destination = segue.destination as! DetailController
-            destination.id = self.id
-            destination.name = self.name
-            destination.plane = self.plane
-            destination.place = self.place
-        }
-    }
-    
     func setNavigationBar() {
         navBar.setBackgroundImage(UIImage(), for: .default)
         navBar.shadowImage = UIImage()
@@ -82,74 +112,94 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         navItem.leftBarButtonItem = calendarTypeItem
     }
     
+    func setNavigationDrawer() {
+        options.navigationDrawerType = .LeftDrawer
+        options.navigationDrawerOpenDirection = .LeftEdge
+        
+        navigationDrawer.setup(withOptions: options)
+        let menuVC = self.storyboard?.instantiateViewController(withIdentifier: "DrawerMenuViewController") as! DrawerMenuController
+        navigationDrawer.setNavigationDrawerController(viewController: menuVC)
+        navigationDrawer.delegate = self
+    }
+    
     @objc func openMenu() {
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        delegate.drawerController.setDrawerState(.opened, animated: true)
+        NavigationDrawer.sharedInstance.toggleNavigationDrawer(completionHandler: nil)
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-        guard let user = Auth.auth().currentUser else {
-            print("Error getting user after mapView loaded")
-            
-            return
-        }
-        
-        if userRef == nil {
-            userRef = Database.database().reference(withPath: "user").child(user.uid)
-            
-            userRef.child("campaign").observe(DataEventType.value, with: { (snapshot) in
-                if let campaignId = snapshot.value as? String {
-                    let campaignRef = Database.database().reference(withPath: "campaign").child(campaignId)
+        listenCampaign()
+    }
+    
+    func listenCampaign() {
+        let user = Auth.auth().currentUser
+        userRef = Database.database().reference(withPath: "user").child(user!.uid)
+        userRef.child("campaign").observe(DataEventType.value, with: { (snapshot) in
+            if let campaignId = snapshot.value as? String {
+                
+                let storage = Storage.storage()
+                let ref = storage.reference().child("campaigns/\(campaignId)")
+
+//                ref.getData(maxSize: 8 * 1024 * 1024) { data, error in
+//                    if let error = error {
+//                        print(error)
+//
+//                    } else {
+//                        //pdcUser.picture = data!
+//
+//                    }
+//                }
+                
+                self.btnDetail.isEnabled = true
+                
+                self.campaignRef = Database.database().reference(withPath: "campaign").child(campaignId)
+                self.campaignRef.observe(DataEventType.value, with: { (snapshot) in
+                    let cDict = snapshot.value as? [String : AnyObject] ?? [:]
                     
-                    self.btnDetail.isEnabled = true
+                    self.txtCampaign.text = cDict["name"] as? String
+                    self.txtPrefix.text = cDict["plane"] as? String
+                    self.txtPlace.text = cDict["place"] as? String
                     
-                    campaignRef.observe(DataEventType.value, with: { (snapshot) in
-                        let cDict = snapshot.value as? [String : AnyObject] ?? [:]
+                    self.id = campaignId
+                    self.name = cDict["name"] as? String
+                    self.plane = cDict["plane"] as? String
+                    self.place = cDict["place"] as? String
+                    
+                    self.active = cDict["active"] as! Bool
+                    
+                    if self.active {
+                        let locDict = cDict["location"] as! [String : AnyObject]
+                        let newLat = locDict["latitude"] as! Double
+                        let newLon = locDict["longitude"] as! Double
+                        let newAlt = locDict["altitude"] as! Double
                         
-                        self.txtCampaign.text = cDict["name"] as? String
-                        self.txtPrefix.text = cDict["plane"] as? String
-                        self.txtPlace.text = cDict["place"] as? String
-                        
-                        self.id = campaignId
-                        self.name = cDict["name"] as? String
-                        self.plane = cDict["plane"] as? String
-                        self.place = cDict["place"] as? String
-                        
-                        let active = cDict["active"] as! Bool
-                        
-                        if active {
-                            let locDict = cDict["location"] as! [String : AnyObject]
-                            let newLat = locDict["latitude"] as! Double
-                            let newLon = locDict["longitude"] as! Double
-                            let newAlt = locDict["altitude"] as! Double
-                            
-                            if newLat == self.latitude &&
-                                newLon == self.longitude {
-                                return
-                            }
-                            
-                            print(locDict)
-                            print("---")
-                            
-                            self.latitude = newLat
-                            self.longitude = newLon
-                            self.altitude = newAlt
-                            
-                            if let location = locDict["description"] as? String {
-                                self.location = location
-                            }
-                            
-                            self.showPlane()
-                        } else {
-                            self.stopListenLocation(campaignRef)
+                        if newLat == self.latitude &&
+                            newLon == self.longitude {
+                            return
                         }
-                    }) { (error) in
-                        print(error.localizedDescription)
+                        
+                        print(locDict)
+                        print("---")
+                        
+                        self.latitude = newLat
+                        self.longitude = newLon
+                        self.altitude = newAlt
+                        
+                        if let location = locDict["description"] as? String {
+                            self.location = location
+                        }
+                        
+                        self.showPlane()
+                    } else {
+                        self.campaignRef.removeAllObservers()
                     }
+                }) { (error) in
+                    print(error.localizedDescription)
                 }
-            }) { (error) in
-                print(error.localizedDescription)
+            } else {
+                self.presentLargeAlert(self, { })
             }
+        }) { (error) in
+            print(error.localizedDescription)
         }
     }
     
@@ -196,43 +246,6 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         }
     }
     
-    private func stopListenLocation(_ campaignRef: DatabaseReference) {
-        campaignRef.removeAllObservers()
-    }
-    
-//    private func startListenLocation(_ campaignRef: DatabaseReference) {
-//        campaignRef.child("location").observe(.value, with: { (snapshot: DataSnapshot) in
-//            guard snapshot.hasChildren() else {
-//                return
-//            }
-//
-//            let content = (snapshot.value as? NSDictionary)
-//
-//            let newLat = content?["latitude"] as! Double
-//            let newLon = content?["longitude"] as! Double
-//            let newAlt = content?["altitude"] as! Double
-//
-//            if newLat == self.latitude &&
-//                newLon == self.longitude &&
-//                    newAlt == self.altitude {
-//                return
-//            }
-//
-//            print(content!)
-//            print("---")
-//
-//            self.latitude = newLat
-//            self.longitude = newLon
-//            self.altitude = newAlt
-//
-//            if let location = content?["description"] as? String {
-//                self.location = location
-//            }
-//
-//            self.showPlane()
-//        })
-//    }
-    
     @IBAction func center() {
         if self.latitude != nil, self.longitude != nil {
             let coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
@@ -242,3 +255,4 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         }
     }
 }
+

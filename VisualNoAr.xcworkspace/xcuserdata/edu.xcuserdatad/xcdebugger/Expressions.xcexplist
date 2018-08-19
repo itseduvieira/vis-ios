@@ -3,10 +3,34 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "closure #1 in PlaneAnnotationView.action(for:forKey:):PlaneAnnotationView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.subviews">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapController.viewDidLoad():MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "delegate.window?.rootViewController.restorationIdentifier">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #1 in MapController.mapViewDidFinishLoadingMap(_:):MapController.swift">
          <PersistentStrings>
             <PersistentString
                value = "cDict[&quot;active&quot;] as! Bool">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapController.showPlane(latitude:longitude:):MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "mapView.annotations">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -19,22 +43,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "MapController.mapView(_:viewFor:):MapController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "annotationView is MGLPointAnnotation">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in PlaneAnnotationView.action(for:forKey:):PlaneAnnotationView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.subviews">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "closure #1 in MapController.mapViewDidFinishLoadingMap(_:):MapController.swift">
          <PersistentStrings>
             <PersistentString
@@ -43,10 +51,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "MapController.showPlane(latitude:longitude:):MapController.swift">
+         contextName = "closure #1 in LoginController.login():LoginController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "mapView.annotations">
+               value = " AuthErrorCode(rawValue: error._code)!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapController.mapView(_:viewFor:):MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "annotationView is MGLPointAnnotation">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

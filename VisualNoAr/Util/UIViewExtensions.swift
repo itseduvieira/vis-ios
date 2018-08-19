@@ -134,6 +134,36 @@ extension UIViewController {
             view.removeFromSuperview()
         }
     }
+    
+    func presentLargeAlert(_ parent: MapController, _ dismiss: @escaping () -> Swift.Void) {
+        let nib = UINib(nibName: "EmptyStateView", bundle: nil)
+        let customAlert = nib.instantiate(withOwner: self, options: nil).first as! EmptyStateView
+        
+        customAlert.parent = parent
+        customAlert.tag = 12345
+        customAlert.container.setRadius(radius: 10)
+        customAlert.alpha = 0
+        customAlert.dismiss = dismiss
+        
+        let screen = UIScreen.main.bounds
+//        customAlert.width.constant = screen.width - 32
+//        customAlert.height.constant = screen.height - 54
+        customAlert.center = CGPoint(x: screen.midX, y: screen.midY)
+        
+        self.view.addSubview(customAlert)
+        
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 1, animations: {
+                customAlert.alpha = 1.0
+            })
+        }
+    }
+    
+    func dismissLargeAlert() {
+        if let view = self.view.viewWithTag(12345) {
+            view.removeFromSuperview()
+        }
+    }
 }
 
 extension CALayer {
