@@ -24,6 +24,8 @@
 		3477E8FC2128D79700B0E5F1 /* NavigationDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3477E8FA2128D79600B0E5F1 /* NavigationDrawer.swift */; };
 		3477E8FE2129337C00B0E5F1 /* EmptyStateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3477E8FD2129337C00B0E5F1 /* EmptyStateView.xib */; };
 		3477E90021293BA800B0E5F1 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3477E8FF21293BA800B0E5F1 /* EmptyStateView.swift */; };
+		347F019B212A36A800E38ACF /* DataAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347F019A212A36A800E38ACF /* DataAccess.swift */; };
+		347F019D212A734300E38ACF /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347F019C212A734300E38ACF /* Place.swift */; };
 		3494BA5E1F7044D800F0B8FE /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3494BA5D1F7044D800F0B8FE /* PageController.swift */; };
 		349B65101F5E3A5400867E3E /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349B650F1F5E3A5400867E3E /* DetailController.swift */; };
 		34A5851E1F709BA1006E05E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34A5851D1F709BA1006E05E6 /* Assets.xcassets */; };
@@ -56,6 +58,8 @@
 		3477E8FA2128D79600B0E5F1 /* NavigationDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationDrawer.swift; sourceTree = "<group>"; };
 		3477E8FD2129337C00B0E5F1 /* EmptyStateView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyStateView.xib; sourceTree = "<group>"; };
 		3477E8FF21293BA800B0E5F1 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		347F019A212A36A800E38ACF /* DataAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAccess.swift; sourceTree = "<group>"; };
+		347F019C212A734300E38ACF /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		3494BA5D1F7044D800F0B8FE /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		349B650F1F5E3A5400867E3E /* DetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
 		34A5851D1F709BA1006E05E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 				3450B3DA1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift */,
 				34E9DBD02127309B0017BB11 /* MyMapbox.swift */,
 				3477E8FF21293BA800B0E5F1 /* EmptyStateView.swift */,
+				347F019A212A36A800E38ACF /* DataAccess.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -170,6 +175,7 @@
 			children = (
 				34EEC0311F8000C2002FC0B6 /* Credentials.swift */,
 				346CF64C210D098100C01290 /* Campaign.swift */,
+				347F019C212A734300E38ACF /* Place.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -267,20 +273,26 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-VisualNoAr/Pods-VisualNoAr-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/MapboxGeocoder.swift/MapboxGeocoder.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxGeocoder.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3477E90021293BA800B0E5F1 /* EmptyStateView.swift in Sources */,
+				347F019B212A36A800E38ACF /* DataAccess.swift in Sources */,
 				3445B5921EBAC02F00B4C7CA /* LoginController.swift in Sources */,
 				3450B3DB1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift in Sources */,
 				34E9DBD12127309B0017BB11 /* MyMapbox.swift in Sources */,
@@ -344,6 +357,7 @@
 				349B65101F5E3A5400867E3E /* DetailController.swift in Sources */,
 				3477E8FC2128D79700B0E5F1 /* NavigationDrawer.swift in Sources */,
 				3445B5901EBAC02F00B4C7CA /* AppDelegate.swift in Sources */,
+				347F019D212A734300E38ACF /* Place.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

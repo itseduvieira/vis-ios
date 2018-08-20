@@ -9,9 +9,11 @@
 import Foundation
 
 class Campaign {
+    var id: String!
     var name: String!
-    var place: String!
     var plane: String!
     var color: String!
-    var band: String!
+    var bandUrl: String!
+    var band: Data!
+    var place: Place!
 }

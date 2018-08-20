@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import PromiseKit
 
 class LoginController: UIViewController {
     //MARK: Properties
@@ -82,7 +83,15 @@ class LoginController: UIViewController {
                 UserDefaults.standard.set(email, forKey: "username")
                 UserDefaults.standard.set(password, forKey: "password")
                 
-                self.goToNextScene()
+                firstly {
+                    DataAccess.instance.getUser()
+                }.done {
+                    self.goToNextScene()
+                }.catch { error in
+                    print(error)
+                    
+                    self.goToNextScene()
+                }
             }
         } else {
             let alertController = UIAlertController(title: "Erro", message: "Preencha os campos de email e senha.", preferredStyle: .alert)

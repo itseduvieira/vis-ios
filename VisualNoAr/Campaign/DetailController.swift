@@ -13,18 +13,35 @@ class DetailController: UIViewController {
     @IBOutlet weak var txtName: UILabel!
     @IBOutlet weak var txtPlace: UILabel!
     @IBOutlet weak var txtCompany: UILabel!
+    @IBOutlet weak var imgBand: UIImageView!
+    @IBOutlet weak var imgPic1: UIImageView!
+    @IBOutlet weak var imgPic2: UIImageView!
+    @IBOutlet weak var imgPic3: UIImageView!
     
-    var id: String!
-    var name: String!
-    var place: String!
-    var plane: String!
+    var campaign: Campaign!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        txtPlane.text = self.plane
-        txtName.text = self.name.replacingOccurrences(of: "VERAO ", with: "", options: .literal, range: nil)
-        txtPlace.text = self.place.uppercased()
+        txtPlane.text = self.campaign.plane
+        txtName.text = self.campaign.name.replacingOccurrences(of: "VERAO ", with: "", options: .literal, range: nil)
+        txtPlace.text = self.campaign.place.title.uppercased()
+        
+        if self.campaign.band != nil {
+            imgBand.image = UIImage(data: self.campaign.band)
+        }
+        
+        if self.campaign.place.pic1 != nil {
+            imgPic1.image = UIImage(data: self.campaign.place.pic1)
+        }
+        
+        if self.campaign.place.pic2 != nil {
+            imgPic2.image = UIImage(data: self.campaign.place.pic2)
+        }
+        
+        if self.campaign.place.pic3 != nil {
+            imgPic3.image = UIImage(data: self.campaign.place.pic3)
+        }
     }
     
     //MARK: Properties

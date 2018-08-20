@@ -10,4 +10,6 @@ target 'VisualNoAr' do
     pod 'Firebase/Storage'
     pod 'Fabric', '~> 1.7.9'
     pod 'Crashlytics', '~> 3.10.5'
+    pod 'Alamofire', '~> 4.7'
+    pod 'PromiseKit/Alamofire', '~> 6.0'
 end

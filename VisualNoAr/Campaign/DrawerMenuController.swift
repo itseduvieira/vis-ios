@@ -12,6 +12,8 @@ import FirebaseAuth
 class DrawerMenuController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var txtName: UILabel!
+    @IBOutlet weak var txtEmail: UILabel!
     
     let menu = [ "Minhas Campanhas", "Sair" ]
     
@@ -20,6 +22,14 @@ class DrawerMenuController: UIViewController, UITableViewDataSource, UITableView
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        if let name = UserDefaults.standard.string(forKey: "name") {
+            txtName.text = name
+        }
+        
+        if let email = UserDefaults.standard.string(forKey: "username") {
+            txtEmail.text = email
+        }
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
@@ -31,6 +41,7 @@ class DrawerMenuController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         
+        cell?.textLabel?.font = UIFont.systemFont(ofSize: 15)
         cell?.textLabel?.text = menu[indexPath.row]
         
         return cell!
@@ -40,6 +51,9 @@ class DrawerMenuController: UIViewController, UITableViewDataSource, UITableView
         NavigationDrawer.sharedInstance.toggleNavigationDrawer { () -> Void in
             switch indexPath.row {
             case 0:
+                
+                print("case 0")
+                
                 break
             case 1:
                 do {
@@ -48,7 +62,9 @@ class DrawerMenuController: UIViewController, UITableViewDataSource, UITableView
                     print("Error at signOut")
                 }
                 
-                self.performSegue(withIdentifier: "SegueMenuToLogin", sender: self)
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "SegueMenuToLogin", sender: self)
+                }
                 
                 break
             default:

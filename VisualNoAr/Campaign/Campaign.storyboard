@@ -28,38 +28,51 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="54" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AvO-sd-HqW">
-                                <rect key="frame" x="0.0" y="168" width="375" height="499"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="48" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AvO-sd-HqW">
+                                <rect key="frame" x="0.0" y="194" width="375" height="473"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="b3Y-bV-BBU">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="54"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="b3Y-bV-BBU" id="Sgd-tW-MZZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rt-4i-nN3">
-                                                    <rect key="frame" x="32" y="17.5" width="39.5" height="19.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="3rt-4i-nN3" firstAttribute="leading" secondItem="Sgd-tW-MZZ" secondAttribute="leading" constant="32" id="20q-ku-ib4"/>
-                                                <constraint firstItem="3rt-4i-nN3" firstAttribute="centerY" secondItem="Sgd-tW-MZZ" secondAttribute="centerY" id="IGI-2c-nUY"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gk9-Ge-XXo">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="160"/>
-                                <color key="backgroundColor" red="0.0" green="0.72941176470000002" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="186"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NavDrawerHeader" translatesAutoresizingMaskIntoConstraints="NO" id="kRN-dh-dhC">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="186"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nome do Usuário" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Zs-9V-4am">
+                                        <rect key="frame" x="18" y="123" width="161.5" height="24"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="email@empresa.com.br" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ERg-qQ-CN3">
+                                        <rect key="frame" x="18" y="151" width="133" height="15"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="160" id="8qk-h3-w93"/>
+                                    <constraint firstAttribute="height" constant="186" id="8qk-h3-w93"/>
+                                    <constraint firstItem="kRN-dh-dhC" firstAttribute="top" secondItem="Gk9-Ge-XXo" secondAttribute="top" id="9bp-36-CUA"/>
+                                    <constraint firstAttribute="bottom" secondItem="kRN-dh-dhC" secondAttribute="bottom" id="Dut-xq-WNP"/>
+                                    <constraint firstItem="kRN-dh-dhC" firstAttribute="leading" secondItem="Gk9-Ge-XXo" secondAttribute="leading" id="GfW-KI-tgH"/>
+                                    <constraint firstAttribute="trailing" secondItem="kRN-dh-dhC" secondAttribute="trailing" id="OV1-CO-TWY"/>
+                                    <constraint firstItem="ERg-qQ-CN3" firstAttribute="top" secondItem="7Zs-9V-4am" secondAttribute="bottom" constant="4" id="Ujy-Wm-2As"/>
+                                    <constraint firstAttribute="bottom" secondItem="ERg-qQ-CN3" secondAttribute="bottom" constant="20" id="eg2-GA-7t3"/>
+                                    <constraint firstItem="ERg-qQ-CN3" firstAttribute="leading" secondItem="Gk9-Ge-XXo" secondAttribute="leading" constant="18" id="xdd-Pg-9j9"/>
+                                    <constraint firstItem="7Zs-9V-4am" firstAttribute="leading" secondItem="Gk9-Ge-XXo" secondAttribute="leading" constant="18" id="y4F-jx-Rvs"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -77,6 +90,8 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="AvO-sd-HqW" id="Kl3-S5-F8v"/>
+                        <outlet property="txtEmail" destination="ERg-qQ-CN3" id="Lap-dV-201"/>
+                        <outlet property="txtName" destination="7Zs-9V-4am" id="cdH-uL-ZWE"/>
                         <segue destination="f9H-lz-Lbh" kind="show" identifier="SegueMenuToLogin" id="Uy5-kb-Rma"/>
                     </connections>
                 </viewController>
@@ -614,6 +629,10 @@
                         <viewLayoutGuide key="safeArea" id="diX-9u-zfZ"/>
                     </view>
                     <connections>
+                        <outlet property="imgBand" destination="62r-Iq-UqH" id="ZIA-uc-dql"/>
+                        <outlet property="imgPic1" destination="RTq-3p-k41" id="4xJ-VZ-ir8"/>
+                        <outlet property="imgPic2" destination="StH-YU-Rhg" id="bmN-4s-mMo"/>
+                        <outlet property="imgPic3" destination="raZ-Ly-Ikj" id="E25-Mi-Epb"/>
                         <outlet property="txtCompany" destination="eer-WS-Niv" id="ATE-c6-Sfc"/>
                         <outlet property="txtName" destination="eGl-jh-eXU" id="XKd-y8-bCf"/>
                         <outlet property="txtPlace" destination="oTD-5z-sqG" id="ErB-BK-RxW"/>
@@ -631,5 +650,6 @@
         <image name="Empty" width="1024" height="208"/>
         <image name="EmptySquare" width="512" height="512"/>
         <image name="ExampleCampaignPlane" width="373" height="324"/>
+        <image name="NavDrawerHeader" width="1000" height="656"/>
     </resources>
 </document>

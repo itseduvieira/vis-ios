@@ -11,6 +11,7 @@ import Mapbox
 import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
+import PromiseKit
 
 class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDelegate, NavigationDrawerDelegate {
     
@@ -29,10 +30,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     
     let options = NavigationDrawerOptions()
     
-    var id: String!
-    var name: String!
-    var place: String!
-    var plane: String!
+    var campaign: Campaign!
     
     let locationManager = CLLocationManager()
     
@@ -68,7 +66,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         
         NavigationDrawer.sharedInstance.initialize(forViewController: self)
         
-        //listenCampaign()
+        listenCampaign()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -84,16 +82,13 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         if segue.identifier == "SegueMapToDetail" {
             let detailVC = segue.destination as! DetailController
             
-            detailVC.id = self.id
-            detailVC.name = self.name
-            detailVC.plane = self.plane
-            detailVC.place = self.place
+            detailVC.campaign = self.campaign
         }
     }
     
     func setMapConfig() {
         mapView.delegate = self
-        mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height * 1.4, 0, 0, 0), animated: false)
+    mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height * 1.4, 0, 0, 0), animated: false)
         
         topInfoContainer.setRadius(radius: 3)
         imgStatus.backgroundColor = UIColor(hexString: "#00E08A")
@@ -108,13 +103,20 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     func setNavigationBar() {
         navBar.setBackgroundImage(UIImage(), for: .default)
         navBar.shadowImage = UIImage()
-        let calendarTypeItem = UIBarButtonItem(image: UIImage(named: "IconMenu"), style: .plain,target: self, action: #selector(openMenu))
-        navItem.leftBarButtonItem = calendarTypeItem
+        let menuItem = UIBarButtonItem(image: UIImage(named: "IconMenu"), style: .plain,target: self, action: #selector(openMenu))
+        navItem.leftBarButtonItem = menuItem
+        let placeItem = UIBarButtonItem(image: UIImage(named: "IconPlace"), style: .plain,target: self, action: #selector(center))
+        navItem.rightBarButtonItem = placeItem
+        
+        if let company = UserDefaults.standard.string(forKey: "company") {
+            self.navBar.topItem?.title = company
+        }
     }
     
     func setNavigationDrawer() {
         options.navigationDrawerType = .LeftDrawer
         options.navigationDrawerOpenDirection = .LeftEdge
+        options.navigationDrawerWidth = UIScreen.main.bounds.width - 60
         
         navigationDrawer.setup(withOptions: options)
         let menuVC = self.storyboard?.instantiateViewController(withIdentifier: "DrawerMenuViewController") as! DrawerMenuController
@@ -127,7 +129,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-        listenCampaign()
+        //listenCampaign()
     }
     
     func listenCampaign() {
@@ -137,15 +139,43 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
             if let campaignId = snapshot.value as? String {
                 
                 let storage = Storage.storage()
-                let ref = storage.reference().child("campaigns/\(campaignId)")
+                let refBand = storage.reference().child("campaigns/\(campaignId)/band.jpeg")
 
-//                ref.getData(maxSize: 8 * 1024 * 1024) { data, error in
+                refBand.getData(maxSize: 8 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        print(error)
+                    } else {
+                        self.campaign.band = data!
+                    }
+                }
+                
+//                let refPic1 = storage.reference().child("campaigns/\(campaignId)")
+//
+//                refPic1.getData(maxSize: 8 * 1024 * 1024) { data, error in
 //                    if let error = error {
 //                        print(error)
-//
 //                    } else {
-//                        //pdcUser.picture = data!
+//                        self.pic1 = data!
+//                    }
+//                }
 //
+//                let refPic2 = storage.reference().child("campaigns/\(campaignId)")
+//
+//                refPic2.getData(maxSize: 8 * 1024 * 1024) { data, error in
+//                    if let error = error {
+//                        print(error)
+//                    } else {
+//                        self.pic2 = data!
+//                    }
+//                }
+//
+//                let refPic3 = storage.reference().child("campaigns/\(campaignId)")
+//
+//                refPic3.getData(maxSize: 8 * 1024 * 1024) { data, error in
+//                    if let error = error {
+//                        print(error)
+//                    } else {
+//                        self.pic3 = data!
 //                    }
 //                }
                 
@@ -155,14 +185,50 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
                 self.campaignRef.observe(DataEventType.value, with: { (snapshot) in
                     let cDict = snapshot.value as? [String : AnyObject] ?? [:]
                     
-                    self.txtCampaign.text = cDict["name"] as? String
-                    self.txtPrefix.text = cDict["plane"] as? String
-                    self.txtPlace.text = cDict["place"] as? String
+                    self.txtCampaign.text = (cDict["name"] as? String)?.uppercased()
+                    self.txtPrefix.text = (cDict["plane"] as? String)?.uppercased()
+                    self.txtPlace.text = (cDict["place"] as? String)?.uppercased()
                     
-                    self.id = campaignId
-                    self.name = cDict["name"] as? String
-                    self.plane = cDict["plane"] as? String
-                    self.place = cDict["place"] as? String
+                    self.campaign = Campaign()
+                    self.campaign.id = campaignId
+                    self.campaign.name = cDict["name"] as? String
+                    self.campaign.plane = cDict["plane"] as? String
+                    self.campaign.place = Place()
+                    self.campaign.place.title = cDict["place"] as? String
+                    
+                    firstly {
+                        DataAccess.instance.getPlace(cDict["placeId"] as! String)
+                    }.done { place in
+                        self.campaign.place = place
+                        
+                        firstly {
+                            DataAccess.instance.getImage(place.urls[0]["url"]!)
+                        }.done { data in
+                            self.campaign.place.pic1 = data
+                        }.catch { error in
+                            print(error)
+                        }
+                        
+                        firstly {
+                            DataAccess.instance.getImage(place.urls[1]["url"]!)
+                        }.done { data in
+                            self.campaign.place.pic2 = data
+                        }.catch { error in
+                            print(error)
+                        }
+                        
+                        firstly {
+                            DataAccess.instance.getImage(place.urls[2]["url"]!)
+                        }.done { data in
+                            self.campaign.place.pic3 = data
+                        }.catch { error in
+                            print(error)
+                        }
+                    }.catch { error in
+                        print(error)
+                        
+                        self.campaign.place = Place()
+                    }
                     
                     self.active = cDict["active"] as! Bool
                     
@@ -246,13 +312,33 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         }
     }
     
-    @IBAction func center() {
+    @objc func center() {
         if self.latitude != nil, self.longitude != nil {
             let coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
             
             let camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 4200, pitch: 15, heading: 0)
             mapView.setCamera(camera, withDuration: 4, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
+        } else {
+            let center = CLLocationCoordinate2D(latitude: -15.77972, longitude: -47.92972)
+            
+            if distance(from: mapView.centerCoordinate, to: center) > 900000 {
+                let ne = CLLocationCoordinate2D(latitude: 3.143108, longitude: -34.557192)
+                let sw = CLLocationCoordinate2D(latitude: -35.237824, longitude: -61.368507)
+                brazil = MGLCoordinateBounds(sw: sw, ne: ne)
+                mapView.setVisibleCoordinateBounds(brazil, animated: true)
+            } else {
+                let distance: CLLocationDistance = 10000000
+                
+                let camera = MGLMapCamera(lookingAtCenter: center, fromDistance: distance, pitch: 0, heading: 0)
+                mapView.setCamera(camera, withDuration: 2.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
+            }
         }
+    }
+    
+    func distance(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> CLLocationDistance {
+        let from = CLLocation(latitude: from.latitude, longitude: from.longitude)
+        let to = CLLocation(latitude: to.latitude, longitude: to.longitude)
+        return from.distance(from: to)
     }
 }
 
