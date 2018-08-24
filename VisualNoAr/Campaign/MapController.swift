@@ -13,7 +13,7 @@ import FirebaseAuth
 import FirebaseStorage
 import PromiseKit
 
-class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDelegate, NavigationDrawerDelegate {
+class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDelegate {
     
     //MARK: Properties
     @IBOutlet weak var mapView: MGLMapView!
@@ -32,21 +32,18 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
     
     var campaign: Campaign!
     
-    let locationManager = CLLocationManager()
-    
     var brazil: MGLCoordinateBounds!
     
-    var latitude: Double!
-    var longitude: Double!
+    var timer: Timer!
+    var camera: MGLMapCamera!
+    var position: CLLocationCoordinate2D!
     var altitude: Double!
     var location: String!
     
     let navigationDrawer = NavigationDrawer.sharedInstance
     
-    var annotationView: PlaneAnnotationView?
-    
     var userRef, campaignRef: DatabaseReference!
-    var active: Bool!
+    var active = false
     
     @IBAction func unwindToMap(segue: UIStoryboardSegue) {}
     
@@ -59,23 +56,57 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         setMapConfig()
         
         setNavigationDrawer()
+        
+        listenCampaign()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        NavigationDrawer.sharedInstance.initialize(forViewController: self)
+        if self.active {
+            startTimer()
+        }
         
-        listenCampaign()
+        NavigationDrawer.sharedInstance.initialize(forViewController: self)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        stopTimer()
+        
 //        if self.campaignRef != nil {
 //            self.campaignRef.removeAllObservers()
 //        }
 //        self.userRef.removeAllObservers()
+    }
+    
+    @objc func runTimedCode() {
+        print("ticking: \(position!.latitude),\(position!.longitude) ")
+        
+        mapView.setContentInset(UIEdgeInsetsMake(156, 0, 28, 0), animated: true)
+        
+        camera.centerCoordinate = position
+        
+//        let point = MGLPointAnnotation()
+//        point.coordinate = position
+//        mapView.addAnnotation(point)
+        
+        mapView.setCamera(camera, withDuration: 2.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
+    }
+    
+    func startTimer() {
+        print("start timer...")
+        
+        timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
+    }
+    
+    func stopTimer() {
+        print("stop timer")
+        
+        if timer != nil {
+            timer.invalidate()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -86,18 +117,41 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         }
     }
     
+    func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
+        // Assign a reuse identifier to be used by both of the annotation views, taking advantage of their similarities.
+        let reuseIdentifier = "reusableDotView"
+        
+        // For better performance, always try to reuse existing annotations.
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
+        
+        // If there’s no reusable annotation view available, initialize a new one.
+        if annotationView == nil {
+            annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
+            annotationView?.frame = CGRect(x: 0, y: 0, width: 15, height: 15)
+            annotationView?.layer.cornerRadius = (annotationView?.frame.size.width)! / 2
+            annotationView?.layer.borderWidth = 4.0
+            annotationView?.layer.borderColor = UIColor.white.cgColor
+            annotationView!.backgroundColor = UIColor(red:0.03, green:0.80, blue:0.69, alpha:1.0)
+        }
+        
+        return annotationView
+    }
+    
     func setMapConfig() {
         mapView.delegate = self
-    mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height * 1.4, 0, 0, 0), animated: false)
+        
+        let ne = CLLocationCoordinate2D(latitude: 3.143108, longitude: -34.557192)
+        let sw = CLLocationCoordinate2D(latitude: -35.237824, longitude: -61.368507)
+        let brazil = MGLCoordinateBounds(sw: sw, ne: ne)
+        mapView.setVisibleCoordinateBounds(brazil, animated: false)
+        
+        position = mapView.centerCoordinate
+        camera = MGLMapCamera(lookingAtCenter: position, fromDistance: 1000 * 500, pitch: 45, heading: 0)
+//        mapView.setCamera(camera, withDuration: 2.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
         
         topInfoContainer.setRadius(radius: 3)
         imgStatus.backgroundColor = UIColor(hexString: "#00E08A")
         imgStatus.setRadius(radius: 5.5)
-        
-        let ne = CLLocationCoordinate2D(latitude: 3.143108, longitude: -34.557192)
-        let sw = CLLocationCoordinate2D(latitude: -35.237824, longitude: -61.368507)
-        brazil = MGLCoordinateBounds(sw: sw, ne: ne)
-        mapView.setVisibleCoordinateBounds(brazil, animated: false)
     }
     
     func setNavigationBar() {
@@ -128,10 +182,6 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         NavigationDrawer.sharedInstance.toggleNavigationDrawer(completionHandler: nil)
     }
     
-    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-        //listenCampaign()
-    }
-    
     func listenCampaign() {
         let user = Auth.auth().currentUser
         userRef = Database.database().reference(withPath: "user").child(user!.uid)
@@ -139,7 +189,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
             if let campaignId = snapshot.value as? String {
                 
                 let storage = Storage.storage()
-                let refBand = storage.reference().child("campaigns/\(campaignId)/band.jpeg")
+                let refBand = storage.reference().child("campaigns/\(campaignId)/band.*")
 
                 refBand.getData(maxSize: 8 * 1024 * 1024) { data, error in
                     if let error = error {
@@ -148,36 +198,6 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
                         self.campaign.band = data!
                     }
                 }
-                
-//                let refPic1 = storage.reference().child("campaigns/\(campaignId)")
-//
-//                refPic1.getData(maxSize: 8 * 1024 * 1024) { data, error in
-//                    if let error = error {
-//                        print(error)
-//                    } else {
-//                        self.pic1 = data!
-//                    }
-//                }
-//
-//                let refPic2 = storage.reference().child("campaigns/\(campaignId)")
-//
-//                refPic2.getData(maxSize: 8 * 1024 * 1024) { data, error in
-//                    if let error = error {
-//                        print(error)
-//                    } else {
-//                        self.pic2 = data!
-//                    }
-//                }
-//
-//                let refPic3 = storage.reference().child("campaigns/\(campaignId)")
-//
-//                refPic3.getData(maxSize: 8 * 1024 * 1024) { data, error in
-//                    if let error = error {
-//                        print(error)
-//                    } else {
-//                        self.pic3 = data!
-//                    }
-//                }
                 
                 self.btnDetail.isEnabled = true
                 
@@ -238,16 +258,10 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
                         let newLon = locDict["longitude"] as! Double
                         let newAlt = locDict["altitude"] as! Double
                         
-                        if newLat == self.latitude &&
-                            newLon == self.longitude {
-                            return
-                        }
-                        
                         print(locDict)
                         print("---")
                         
-                        self.latitude = newLat
-                        self.longitude = newLon
+                        self.position = CLLocationCoordinate2D(latitude: newLat, longitude: newLon)
                         self.altitude = newAlt
                         
                         if let location = locDict["description"] as? String {
@@ -256,7 +270,7 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
                         
                         self.showPlane()
                     } else {
-                        self.campaignRef.removeAllObservers()
+                        self.position = nil
                     }
                 }) { (error) in
                     print(error.localizedDescription)
@@ -269,69 +283,21 @@ class MapController: UIViewController, CLLocationManagerDelegate, MGLMapViewDele
         }
     }
     
-    func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
-        guard annotation is MGLPointAnnotation else {
-            return nil
-        }
-        
-        annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "plane") as? PlaneAnnotationView
-        
-        if annotationView == nil {
-            annotationView = PlaneAnnotationView(reuseIdentifier: "plane", image: UIImage(named: "Plane")!)
-            annotationView!.controller = self
-        }
-        
-        return annotationView
-    }
-    
     private func showPlane() {
-        var plane: MGLPointAnnotation
-        
-        let coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
-        
         txtAltitude.text = String(format: "%.0fm", self.altitude)
         txtLocation.text = self.location
         
-        if mapView.annotations == nil {
-            let plane = MGLPointAnnotation()
-            plane.coordinate = coordinate
-            
-            mapView.addAnnotation(plane)
-            mapView.setCenter(coordinate, zoomLevel: 11, animated: false)
-        } else {
-            let camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 4200, pitch: 15, heading: 0)
-            mapView.setCamera(camera, withDuration: 8, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
-            
-            plane = mapView.annotations?.first as! MGLPointAnnotation
-            
-            let previousCoordinate: CLLocationCoordinate2D = plane.coordinate
-            
-            //annotationView?.rotate(radians: previousCoordinate.bearingRadianTo(location: coordinate))
-            
-            plane.coordinate = coordinate
-        }
+        //self.plane.isHidden = false
+        
+        startTimer()
     }
     
     @objc func center() {
-        if self.latitude != nil, self.longitude != nil {
-            let coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
-            
-            let camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 4200, pitch: 15, heading: 0)
+        if self.position != nil {
+            camera.centerCoordinate = self.position
             mapView.setCamera(camera, withDuration: 4, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
         } else {
-            let center = CLLocationCoordinate2D(latitude: -15.77972, longitude: -47.92972)
-            
-            if distance(from: mapView.centerCoordinate, to: center) > 900000 {
-                let ne = CLLocationCoordinate2D(latitude: 3.143108, longitude: -34.557192)
-                let sw = CLLocationCoordinate2D(latitude: -35.237824, longitude: -61.368507)
-                brazil = MGLCoordinateBounds(sw: sw, ne: ne)
-                mapView.setVisibleCoordinateBounds(brazil, animated: true)
-            } else {
-                let distance: CLLocationDistance = 10000000
-                
-                let camera = MGLMapCamera(lookingAtCenter: center, fromDistance: distance, pitch: 0, heading: 0)
-                mapView.setCamera(camera, withDuration: 2.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
-            }
+            setMapConfig()
         }
     }
     
