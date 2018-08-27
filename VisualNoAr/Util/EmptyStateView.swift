@@ -10,6 +10,8 @@ import UIKit
 
 class EmptyStateView: UIView {
     @IBOutlet weak var container: UIView!
+    @IBOutlet weak var height: NSLayoutConstraint!
+    @IBOutlet weak var width: NSLayoutConstraint!
     
     weak var parent: MapController!
     var dismiss: (() -> Swift.Void)!

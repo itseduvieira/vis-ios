@@ -39,6 +39,12 @@ class LoginController: UIViewController {
         super.viewDidAppear(animated)
         
         self.checkAndFillSavedCredentials()
+        
+        if Auth.auth().currentUser != nil {
+            self.presentAlert()
+            
+            self.getUserAndGoToNextScene()
+        }
     }
     
     @IBAction func showOrHidePass(_ sender: UIButton) {
@@ -83,15 +89,7 @@ class LoginController: UIViewController {
                 UserDefaults.standard.set(email, forKey: "username")
                 UserDefaults.standard.set(password, forKey: "password")
                 
-                firstly {
-                    DataAccess.instance.getUser()
-                }.done {
-                    self.goToNextScene()
-                }.catch { error in
-                    print(error)
-                    
-                    self.goToNextScene()
-                }
+                self.getUserAndGoToNextScene()
             }
         } else {
             let alertController = UIAlertController(title: "Erro", message: "Preencha os campos de email e senha.", preferredStyle: .alert)
@@ -123,6 +121,18 @@ class LoginController: UIViewController {
         let next = sb?.instantiateViewController(withIdentifier: controllerId)
         
         self.present(next!, animated: true, completion: nil)
+    }
+    
+    private func getUserAndGoToNextScene() {
+        firstly {
+            DataAccess.instance.getUser()
+        }.done {
+            self.goToNextScene()
+        }.catch { error in
+            print(error)
+            
+            self.goToNextScene()
+        }
     }
 }
 

@@ -27,23 +27,20 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     @IBOutlet weak var btnDetail: UIButton!
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var navItem: UINavigationItem!
-    
-    let options = NavigationDrawerOptions()
-    
-    var campaign: Campaign!
-    
-    var brazil: MGLCoordinateBounds!
-    
-    var timer: Timer!
-    var camera: MGLMapCamera!
-    var position: CLLocationCoordinate2D!
-    var altitude: Double!
-    var location: String!
+    @IBOutlet weak var imgPlane: UIImageView!
     
     let navigationDrawer = NavigationDrawer.sharedInstance
     
+    var campaign: Campaign!
+    var timer: Timer!
+    var camera: MGLMapCamera!
+    var posQueue: Queue<VisLocation>!
+    var lastPosition: CLLocationCoordinate2D!
+    var distance: CLLocationDistance = 100 * 1000
+    
+    var point: MGLPointAnnotation!
+    
     var userRef, campaignRef: DatabaseReference!
-    var active = false
     
     @IBAction func unwindToMap(segue: UIStoryboardSegue) {}
     
@@ -51,23 +48,19 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mapView.delegate = self
+        
         setNavigationBar()
         
-        setMapConfig()
-        
         setNavigationDrawer()
-        
-        listenCampaign()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        if self.active {
-            startTimer()
-        }
-        
         NavigationDrawer.sharedInstance.initialize(forViewController: self)
+        
+        listenCampaign()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -75,38 +68,82 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         
         stopTimer()
         
-//        if self.campaignRef != nil {
-//            self.campaignRef.removeAllObservers()
-//        }
-//        self.userRef.removeAllObservers()
+        self.userRef.removeAllObservers()
+        if self.campaignRef != nil {
+            self.campaignRef.removeAllObservers()
+            self.campaignRef.child("active").removeAllObservers()
+            self.campaignRef.child("location").removeAllObservers()
+        }
     }
     
     @objc func runTimedCode() {
-        print("ticking: \(position!.latitude),\(position!.longitude) ")
+        guard let nextLoc = self.posQueue.dequeue() else {
+            if campaign == nil {
+                self.presentLargeAlert(self, {
+                    self.clear()
+                })
+            } else if !campaign.active {
+                let alert = UIAlertController(title: "Campanha Encerrada", message: "Sua campanha acabou de ser exibida com sucesso!", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                    self.clear()
+                }))
+                
+                self.present(alert, animated: true)
+            }
+            
+            return
+        }
         
-        mapView.setContentInset(UIEdgeInsetsMake(156, 0, 28, 0), animated: true)
+        var rotation = 0.0
+        mapView.setContentInset(UIEdgeInsetsMake(156, 0, 28, 0), animated: false)
+        self.txtAltitude.text = String(format: "%.0fm", nextLoc.altitude)
+        self.txtLocation.text = nextLoc.location
         
-        camera.centerCoordinate = position
+        if point == nil {
+            point = MGLPointAnnotation()
+            mapView.addAnnotation(point)
+        }
         
-//        let point = MGLPointAnnotation()
-//        point.coordinate = position
-//        mapView.addAnnotation(point)
+        point.coordinate = nextLoc.coordinate
         
-        mapView.setCamera(camera, withDuration: 2.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
+        if let lastPosition = self.lastPosition {
+            rotation = Double(lastPosition.bearingDegreesTo(location: nextLoc.coordinate))
+            camera.centerCoordinate = nextLoc.coordinate
+            camera.heading = rotation
+            mapView.setCamera(camera, withDuration: 2.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
+        } else {
+            self.camera.altitude = self.distance
+            self.camera.centerCoordinate = nextLoc.coordinate
+            self.mapView.fly(to: self.camera, withDuration: 2.5, completionHandler: { })
+            UIView.animate(withDuration: 1) {
+                self.imgPlane.alpha = 1
+            }
+        }
+        
+        print("[ticking] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),rot:\(rotation)")
+        
+        lastPosition = nextLoc.coordinate
     }
     
     func startTimer() {
         print("start timer...")
         
+        stopTimer()
+        
         timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
     }
     
     func stopTimer() {
+        guard self.timer != nil else {
+            return
+        }
+        
         print("stop timer")
         
-        if timer != nil {
-            timer.invalidate()
-        }
+        self.timer.invalidate()
+        
+        self.timer = nil
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -137,21 +174,35 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         return annotationView
     }
     
+    func mapView(_ mapView: MGLMapView, regionDidChangeWith reason: MGLCameraChangeReason, animated: Bool) {
+        print("regionDidChangeWith")
+        
+        if reason == .programmatic {
+            mapView.setContentInset(UIEdgeInsetsMake(156, 0, 28, 0), animated: false)
+        }
+    }
+    
+    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        self.mapView = mapView
+        
+        setMapConfig()
+    }
+    
     func setMapConfig() {
-        mapView.delegate = self
+        self.mapView.isUserInteractionEnabled = false
         
-        let ne = CLLocationCoordinate2D(latitude: 3.143108, longitude: -34.557192)
-        let sw = CLLocationCoordinate2D(latitude: -35.237824, longitude: -61.368507)
-        let brazil = MGLCoordinateBounds(sw: sw, ne: ne)
-        mapView.setVisibleCoordinateBounds(brazil, animated: false)
-        
-        position = mapView.centerCoordinate
-        camera = MGLMapCamera(lookingAtCenter: position, fromDistance: 1000 * 500, pitch: 45, heading: 0)
-//        mapView.setCamera(camera, withDuration: 2.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
+        self.centerMap()
         
         topInfoContainer.setRadius(radius: 3)
         imgStatus.backgroundColor = UIColor(hexString: "#00E08A")
         imgStatus.setRadius(radius: 5.5)
+    }
+    
+    func centerMap() {
+        let coordinate = CLLocationCoordinate2D(latitude: -20.0, longitude: -47.8825)
+        camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 13000 * 1000, pitch: 0, heading: 0)
+        
+        self.mapView.fly(to: camera, withDuration: 2.5, completionHandler: {})
     }
     
     func setNavigationBar() {
@@ -168,6 +219,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     }
     
     func setNavigationDrawer() {
+        let options = NavigationDrawerOptions()
         options.navigationDrawerType = .LeftDrawer
         options.navigationDrawerOpenDirection = .LeftEdge
         options.navigationDrawerWidth = UIScreen.main.bounds.width - 60
@@ -185,8 +237,13 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     func listenCampaign() {
         let user = Auth.auth().currentUser
         userRef = Database.database().reference(withPath: "user").child(user!.uid)
-        userRef.child("campaign").observe(DataEventType.value, with: { (snapshot) in
-            if let campaignId = snapshot.value as? String {
+        userRef.observe(DataEventType.value, with: { (snapshot) in
+            if let child = snapshot.value as? [String:Any] {
+                guard let campaignId = child["campaign"] as? String else {
+                    return
+                }
+                
+                self.dismissLargeAlert()
                 
                 let storage = Storage.storage()
                 let refBand = storage.reference().child("campaigns/\(campaignId)/band.*")
@@ -202,109 +259,146 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 self.btnDetail.isEnabled = true
                 
                 self.campaignRef = Database.database().reference(withPath: "campaign").child(campaignId)
-                self.campaignRef.observe(DataEventType.value, with: { (snapshot) in
-                    let cDict = snapshot.value as? [String : AnyObject] ?? [:]
-                    
-                    self.txtCampaign.text = (cDict["name"] as? String)?.uppercased()
-                    self.txtPrefix.text = (cDict["plane"] as? String)?.uppercased()
-                    self.txtPlace.text = (cDict["place"] as? String)?.uppercased()
-                    
-                    self.campaign = Campaign()
-                    self.campaign.id = campaignId
-                    self.campaign.name = cDict["name"] as? String
-                    self.campaign.plane = cDict["plane"] as? String
-                    self.campaign.place = Place()
-                    self.campaign.place.title = cDict["place"] as? String
-                    
-                    firstly {
-                        DataAccess.instance.getPlace(cDict["placeId"] as! String)
-                    }.done { place in
-                        self.campaign.place = place
-                        
-                        firstly {
-                            DataAccess.instance.getImage(place.urls[0]["url"]!)
-                        }.done { data in
-                            self.campaign.place.pic1 = data
-                        }.catch { error in
-                            print(error)
-                        }
-                        
-                        firstly {
-                            DataAccess.instance.getImage(place.urls[1]["url"]!)
-                        }.done { data in
-                            self.campaign.place.pic2 = data
-                        }.catch { error in
-                            print(error)
-                        }
-                        
-                        firstly {
-                            DataAccess.instance.getImage(place.urls[2]["url"]!)
-                        }.done { data in
-                            self.campaign.place.pic3 = data
-                        }.catch { error in
-                            print(error)
-                        }
-                    }.catch { error in
-                        print(error)
-                        
-                        self.campaign.place = Place()
+                
+                self.campaignRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard let cDict = snapshot.value as? [String:Any] else {
+                        return
                     }
                     
-                    self.active = cDict["active"] as! Bool
+                    if self.campaign == nil {
+                        self.setCampaignData(campaignId, cDict)
+                    }
                     
-                    if self.active {
-                        let locDict = cDict["location"] as! [String : AnyObject]
-                        let newLat = locDict["latitude"] as! Double
-                        let newLon = locDict["longitude"] as! Double
-                        let newAlt = locDict["altitude"] as! Double
-                        
-                        print(locDict)
-                        print("---")
-                        
-                        self.position = CLLocationCoordinate2D(latitude: newLat, longitude: newLon)
-                        self.altitude = newAlt
-                        
-                        if let location = locDict["description"] as? String {
-                            self.location = location
+                    self.campaignRef.child("active").observe(.value, with: { (snapshot) in
+                        guard let active = snapshot.value as? Bool else {
+                            return
                         }
                         
-                        self.showPlane()
-                    } else {
-                        self.position = nil
-                    }
-                }) { (error) in
-                    print(error.localizedDescription)
-                }
+                        self.campaign.active = active
+                        
+                        if active {
+                            self.campaignRef.child("location").observe(.value, with: { snapshot in
+                                guard let locDict = snapshot.value as? [String:Any] else {
+                                    return
+                                }
+                                
+                                let newLat = locDict["latitude"] as! Double
+                                let newLon = locDict["longitude"] as! Double
+                                let newAlt = locDict["altitude"] as! Double
+                                
+                                let coordinate = CLLocationCoordinate2D(latitude: newLat, longitude: newLon)
+                                let visLocation = VisLocation()
+                                visLocation.coordinate = coordinate
+                                visLocation.altitude = newAlt
+                                
+                                if let location = locDict["description"] as? String {
+                                    visLocation.location = location
+                                }
+                                
+                                self.campaign.position = visLocation
+                                
+                                if self.posQueue == nil {
+                                    self.posQueue = Queue<VisLocation>()
+                                }
+                                
+                                self.posQueue.enqueue(visLocation)
+                                
+                                if self.timer == nil {
+                                    self.startTimer()
+                                }
+                            })
+                        } else {
+                            self.campaignRef.child("location").removeAllObservers()
+                        }
+                    })
+                })
             } else {
-                self.presentLargeAlert(self, { })
+                self.campaignRef.child("active").removeAllObservers()
+                self.campaignRef.child("location").removeAllObservers()
+                self.campaignRef.removeAllObservers()
+                
+                self.campaign = nil
             }
-        }) { (error) in
-            print(error.localizedDescription)
-        }
+        })
     }
     
-    private func showPlane() {
-        txtAltitude.text = String(format: "%.0fm", self.altitude)
-        txtLocation.text = self.location
+    private func clear() {
+        self.stopTimer()
         
-        //self.plane.isHidden = false
+        if self.campaign != nil {
+            self.campaign.position = nil
+        }
         
-        startTimer()
+        self.lastPosition = nil
+        
+        self.posQueue = nil
+        
+        self.imgPlane.alpha = 0
+        
+        self.centerMap()
+    }
+    
+    private func setCampaignData(_ campaignId: String, _ cDict: [String:Any]) {
+        self.txtCampaign.text = (cDict["name"] as? String)?.uppercased()
+        self.txtPrefix.text = (cDict["plane"] as? String)?.uppercased()
+        self.txtPlace.text = (cDict["place"] as? String)?.uppercased()
+        
+        self.campaign = Campaign()
+        self.campaign.id = campaignId
+        self.campaign.name = cDict["name"] as? String
+        self.campaign.plane = cDict["plane"] as? String
+        self.campaign.place = Place()
+        self.campaign.place.title = cDict["place"] as? String
+        
+        firstly {
+            DataAccess.instance.getPlace(cDict["placeId"] as! String)
+        }.done { place in
+            self.campaign.place = place
+            
+            firstly {
+                DataAccess.instance.getImage(place.urls[0]["url"]!)
+            }.done { data in
+                self.campaign.place.pic1 = data
+            }.catch { error in
+                print(error)
+            }
+            
+            firstly {
+                DataAccess.instance.getImage(place.urls[1]["url"]!)
+            }.done { data in
+                self.campaign.place.pic2 = data
+            }.catch { error in
+                print(error)
+            }
+            
+            firstly {
+                DataAccess.instance.getImage(place.urls[2]["url"]!)
+            }.done { data in
+                self.campaign.place.pic3 = data
+            }.catch { error in
+                print(error)
+            }
+        }.catch { error in
+            print(error)
+            
+            self.campaign.place = Place()
+        }
     }
     
     @objc func center() {
-        if self.position != nil {
-            camera.centerCoordinate = self.position
-            mapView.setCamera(camera, withDuration: 4, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut))
+        if self.campaign != nil && self.campaign.position != nil {
+            if self.distance < 1562500 {
+                self.distance *= 2.5
+            } else {
+                self.distance = 100 * 1000
+            }
+            
+            camera.altitude = self.distance
         } else {
-            setMapConfig()
+            self.centerMap()
         }
     }
     
-    func distance(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> CLLocationDistance {
-        let from = CLLocation(latitude: from.latitude, longitude: from.longitude)
-        let to = CLLocation(latitude: to.latitude, longitude: to.longitude)
-        return from.distance(from: to)
-    }
+    
 }
 

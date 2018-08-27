@@ -3,10 +3,10 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #2 in closure #1 in DataAccess.getPlace(_:):DataAccess.swift">
+         contextName = "closure #1 in MapController.mapViewDidFinishLoadingMap(_:):MapController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "response as! [[String:Any]]">
+               value = "">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -19,10 +19,34 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #2 in closure #1 in DataAccess.getUser():DataAccess.swift">
+         contextName = "closure #1 in MapController.listenPlaneLocation():MapController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "json[&quot;name&quot;]">
+               value = "snapshot.value!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapController.center():MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "mapView.zoomLevel">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in DataAccess.getPlace(_:):DataAccess.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "response as! [[String:Any]]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in LoginController.login():LoginController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = " AuthErrorCode(rawValue: error._code)!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -43,6 +67,22 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "MapController.mapView(_:viewFor:):MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "annotationView is MGLPointAnnotation">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in DataAccess.getUser():DataAccess.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "json[&quot;name&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "MapController.showPlane(latitude:longitude:):MapController.swift">
          <PersistentStrings>
             <PersistentString
@@ -51,34 +91,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in MapController.listenPlaneLocation():MapController.swift">
+         contextName = "closure #2 in closure #1 in MapController.listenCampaign():MapController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "snapshot.value!">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in MapController.mapViewDidFinishLoadingMap(_:):MapController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in LoginController.login():LoginController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = " AuthErrorCode(rawValue: error._code)!">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "MapController.mapView(_:viewFor:):MapController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "annotationView is MGLPointAnnotation">
+               value = "self.posQueue.list">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Visual no Ar. All rights reserved.
 //
 
-import Foundation
+import Mapbox
 
 class Campaign {
     var id: String!
@@ -16,4 +16,6 @@ class Campaign {
     var bandUrl: String!
     var band: Data!
     var place: Place!
+    var active: Bool!
+    var position: VisLocation!
 }
