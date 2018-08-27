@@ -92,6 +92,8 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 self.present(alert, animated: true)
             }
             
+            self.stopTimer()
+            
             return
         }
         
@@ -322,9 +324,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         })
     }
     
-    private func clear() {
-        self.stopTimer()
-        
+    private func clear() {        
         if self.campaign != nil {
             self.campaign.position = nil
         }
