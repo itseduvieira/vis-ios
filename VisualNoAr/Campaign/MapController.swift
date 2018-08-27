@@ -89,10 +89,10 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                     self.clear()
                 }))
                 
-                self.present(alert, animated: true)
+                self.present(alert, animated: true, completion: {
+                    self.stopTimer()
+                })
             }
-            
-            self.stopTimer()
             
             return
         }
@@ -110,6 +110,18 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         point.coordinate = nextLoc.coordinate
         
         if let lastPosition = self.lastPosition {
+            if(rotation > 90) {
+                let l1 = CLLocation(latitude: lastPosition.latitude, longitude: lastPosition.longitude)
+                let l2 = CLLocation(latitude: nextLoc.coordinate.latitude, longitude: nextLoc.coordinate.longitude)
+                let d = l1.distance(from: l2)
+                
+                if(d < 60) {
+                    print("[reject] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),rot:\(rotation),dist:\(d)")
+                    
+                    return
+                }
+            }
+            
             rotation = Double(lastPosition.bearingDegreesTo(location: nextLoc.coordinate))
             camera.centerCoordinate = nextLoc.coordinate
             camera.heading = rotation
@@ -324,7 +336,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         })
     }
     
-    private func clear() {        
+    private func clear() {
         if self.campaign != nil {
             self.campaign.position = nil
         }
