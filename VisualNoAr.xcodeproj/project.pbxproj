@@ -227,7 +227,7 @@
 				TargetAttributes = {
 					3445B58B1EBAC02E00B4C7CA = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = RH63VWYCHB;
+						DevelopmentTeam = GV5Z524V9X;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -483,12 +483,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = RH63VWYCHB;
+				DEVELOPMENT_TEAM = GV5Z524V9X;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/VisualNoAr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.visualnoar;
+				PRODUCT_BUNDLE_IDENTIFIER = app.visualnoar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -500,12 +500,12 @@
 			baseConfigurationReference = F91B8E07010A443762B27FD7 /* Pods-VisualNoAr.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = RH63VWYCHB;
+				DEVELOPMENT_TEAM = GV5Z524V9X;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/VisualNoAr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = br.com.visualnoar;
+				PRODUCT_BUNDLE_IDENTIFIER = app.visualnoar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

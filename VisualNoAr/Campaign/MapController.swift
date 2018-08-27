@@ -36,7 +36,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     var camera: MGLMapCamera!
     var posQueue: Queue<VisLocation>!
     var lastPosition: CLLocationCoordinate2D!
-    var distance: CLLocationDistance = 100 * 1000
+    var distance: CLLocationDistance = 90 * 1000
     
     var point: MGLPointAnnotation!
     
@@ -387,10 +387,10 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     
     @objc func center() {
         if self.campaign != nil && self.campaign.position != nil {
-            if self.distance < 1562500 {
-                self.distance *= 2.5
+            if self.distance < 720000 {
+                self.distance *= 2
             } else {
-                self.distance = 100 * 1000
+                self.distance = 90 * 1000
             }
             
             camera.altitude = self.distance
