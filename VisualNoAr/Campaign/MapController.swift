@@ -28,6 +28,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var navItem: UINavigationItem!
     @IBOutlet weak var imgPlane: UIImageView!
+    @IBOutlet weak var txtStatus: UILabel!
     
     let navigationDrawer = NavigationDrawer.sharedInstance
     
@@ -36,7 +37,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     var camera: MGLMapCamera!
     var posQueue: Queue<VisLocation>!
     var lastPosition: CLLocationCoordinate2D!
-    var distance: CLLocationDistance = 90 * 1000
+    var distance: CLLocationDistance = 10 * 1000
     
     var point: MGLPointAnnotation!
     
@@ -86,6 +87,8 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 let alert = UIAlertController(title: "Campanha Encerrada", message: "Sua campanha acabou de ser exibida com sucesso!", preferredStyle: .alert)
                 
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                    self.txtLocation.text = "Aguardando decolagem..."
+                    
                     self.clear()
                 }))
                 
@@ -100,7 +103,6 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         var rotation = 0.0
         mapView.setContentInset(UIEdgeInsetsMake(156, 0, 28, 0), animated: false)
         self.txtAltitude.text = String(format: "%.0fm", nextLoc.altitude)
-        self.txtLocation.text = nextLoc.location
         
         if point == nil {
             point = MGLPointAnnotation()
@@ -108,6 +110,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         }
         
         point.coordinate = nextLoc.coordinate
+        camera.pitch = 70
         
         if let lastPosition = self.lastPosition {
             if(rotation > 90) {
@@ -115,7 +118,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 let l2 = CLLocation(latitude: nextLoc.coordinate.latitude, longitude: nextLoc.coordinate.longitude)
                 let d = l1.distance(from: l2)
                 
-                if(d < 60) {
+                if(d < 40) {
                     print("[reject] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),rot:\(rotation),dist:\(d)")
                     
                     return
@@ -125,6 +128,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
             rotation = Double(lastPosition.bearingDegreesTo(location: nextLoc.coordinate))
             camera.centerCoordinate = nextLoc.coordinate
             camera.heading = rotation
+            
             mapView.setCamera(camera, withDuration: 2.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
         } else {
             self.camera.altitude = self.distance
@@ -133,6 +137,8 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
             UIView.animate(withDuration: 1) {
                 self.imgPlane.alpha = 1
             }
+            self.txtStatus.text = "Sobrevoando agora"
+            self.txtLocation.text = nextLoc.location == nil ? self.campaign.place.title : nextLoc.location
         }
         
         print("[ticking] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),rot:\(rotation)")
@@ -145,6 +151,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         
         stopTimer()
         
+        runTimedCode()
         timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
     }
     
@@ -205,16 +212,19 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     func setMapConfig() {
         self.mapView.isUserInteractionEnabled = false
         
-        self.centerMap()
+        self.centerMap(false)
         
         topInfoContainer.setRadius(radius: 3)
         imgStatus.backgroundColor = UIColor(hexString: "#00E08A")
         imgStatus.setRadius(radius: 5.5)
+        
+        txtStatus.text = "Status"
+        txtLocation.text = "Aguardando campanha..."
     }
     
-    func centerMap() {
+    func centerMap(_ navigate: Bool) {
         let coordinate = CLLocationCoordinate2D(latitude: -20.0, longitude: -47.8825)
-        camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 13000 * 1000, pitch: 0, heading: 0)
+        camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 13000 * 1000, pitch: navigate ? 70 : 0, heading: 0)
         
         self.mapView.fly(to: camera, withDuration: 2.5, completionHandler: {})
     }
@@ -224,7 +234,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         navBar.shadowImage = UIImage()
         let menuItem = UIBarButtonItem(image: UIImage(named: "IconMenu"), style: .plain,target: self, action: #selector(openMenu))
         navItem.leftBarButtonItem = menuItem
-        let placeItem = UIBarButtonItem(image: UIImage(named: "IconPlace"), style: .plain,target: self, action: #selector(center))
+        let placeItem = UIBarButtonItem(image: UIImage(named: "IconZoom"), style: .plain,target: self, action: #selector(center))
         navItem.rightBarButtonItem = placeItem
         
         if let company = UserDefaults.standard.string(forKey: "company") {
@@ -259,17 +269,6 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 
                 self.dismissLargeAlert()
                 
-                let storage = Storage.storage()
-                let refBand = storage.reference().child("campaigns/\(campaignId)/band.*")
-
-                refBand.getData(maxSize: 8 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        print(error)
-                    } else {
-                        self.campaign.band = data!
-                    }
-                }
-                
                 self.btnDetail.isEnabled = true
                 
                 self.campaignRef = Database.database().reference(withPath: "campaign").child(campaignId)
@@ -280,7 +279,13 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                     }
                     
                     if self.campaign == nil {
+                        self.txtStatus.text = "Status"
+                        self.txtLocation.text = "Obtendo dados da campanha..."
+                        
                         self.setCampaignData(campaignId, cDict)
+                        
+                        self.txtStatus.text = "Status"
+                        self.txtLocation.text = "Aguardando decolagem..."
                     }
                     
                     self.campaignRef.child("active").observe(.value, with: { (snapshot) in
@@ -347,7 +352,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         
         self.imgPlane.alpha = 0
         
-        self.centerMap()
+        self.centerMap(false)
     }
     
     private func setCampaignData(_ campaignId: String, _ cDict: [String:Any]) {
@@ -361,6 +366,17 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         self.campaign.plane = cDict["plane"] as? String
         self.campaign.place = Place()
         self.campaign.place.title = cDict["place"] as? String
+        
+        let storage = Storage.storage()
+        let refBand = storage.reference().child("campaigns/\(campaignId)/band.*")
+        
+        refBand.getData(maxSize: 8 * 1024 * 1024) { data, error in
+            if let error = error {
+                print(error)
+            } else {
+                self.campaign.band = data!
+            }
+        }
         
         firstly {
             DataAccess.instance.getPlace(cDict["placeId"] as! String)
@@ -399,18 +415,27 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     
     @objc func center() {
         if self.campaign != nil && self.campaign.position != nil {
-            if self.distance < 720000 {
-                self.distance *= 2
+            if self.distance < 80000 {
+                if self.distance > 40000 {
+                    self.navItem.rightBarButtonItem?.image = UIImage(named: "IconPlace")
+                }
+                
+                self.distance *= 2.1
             } else {
-                self.distance = 90 * 1000
+                self.navItem.rightBarButtonItem?.image = UIImage(named: "IconZoom")
+                
+                self.distance = 10 * 1000
             }
             
             camera.altitude = self.distance
+            camera.pitch = 70
+            
+            if self.posQueue == nil || self.posQueue.isEmpty {
+                mapView.setCamera(camera, withDuration: 1.8, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
+            }
         } else {
-            self.centerMap()
+            self.centerMap(false)
         }
     }
-    
-    
 }
 

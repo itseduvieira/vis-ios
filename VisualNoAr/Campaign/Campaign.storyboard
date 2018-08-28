@@ -388,6 +388,7 @@
                         <outlet property="txtLocation" destination="jLY-z7-M8c" id="psy-4u-ywF"/>
                         <outlet property="txtPlace" destination="WrR-IA-Jmq" id="U7a-3B-YAP"/>
                         <outlet property="txtPrefix" destination="17m-Im-wKc" id="W5V-Jc-Nbf"/>
+                        <outlet property="txtStatus" destination="MnV-30-YUh" id="7Dj-1L-xBL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AYi-iz-6yk" userLabel="First Responder" sceneMemberID="firstResponder"/>
