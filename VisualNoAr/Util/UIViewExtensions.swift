@@ -146,9 +146,11 @@ extension UIViewController {
         customAlert.dismiss = dismiss
         
         let screen = UIScreen.main.bounds
-        customAlert.width.constant = screen.width - 32
-        customAlert.height.constant = screen.height - 54
+        customAlert.width.constant = screen.width - 30
+        customAlert.height.constant = screen.height - 48
         customAlert.center = CGPoint(x: screen.midX, y: screen.midY)
+        
+        customAlert.btnHistory.setRadius(radius: 22)
         
         self.view.addSubview(customAlert)
         

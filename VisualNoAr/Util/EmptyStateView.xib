@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,22 +20,18 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tNz-WJ-YMS">
                     <rect key="frame" x="26" y="46" width="323" height="595"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Plane" translatesAutoresizingMaskIntoConstraints="NO" id="LOF-gJ-fVF">
-                            <rect key="frame" x="91" y="224" width="141" height="80"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="80" id="KXd-FN-bVk"/>
-                                <constraint firstAttribute="width" constant="141" id="ac1-KG-YRB"/>
-                            </constraints>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IconEmptyBackground" translatesAutoresizingMaskIntoConstraints="NO" id="LOF-gJ-fVF">
+                            <rect key="frame" x="0.0" y="0.0" width="323" height="327.5"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cfp-Ud-Le5">
-                            <rect key="frame" x="89" y="457" width="144" height="44"/>
+                            <rect key="frame" x="71" y="517" width="180" height="44"/>
                             <color key="backgroundColor" red="0.0" green="0.72941176470000002" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="Em8-hd-Q4X"/>
-                                <constraint firstAttribute="width" constant="144" id="k22-4j-QeE"/>
+                                <constraint firstAttribute="width" constant="180" id="k22-4j-QeE"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
-                            <state key="normal" title="TESTE">
+                            <state key="normal" title="MINHAS CAMPANHAS">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -42,13 +39,13 @@
                             </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VISUAL NO AR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wy1-hN-fxj">
-                            <rect key="frame" x="66" y="337" width="191" height="33"/>
+                            <rect key="frame" x="66" y="361.5" width="191" height="33"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="28"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Acompanhe suas campanhas em tempo real" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4wW-P7-egU">
-                            <rect key="frame" x="45" y="380" width="232" height="51"/>
+                            <rect key="frame" x="45" y="408.5" width="232" height="51"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="232" id="C4o-24-jdy"/>
                                 <constraint firstAttribute="height" constant="51" id="jun-Rt-Uj7"/>
@@ -60,14 +57,17 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="4wW-P7-egU" firstAttribute="top" secondItem="Wy1-hN-fxj" secondAttribute="bottom" constant="10" id="6mw-Ag-iLR"/>
+                        <constraint firstItem="LOF-gJ-fVF" firstAttribute="height" secondItem="tNz-WJ-YMS" secondAttribute="height" multiplier="0.55" id="4KA-fD-jKx"/>
+                        <constraint firstItem="4wW-P7-egU" firstAttribute="top" secondItem="Wy1-hN-fxj" secondAttribute="bottom" constant="14" id="6mw-Ag-iLR"/>
+                        <constraint firstAttribute="bottom" secondItem="cfp-Ud-Le5" secondAttribute="bottom" constant="34" id="7jp-JW-ojk"/>
                         <constraint firstAttribute="height" constant="595" id="9P1-Xv-xkk"/>
                         <constraint firstItem="Wy1-hN-fxj" firstAttribute="centerX" secondItem="tNz-WJ-YMS" secondAttribute="centerX" id="DDB-Ky-cfN"/>
+                        <constraint firstItem="LOF-gJ-fVF" firstAttribute="leading" secondItem="tNz-WJ-YMS" secondAttribute="leading" id="LDQ-5E-7Z2"/>
                         <constraint firstItem="4wW-P7-egU" firstAttribute="centerX" secondItem="tNz-WJ-YMS" secondAttribute="centerX" id="OG1-CB-7FF"/>
                         <constraint firstAttribute="width" constant="323" id="Rlh-p1-thy"/>
-                        <constraint firstItem="cfp-Ud-Le5" firstAttribute="top" secondItem="4wW-P7-egU" secondAttribute="bottom" constant="26" id="VyB-mc-XSf"/>
-                        <constraint firstAttribute="bottom" secondItem="cfp-Ud-Le5" secondAttribute="bottom" constant="94" id="hYd-Ny-ehe"/>
-                        <constraint firstItem="Wy1-hN-fxj" firstAttribute="top" secondItem="LOF-gJ-fVF" secondAttribute="bottom" constant="33" id="n0a-FK-M1e"/>
+                        <constraint firstItem="Wy1-hN-fxj" firstAttribute="top" secondItem="LOF-gJ-fVF" secondAttribute="bottom" constant="34" id="USo-3e-XdW"/>
+                        <constraint firstItem="LOF-gJ-fVF" firstAttribute="top" secondItem="tNz-WJ-YMS" secondAttribute="top" id="aT3-fw-8mv"/>
+                        <constraint firstAttribute="trailing" secondItem="LOF-gJ-fVF" secondAttribute="trailing" id="rBM-Qy-cSk"/>
                         <constraint firstItem="LOF-gJ-fVF" firstAttribute="centerX" secondItem="tNz-WJ-YMS" secondAttribute="centerX" id="tt2-kF-NP4"/>
                         <constraint firstItem="cfp-Ud-Le5" firstAttribute="centerX" secondItem="tNz-WJ-YMS" secondAttribute="centerX" id="wjg-IU-dXc"/>
                     </constraints>
@@ -80,6 +80,7 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="btnHistory" destination="cfp-Ud-Le5" id="zo3-YN-HKU"/>
                 <outlet property="container" destination="tNz-WJ-YMS" id="2Je-QJ-1yn"/>
                 <outlet property="height" destination="9P1-Xv-xkk" id="Ork-8z-0Mg"/>
                 <outlet property="width" destination="Rlh-p1-thy" id="NJN-lg-xQI"/>
@@ -88,6 +89,6 @@
         </view>
     </objects>
     <resources>
-        <image name="Plane" width="78" height="78"/>
+        <image name="IconEmptyBackground" width="1024" height="768"/>
     </resources>
 </document>
