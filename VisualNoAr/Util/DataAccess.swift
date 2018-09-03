@@ -24,6 +24,29 @@ class DataAccess {
         sessionManager.retrier = VnaRetryHandler()
     }
     
+    private func createExtRequest(_ path: String, method: HTTPMethod, parameters: Parameters) -> Promise<Any> {
+        let headers = [
+            "Accept": "application/json"
+        ]
+        
+        let fullUrl = "\(url)/\(path)"
+        
+        print("\(String(method.rawValue)) \(fullUrl)")
+        
+        return Promise { seal in
+            firstly {
+                sessionManager.request(fullUrl, method: method, parameters: parameters, encoding: URLEncoding.default, headers: headers).responseJSON()
+                }.done { (json, response) in
+                    
+                    seal.fulfill(json)
+                }.catch { error in
+                    print("ERR \(String(method.rawValue)) \(fullUrl)")
+                    
+                    seal.reject(error)
+            }
+        }
+    }
+    
     private func createRequest(_ path: String, method: HTTPMethod, parameters: Parameters) -> Promise<Any> {
         let headers = [
             "Authorization": "Bearer \(Auth.auth().currentUser!.uid)",
@@ -110,6 +133,22 @@ class DataAccess {
                 place.urls = json["urls"] as! [[String:String]]
                 
                 seal.fulfill(place)
+            }.catch { error in
+                seal.reject(error)
+            }
+        }
+    }
+    
+    func sendForgotPassword(_ email: String) -> Promise<Void> {
+        let parameters: Parameters = [
+            "email": email
+        ]
+        
+        return Promise { seal in
+            firstly {
+                createExtRequest("users/forgot", method: .post, parameters: parameters)
+            }.done { response in
+                seal.fulfill(())
             }.catch { error in
                 seal.reject(error)
             }

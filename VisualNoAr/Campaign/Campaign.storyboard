@@ -12,14 +12,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--LoginViewController-->
-        <scene sceneID="V9u-yB-Nvl">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="LoginViewController" id="f9H-lz-Lbh" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mBF-6g-iJX" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="612" y="-396"/>
-        </scene>
         <!--Drawer Menu Controller-->
         <scene sceneID="Tvc-xa-Yo3">
             <objects>
@@ -92,7 +84,6 @@
                         <outlet property="tableView" destination="AvO-sd-HqW" id="Kl3-S5-F8v"/>
                         <outlet property="txtEmail" destination="ERg-qQ-CN3" id="Lap-dV-201"/>
                         <outlet property="txtName" destination="7Zs-9V-4am" id="cdH-uL-ZWE"/>
-                        <segue destination="f9H-lz-Lbh" kind="show" identifier="SegueMenuToLogin" id="Uy5-kb-Rma"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lht-as-bxu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -560,7 +551,7 @@
                                                     <constraint firstItem="kc9-Qp-Nkd" firstAttribute="leading" secondItem="zpv-uD-R47" secondAttribute="leading" constant="8" id="xXt-RB-IiS"/>
                                                 </constraints>
                                             </view>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Empty" translatesAutoresizingMaskIntoConstraints="NO" id="62r-Iq-UqH">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Empty" translatesAutoresizingMaskIntoConstraints="NO" id="62r-Iq-UqH">
                                                 <rect key="frame" x="4" y="297.5" width="367" height="60"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="YAt-Ec-v0s"/>
@@ -641,6 +632,9 @@
                         <outlet property="imgPic3" destination="raZ-Ly-Ikj" id="E25-Mi-Epb"/>
                         <outlet property="txtCompany" destination="eer-WS-Niv" id="ATE-c6-Sfc"/>
                         <outlet property="txtName" destination="eGl-jh-eXU" id="XKd-y8-bCf"/>
+                        <outlet property="txtPic1" destination="axX-15-HaF" id="F8N-qm-RcV"/>
+                        <outlet property="txtPic2" destination="PBN-To-sqM" id="2Qr-jB-3bI"/>
+                        <outlet property="txtPic3" destination="j7X-5q-VU0" id="Rnq-0c-DJo"/>
                         <outlet property="txtPlace" destination="oTD-5z-sqG" id="ErB-BK-RxW"/>
                         <outlet property="txtPlane" destination="jbM-hh-zXo" id="nOZ-P1-ecq"/>
                         <segue destination="awe-Nc-BL6" kind="unwind" identifier="SegueUnwindToMap" customClass="UIStoryboardUnwindSegueFromRight" customModule="VisualNoAr" customModuleProvider="target" unwindAction="unwindToMapWithSegue:" id="iCk-Xe-Oc5"/>
@@ -650,6 +644,55 @@
                 <exit id="awe-Nc-BL6" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1420" y="-21.139430284857571"/>
+        </scene>
+        <!--History Controller-->
+        <scene sceneID="2be-mB-myR">
+            <objects>
+                <viewController storyboardIdentifier="HistoryViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Vze-LA-A6b" customClass="HistoryController" customModule="VisualNoAr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8Zr-DH-4Nc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="owb-SE-OQs">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                                <color key="backgroundColor" red="0.0" green="0.72941176470000002" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="alp-ff-e38"/>
+                                </constraints>
+                            </view>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vV0-5w-cUo">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Mz3-5k-3O6"/>
+                                </constraints>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Minhas Campanhas" id="96d-3R-o9r"/>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="owb-SE-OQs" firstAttribute="trailing" secondItem="bO5-xA-4Z7" secondAttribute="trailing" id="1KT-jC-WlR"/>
+                            <constraint firstItem="vV0-5w-cUo" firstAttribute="top" secondItem="8Zr-DH-4Nc" secondAttribute="top" constant="20" id="CGE-tt-ICd"/>
+                            <constraint firstItem="owb-SE-OQs" firstAttribute="leading" secondItem="bO5-xA-4Z7" secondAttribute="leading" id="IfD-NH-2sM"/>
+                            <constraint firstAttribute="top" secondItem="owb-SE-OQs" secondAttribute="top" id="Pr1-bN-i1g"/>
+                            <constraint firstItem="vV0-5w-cUo" firstAttribute="trailing" secondItem="bO5-xA-4Z7" secondAttribute="trailing" id="cqI-4e-NeJ"/>
+                            <constraint firstItem="vV0-5w-cUo" firstAttribute="leading" secondItem="bO5-xA-4Z7" secondAttribute="leading" id="vzu-Rd-ZTd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bO5-xA-4Z7"/>
+                    </view>
+                    <connections>
+                        <outlet property="navBar" destination="vV0-5w-cUo" id="50e-r8-rNR"/>
+                        <outlet property="navItem" destination="96d-3R-o9r" id="JRg-IC-IhQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kjm-xl-AlB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1420" y="-818"/>
         </scene>
     </scenes>
     <resources>

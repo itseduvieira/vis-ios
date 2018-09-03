@@ -49,10 +49,17 @@ class DrawerMenuController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         NavigationDrawer.sharedInstance.toggleNavigationDrawer { () -> Void in
+            tableView.deselectRow(at: indexPath, animated: true)
+            
             switch indexPath.row {
             case 0:
-                
-                print("case 0")
+                               
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "HistoryViewController") as! HistoryController
+                self.present(vc, animated: true, completion: {
+                    self.willMove(toParentViewController: nil)
+                    self.view.removeFromSuperview()
+                    self.removeFromParentViewController()
+                })
                 
                 break
             case 1:
@@ -62,9 +69,13 @@ class DrawerMenuController: UIViewController, UITableViewDataSource, UITableView
                     print("Error at signOut")
                 }
                 
-                DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "SegueMenuToLogin", sender: self)
-                }
+                let storyboard = UIStoryboard.init(name: "Main", bundle: Bundle.main)
+                let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginController
+                self.present(vc, animated: true, completion: {
+                    self.willMove(toParentViewController: nil)
+                    self.view.removeFromSuperview()
+                    self.removeFromParentViewController()
+                })
                 
                 break
             default:

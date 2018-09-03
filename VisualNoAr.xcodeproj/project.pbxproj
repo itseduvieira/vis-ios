@@ -25,8 +25,10 @@
 		3477E90021293BA800B0E5F1 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3477E8FF21293BA800B0E5F1 /* EmptyStateView.swift */; };
 		347F019B212A36A800E38ACF /* DataAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347F019A212A36A800E38ACF /* DataAccess.swift */; };
 		347F019D212A734300E38ACF /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347F019C212A734300E38ACF /* Place.swift */; };
+		348FF9C2213C7D36005A6328 /* ForgotController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348FF9C1213C7D36005A6328 /* ForgotController.swift */; };
 		3494BA5E1F7044D800F0B8FE /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3494BA5D1F7044D800F0B8FE /* PageController.swift */; };
 		349B65101F5E3A5400867E3E /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349B650F1F5E3A5400867E3E /* DetailController.swift */; };
+		349D9F7C213C44B600449EE3 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349D9F7B213C44B600449EE3 /* HistoryController.swift */; };
 		34A5851E1F709BA1006E05E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34A5851D1F709BA1006E05E6 /* Assets.xcassets */; };
 		34A585201F70B3F6006E05E6 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 34A5851F1F70B3F6006E05E6 /* Podfile */; };
 		34AF6E172131932B00C6F0F1 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AF6E162131932B00C6F0F1 /* Queue.swift */; };
@@ -60,8 +62,10 @@
 		3477E8FF21293BA800B0E5F1 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		347F019A212A36A800E38ACF /* DataAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAccess.swift; sourceTree = "<group>"; };
 		347F019C212A734300E38ACF /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		348FF9C1213C7D36005A6328 /* ForgotController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotController.swift; sourceTree = "<group>"; };
 		3494BA5D1F7044D800F0B8FE /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		349B650F1F5E3A5400867E3E /* DetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
+		349D9F7B213C44B600449EE3 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
 		34A5851D1F709BA1006E05E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		34A5851F1F70B3F6006E05E6 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		34AF6E162131932B00C6F0F1 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
@@ -95,6 +99,7 @@
 				3445B5911EBAC02F00B4C7CA /* LoginController.swift */,
 				340D72E61F47FFBB00425434 /* TutorialController.swift */,
 				3494BA5D1F7044D800F0B8FE /* PageController.swift */,
+				348FF9C1213C7D36005A6328 /* ForgotController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -106,6 +111,7 @@
 				340D72E81F48034800425434 /* MapController.swift */,
 				349B650F1F5E3A5400867E3E /* DetailController.swift */,
 				34F938952127512900766310 /* DrawerMenuController.swift */,
+				349D9F7B213C44B600449EE3 /* HistoryController.swift */,
 			);
 			path = Campaign;
 			sourceTree = "<group>";
@@ -349,12 +355,14 @@
 				34E9DBD12127309B0017BB11 /* MyMapbox.swift in Sources */,
 				34D87C3B1F47DC7200CCEC9E /* UIViewExtensions.swift in Sources */,
 				341C99B91F7182920017BFE1 /* UIStoryboardSegueSlide.swift in Sources */,
+				349D9F7C213C44B600449EE3 /* HistoryController.swift in Sources */,
 				34EEC0321F8000C2002FC0B6 /* Credentials.swift in Sources */,
 				340D72E71F47FFBB00425434 /* TutorialController.swift in Sources */,
 				343E3EF3210CB89900A5E9F3 /* CustomAlertLoadingView.swift in Sources */,
 				3477E8FB2128D79700B0E5F1 /* NavigationDrawerOptions.swift in Sources */,
 				340D72E91F48034800425434 /* MapController.swift in Sources */,
 				34AF6E1921339FD500C6F0F1 /* VisLocation.swift in Sources */,
+				348FF9C2213C7D36005A6328 /* ForgotController.swift in Sources */,
 				3494BA5E1F7044D800F0B8FE /* PageController.swift in Sources */,
 				34F938962127512900766310 /* DrawerMenuController.swift in Sources */,
 				346CF64D210D098100C01290 /* Campaign.swift in Sources */,

@@ -138,8 +138,9 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 self.imgPlane.alpha = 1
             }
             self.txtStatus.text = "Sobrevoando agora"
-            self.txtLocation.text = nextLoc.location == nil ? self.campaign.place.title : nextLoc.location
         }
+        
+        self.txtLocation.text = nextLoc.location == nil ? self.campaign.place.title : nextLoc.location
         
         print("[ticking] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),rot:\(rotation)")
         
@@ -332,9 +333,13 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                     })
                 })
             } else {
-                self.campaignRef.child("active").removeAllObservers()
-                self.campaignRef.child("location").removeAllObservers()
-                self.campaignRef.removeAllObservers()
+                if self.campaignRef != nil {
+                    self.campaignRef.child("active").removeAllObservers()
+                    self.campaignRef.child("location").removeAllObservers()
+                    self.campaignRef.removeAllObservers()
+                }
+                
+                self.presentLargeAlert(self, {})
                 
                 self.campaign = nil
             }
@@ -366,9 +371,10 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         self.campaign.plane = cDict["plane"] as? String
         self.campaign.place = Place()
         self.campaign.place.title = cDict["place"] as? String
+        self.campaign.bandName = cDict["band"] as? String
         
         let storage = Storage.storage()
-        let refBand = storage.reference().child("campaigns/\(campaignId)/band.*")
+        let refBand = storage.reference().child("campaigns/\(campaignId)/\(campaign.bandName!)")
         
         refBand.getData(maxSize: 8 * 1024 * 1024) { data, error in
             if let error = error {

@@ -13,7 +13,7 @@ class Campaign {
     var name: String!
     var plane: String!
     var color: String!
-    var bandUrl: String!
+    var bandName: String!
     var band: Data!
     var place: Place!
     var active: Bool!

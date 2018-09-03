@@ -19,6 +19,8 @@ class LoginController: UIViewController {
     @IBOutlet weak var background: UIImageView!
     @IBOutlet weak var controls: UIView!
     
+    @IBAction func unwindToLogin(segue: UIStoryboardSegue) {}
+    
     //MARK: Actions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,6 +134,19 @@ class LoginController: UIViewController {
             print(error)
             
             self.goToNextScene()
+        }
+    }
+    
+    @IBAction func goToForgot() {
+        self.performSegue(withIdentifier: "SegueLoginToForgot", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SegueLoginToForgot" {
+            let destination = segue.destination as! ForgotController
+            if let email = txtEmail.text {
+                destination.email = email
+            }
         }
     }
 }

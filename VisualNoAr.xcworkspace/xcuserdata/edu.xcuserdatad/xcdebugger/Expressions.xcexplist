@@ -19,10 +19,32 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "NavigationDrawer.initialize(forViewController:):NavigationDrawer.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "options.anchorView = viewController.view">
+            </PersistentString>
+            <PersistentString
+               value = "viewController.view">
+            </PersistentString>
+            <PersistentString
+               value = "options.anchorView">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in MapController.listenPlaneLocation():MapController.swift">
          <PersistentStrings>
             <PersistentString
                value = "snapshot.value!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "NavigationDrawer.toggleNavigationDrawer(completionHandler:):NavigationDrawer.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.options.anchorView!.subviews">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -39,6 +61,14 @@
          <PersistentStrings>
             <PersistentString
                value = "response as! [[String:Any]]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in MapController.listenCampaign():MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.campaignRef">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
