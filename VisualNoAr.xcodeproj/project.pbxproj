@@ -62,6 +62,7 @@
 		3477E8FF21293BA800B0E5F1 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		347F019A212A36A800E38ACF /* DataAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAccess.swift; sourceTree = "<group>"; };
 		347F019C212A734300E38ACF /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		3489A553213F24180083E961 /* VisualNoAr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VisualNoAr.entitlements; sourceTree = "<group>"; };
 		348FF9C1213C7D36005A6328 /* ForgotController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotController.swift; sourceTree = "<group>"; };
 		3494BA5D1F7044D800F0B8FE /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 		349B650F1F5E3A5400867E3E /* DetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
@@ -157,6 +158,7 @@
 		3445B58E1EBAC02F00B4C7CA /* VisualNoAr */ = {
 			isa = PBXGroup;
 			children = (
+				3489A553213F24180083E961 /* VisualNoAr.entitlements */,
 				34EEC0301F8000A2002FC0B6 /* Model */,
 				341C99B71F71826B0017BFE1 /* Util */,
 				340D72E51F47FEF000425434 /* Campaign */,
@@ -235,6 +237,14 @@
 						CreatedOnToolsVersion = 8.3.2;
 						DevelopmentTeam = GV5Z524V9X;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -283,25 +293,25 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-VisualNoAr/Pods-VisualNoAr-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework",
 				"${PODS_ROOT}/Mapbox-iOS-SDK/dynamic/Mapbox.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/MapboxGeocoder.swift/MapboxGeocoder.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/Mapbox.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MapboxGeocoder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,6 +500,7 @@
 			baseConfigurationReference = B159C955CEC692D89B2F1F34 /* Pods-VisualNoAr.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VisualNoAr/VisualNoAr.entitlements;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = GV5Z524V9X;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -508,6 +519,7 @@
 			baseConfigurationReference = F91B8E07010A443762B27FD7 /* Pods-VisualNoAr.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VisualNoAr/VisualNoAr.entitlements;
 				DEVELOPMENT_TEAM = GV5Z524V9X;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";

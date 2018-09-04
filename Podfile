@@ -12,4 +12,5 @@ target 'VisualNoAr' do
     pod 'Crashlytics', '~> 3.10.5'
     pod 'Alamofire', '~> 4.7'
     pod 'PromiseKit/Alamofire', '~> 6.0'
+    pod 'Firebase/Messaging'
 end

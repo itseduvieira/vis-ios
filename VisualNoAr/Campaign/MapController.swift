@@ -83,6 +83,8 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 self.presentLargeAlert(self, {
                     self.clear()
                 })
+                
+                self.btnDetail.isEnabled = false
             } else if !campaign.active {
                 let alert = UIAlertController(title: "Campanha Encerrada", message: "Sua campanha acabou de ser exibida com sucesso!", preferredStyle: .alert)
                 
@@ -262,14 +264,13 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     func listenCampaign() {
         let user = Auth.auth().currentUser
         userRef = Database.database().reference(withPath: "user").child(user!.uid)
-        userRef.observe(DataEventType.value, with: { (snapshot) in
+        userRef.observe(.value, with: { snapshot in
             if let child = snapshot.value as? [String:Any] {
                 guard let campaignId = child["campaign"] as? String else {
                     return
                 }
                 
                 self.dismissLargeAlert()
-                
                 self.btnDetail.isEnabled = true
                 
                 self.campaignRef = Database.database().reference(withPath: "campaign").child(campaignId)
@@ -340,6 +341,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 }
                 
                 self.presentLargeAlert(self, {})
+                self.btnDetail.isEnabled = false
                 
                 self.campaign = nil
             }

@@ -35,12 +35,12 @@ class LoginController: UIViewController {
         UIView.animate(withDuration: 1.5, animations: {
             self.background.alpha = 0.4
         })
+        
+        self.checkAndFillSavedCredentials()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        self.checkAndFillSavedCredentials()
         
         if Auth.auth().currentUser != nil {
             self.presentAlert()
