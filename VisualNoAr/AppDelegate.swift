@@ -34,9 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             application.registerUserNotificationSettings(settings)
         }
         
-        FirebaseApp.configure()
-        
         application.registerForRemoteNotifications()
+        
+        FirebaseApp.configure()
         
         Fabric.sharedSDK().debug = true
         
