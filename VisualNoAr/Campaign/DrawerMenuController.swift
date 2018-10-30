@@ -15,6 +15,7 @@ class DrawerMenuController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var txtName: UILabel!
     @IBOutlet weak var txtEmail: UILabel!
     
+    let icon = [ "IconPlane", "IconExit" ]
     let menu = [ "Minhas Campanhas", "Sair" ]
     
     override func viewDidLoad() {
@@ -30,8 +31,6 @@ class DrawerMenuController: UIViewController, UITableViewDataSource, UITableView
         if let email = UserDefaults.standard.string(forKey: "username") {
             txtEmail.text = email
         }
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -41,8 +40,13 @@ class DrawerMenuController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         
-        cell?.textLabel?.font = UIFont.systemFont(ofSize: 15)
-        cell?.textLabel?.text = menu[indexPath.row]
+        if let label = cell?.viewWithTag(10) as? UILabel {
+            label.text = menu[indexPath.row]
+        }
+        
+        if let img = cell?.viewWithTag(20) as? UIImageView {
+            img.image = UIImage(named: icon[indexPath.row])
+        }
         
         return cell!
     }
