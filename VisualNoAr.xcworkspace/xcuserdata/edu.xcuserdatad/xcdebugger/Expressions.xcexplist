@@ -3,10 +3,10 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #1 in MapController.mapViewDidFinishLoadingMap(_:):MapController.swift">
+         contextName = "closure #2 in closure #1 in MapController.listenCampaign():MapController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "">
+               value = "self.posQueue.list">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -22,13 +22,13 @@
          contextName = "NavigationDrawer.initialize(forViewController:):NavigationDrawer.swift">
          <PersistentStrings>
             <PersistentString
-               value = "options.anchorView = viewController.view">
+               value = "options.anchorView">
             </PersistentString>
             <PersistentString
                value = "viewController.view">
             </PersistentString>
             <PersistentString
-               value = "options.anchorView">
+               value = "options.anchorView = viewController.view">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -49,6 +49,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in MapController.listenCampaign():MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.campaignRef">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "MapController.center():MapController.swift">
          <PersistentStrings>
             <PersistentString
@@ -61,14 +69,6 @@
          <PersistentStrings>
             <PersistentString
                value = "response as! [[String:Any]]">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in MapController.listenCampaign():MapController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.campaignRef">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -113,6 +113,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #2 in closure #1 in DataAccess.listCampaigns():DataAccess.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "jsonCampaign[&quot;plane&quot;] as? [String:Any]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "MapController.showPlane(latitude:longitude:):MapController.swift">
          <PersistentStrings>
             <PersistentString
@@ -121,10 +129,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #2 in closure #1 in MapController.listenCampaign():MapController.swift">
+         contextName = "closure #1 in MapController.mapViewDidFinishLoadingMap(_:):MapController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.posQueue.list">
+               value = "">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
