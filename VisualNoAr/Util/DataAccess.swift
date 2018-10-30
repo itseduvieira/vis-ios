@@ -110,7 +110,6 @@ class DataAccess {
                 
                 let company = json["company"] as! [String: Any]
                 UserDefaults.standard.set(company["name"] as! String, forKey: "company")
-                UserDefaults.standard.set(company["_id"] as! String, forKey: "companyId")
                 
                 seal.fulfill(())
             }.catch { error in
@@ -129,50 +128,11 @@ class DataAccess {
                 }
                 
                 let place = Place()
-                place.title = json["title"] as? String
-                place.locations = json["locations"] as? [String]
-                place.urls = json["urls"] as? [[String:String]]
+                place.title = json["title"] as! String
+                place.locations = json["locations"] as! [String]
+                place.urls = json["urls"] as! [[String:String]]
                 
                 seal.fulfill(place)
-            }.catch { error in
-                seal.reject(error)
-            }
-        }
-    }
-    
-    func listCampaigns() -> Promise<[Campaign]> {
-        guard let companyId = UserDefaults.standard.string(forKey: "companyId") else {
-            return Promise(error: PromiseErrors.general)
-        }
-        
-        return Promise { seal in
-            firstly {
-                createRequest("campaigns/company/\(companyId)", method: .get)
-            }.done { response in
-                guard let json = response as? [[String: Any]] else {
-                    return seal.reject(AFError.responseValidationFailed(reason: .dataFileNil))
-                }
-                
-                var campaigns: [Campaign] = []
-                
-                for jsonCampaign in json {
-                    let campaign = Campaign()
-                    campaign.name = jsonCampaign["name"] as? String
-                    
-                    if let place = jsonCampaign["place"] as? [String:Any] {
-                        campaign.place = Place()
-                        campaign.place.title = place["title"] as? String
-                        campaign.place.urls = place["urls"] as? [[String:String]]
-                    }
-                    
-                    if let jsonPlane = jsonCampaign["plane"] as? [String:Any] {
-                        campaign.plane = jsonPlane["prefix"] as? String
-                    }
-                    
-                    campaigns.append(campaign)
-                }
-                
-                seal.fulfill(campaigns)
             }.catch { error in
                 seal.reject(error)
             }
@@ -209,8 +169,4 @@ class VnaRetryHandler: RequestRetrier {
             completion(false, 0.0) // don't retry
         }
     }
-}
-
-enum PromiseErrors: Error {
-    case general
 }
