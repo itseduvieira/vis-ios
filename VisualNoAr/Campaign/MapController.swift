@@ -37,7 +37,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     var camera: MGLMapCamera!
     var posQueue: Queue<VisLocation>!
     var lastPosition: CLLocationCoordinate2D!
-    var distance: CLLocationDistance = 5 * 1000
+    var distance: CLLocationDistance = 1000
     
     var point: MGLPointAnnotation!
     
@@ -125,12 +125,12 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 if(d < 20) {
                     print("[reject] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),rot:\(rotation),dist:\(d)")
                     
-                    return
+                    //return
                 }
             }
             
             camera.centerCoordinate = nextLoc.coordinate
-            camera.heading = rotation
+            //camera.heading = rotation
             
             mapView.setCamera(camera, withDuration: 2, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
         } else {
@@ -145,7 +145,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         
         self.txtLocation.text = nextLoc.location == nil ? self.txtLocation.text : nextLoc.location
         
-//        print("[dequeue] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),rot:\(rotation)")
+        print("[dequeue] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),rot:\(rotation)")
         
         lastPosition = nextLoc.coordinate
     }
@@ -338,7 +338,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                                     self.posQueue = Queue<VisLocation>()
                                 }
                                 
-                                //print("[enqueue] lat:\(visLocation.coordinate.latitude),lon:\(visLocation.coordinate.longitude),loc:\(visLocation.location ?? "nil")")
+                                print("[enqueue] lat:\(visLocation.coordinate.latitude),lon:\(visLocation.coordinate.longitude),loc:\(visLocation.location ?? "nil")")
                                 self.posQueue.enqueue(visLocation)
                                 
                                 if self.timer == nil {
@@ -449,7 +449,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
             } else {
                 self.navItem.rightBarButtonItem?.image = UIImage(named: "IconZoom")
                 
-                self.distance = 5 * 1000
+                self.distance = 1000
             }
             
             camera.altitude = self.distance
