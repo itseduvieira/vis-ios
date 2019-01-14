@@ -3,10 +3,10 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #2 in closure #1 in MapController.listenCampaign():MapController.swift">
+         contextName = "MapController.mapView(_:shouldChangeFrom:to:):MapController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.posQueue.list">
+               value = "newCamera.altitude">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -19,13 +19,29 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #2 in closure #1 in MapController.listenCampaign():MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.posQueue.list">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapController.applyNewCoordinates(_:):MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "NavigationDrawer.initialize(forViewController:):NavigationDrawer.swift">
          <PersistentStrings>
             <PersistentString
-               value = "options.anchorView">
+               value = "viewController.view">
             </PersistentString>
             <PersistentString
-               value = "viewController.view">
+               value = "options.anchorView">
             </PersistentString>
             <PersistentString
                value = "options.anchorView = viewController.view">
@@ -49,6 +65,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #2 in closure #1 in DataAccess.getPlace(_:):DataAccess.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "response as! [[String:Any]]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in MapController.listenCampaign():MapController.swift">
          <PersistentStrings>
             <PersistentString
@@ -61,14 +85,6 @@
          <PersistentStrings>
             <PersistentString
                value = "mapView.zoomLevel">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #2 in closure #1 in DataAccess.getPlace(_:):DataAccess.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "response as! [[String:Any]]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

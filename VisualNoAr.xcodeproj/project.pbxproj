@@ -16,7 +16,6 @@
 		3441B73C1F5E6722008935D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3441B73A1F5E6661008935D0 /* Main.storyboard */; };
 		3445B5901EBAC02F00B4C7CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3445B58F1EBAC02F00B4C7CA /* AppDelegate.swift */; };
 		3445B5921EBAC02F00B4C7CA /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3445B5911EBAC02F00B4C7CA /* LoginController.swift */; };
-		3450B3DB1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3450B3DA1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift */; };
 		3451040C1F71E34C00F36D6B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3451040B1F71E34B00F36D6B /* GoogleService-Info.plist */; };
 		346CF64D210D098100C01290 /* Campaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346CF64C210D098100C01290 /* Campaign.swift */; };
 		3477E8FB2128D79700B0E5F1 /* NavigationDrawerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3477E8F92128D79600B0E5F1 /* NavigationDrawerOptions.swift */; };
@@ -53,7 +52,6 @@
 		3445B58F1EBAC02F00B4C7CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3445B5911EBAC02F00B4C7CA /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		3445B59B1EBAC02F00B4C7CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3450B3DA1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationCoordinate2DExtensions.swift; sourceTree = "<group>"; };
 		3451040B1F71E34B00F36D6B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		346CF64C210D098100C01290 /* Campaign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Campaign.swift; sourceTree = "<group>"; };
 		3477E8F92128D79600B0E5F1 /* NavigationDrawerOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationDrawerOptions.swift; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 				343E3EF1210CB89800A5E9F3 /* CustomAlertLoadingView.swift */,
 				34D87C3A1F47DC7200CCEC9E /* UIViewExtensions.swift */,
 				341C99B81F7182920017BFE1 /* UIStoryboardSegueSlide.swift */,
-				3450B3DA1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift */,
 				34E9DBD02127309B0017BB11 /* MyMapbox.swift */,
 				3477E8FF21293BA800B0E5F1 /* EmptyStateView.swift */,
 				347F019A212A36A800E38ACF /* DataAccess.swift */,
@@ -235,7 +232,7 @@
 				TargetAttributes = {
 					3445B58B1EBAC02E00B4C7CA = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = GV5Z524V9X;
+						DevelopmentTeam = RH63VWYCHB;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -361,7 +358,6 @@
 				34AF6E172131932B00C6F0F1 /* Queue.swift in Sources */,
 				347F019B212A36A800E38ACF /* DataAccess.swift in Sources */,
 				3445B5921EBAC02F00B4C7CA /* LoginController.swift in Sources */,
-				3450B3DB1F76B62C0040532E /* CLLocationCoordinate2DExtensions.swift in Sources */,
 				34E9DBD12127309B0017BB11 /* MyMapbox.swift in Sources */,
 				34D87C3B1F47DC7200CCEC9E /* UIViewExtensions.swift in Sources */,
 				341C99B91F7182920017BFE1 /* UIStoryboardSegueSlide.swift in Sources */,
@@ -502,12 +498,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = VisualNoAr/VisualNoAr.entitlements;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = GV5Z524V9X;
+				DEVELOPMENT_TEAM = RH63VWYCHB;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/VisualNoAr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = app.visualnoar;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.visualnoar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -520,12 +516,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = VisualNoAr/VisualNoAr.entitlements;
-				DEVELOPMENT_TEAM = GV5Z524V9X;
+				DEVELOPMENT_TEAM = RH63VWYCHB;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/VisualNoAr/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = app.visualnoar;
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.visualnoar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

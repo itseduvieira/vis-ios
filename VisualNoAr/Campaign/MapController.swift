@@ -29,6 +29,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     @IBOutlet weak var navItem: UINavigationItem!
     @IBOutlet weak var imgPlane: UIImageView!
     @IBOutlet weak var txtStatus: UILabel!
+    @IBOutlet weak var mapHandler: UIView!
     
     let navigationDrawer = NavigationDrawer.sharedInstance
     
@@ -36,8 +37,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     var timer: Timer!
     var camera: MGLMapCamera!
     var posQueue: Queue<VisLocation>!
-    var lastPosition: CLLocationCoordinate2D!
-    var distance: CLLocationDistance = 10 * 1000
+    var distance: CLLocationDistance = 1000
     
     var point: MGLPointAnnotation!
     
@@ -69,6 +69,40 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         
         stopTimer()
         
+        releaseListeners()
+    }
+    
+    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
+        self.mapView = mapView
+        
+        setMapConfig()
+    }
+    
+    func setMapConfig() {
+        //        let tap = UITapGestureRecognizer(target: self, action: Selector("followTrip:"))
+        //        bigButton.addGestureRecognizer(tap)
+        
+        self.centerMap()
+        
+        topInfoContainer.setRadius(radius: 3)
+        imgStatus.backgroundColor = UIColor(hexString: "#00E08A")
+        imgStatus.setRadius(radius: 5.5)
+        
+        txtStatus.text = "Status"
+        txtLocation.text = "Aguardando campanha..."
+    }
+    
+    func centerMap() {
+        mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height + navBar.frame.height, 0, 0, 0), animated: true)
+        
+        let coordinate = CLLocationCoordinate2D(latitude: -20.0, longitude: -47.8825)
+
+        camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 13000 * 1000, pitch: 0, heading: 0)
+        
+        mapView.fly(to: camera, withDuration: 2, completionHandler: { })
+    }
+    
+    func releaseListeners() {
         self.userRef.removeAllObservers()
         if self.campaignRef != nil {
             self.campaignRef.removeAllObservers()
@@ -77,7 +111,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         }
     }
     
-    @objc func runTimedCode() {
+    func checkCampaignStatus() -> VisLocation? {
         guard let nextLoc = self.posQueue.dequeue() else {
             if campaign == nil {
                 self.presentLargeAlert(self, {
@@ -99,63 +133,114 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 })
             }
             
+            return nil
+        }
+        
+        return nextLoc
+    }
+    
+    @objc func runTimedCode() {
+        guard let nextLoc = self.checkCampaignStatus() else {
             return
         }
         
-        var rotation = 0.0
-        mapView.setContentInset(UIEdgeInsetsMake(156, 0, 28, 0), animated: false)
-        self.txtAltitude.text = String(format: "%.0fm", nextLoc.altitude)
-        
         if point == nil {
-            point = MGLPointAnnotation()
-            mapView.addAnnotation(point)
+            applyFirstCoordinates(nextLoc)
+        } else {
+            applyNewCoordinates(nextLoc)
         }
         
+        self.txtLocation.text = nextLoc.location == nil ? self.txtLocation.text : nextLoc.location
+    }
+    
+    func applyFirstCoordinates(_ nextLoc: VisLocation) {
+        point = MGLPointAnnotation()
         point.coordinate = nextLoc.coordinate
-        camera.pitch = 70
+        mapView.addAnnotation(point)
         
-        if let lastPosition = self.lastPosition {
-            if(rotation > 90) {
-                let l1 = CLLocation(latitude: lastPosition.latitude, longitude: lastPosition.longitude)
-                let l2 = CLLocation(latitude: nextLoc.coordinate.latitude, longitude: nextLoc.coordinate.longitude)
-                let d = l1.distance(from: l2)
-                
-                if(d < 40) {
-                    print("[reject] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),rot:\(rotation),dist:\(d)")
-                    
-                    return
-                }
-            }
-            
-            rotation = Double(lastPosition.bearingDegreesTo(location: nextLoc.coordinate))
-            camera.centerCoordinate = nextLoc.coordinate
-            camera.heading = rotation
-            
-            mapView.setCamera(camera, withDuration: 2.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
-        } else {
-            self.camera.altitude = self.distance
-            self.camera.centerCoordinate = nextLoc.coordinate
-            self.mapView.fly(to: self.camera, withDuration: 2.5, completionHandler: { })
+        camera.altitude = distance
+        camera.pitch = 70
+        camera.heading = 0.0
+        camera.centerCoordinate = nextLoc.coordinate
+        mapView.fly(to: camera, withDuration: 1.5, completionHandler: {
             UIView.animate(withDuration: 1) {
                 self.imgPlane.alpha = 1
             }
-            self.txtStatus.text = "Sobrevoando agora"
+        })
+        
+        txtStatus.text = "Sobrevoando agora"
+    }
+    
+    func smoothRotation(_ lastBearing: Double, _ newBearing: Double) -> Double {
+        return newBearing + 0.33 * (lastBearing - newBearing)
+    }
+    
+    func applyNewCoordinates(_ nextLoc: VisLocation) {
+        let l1 = CLLocation(latitude: point.coordinate.latitude, longitude: point.coordinate.longitude)
+        let l2 = CLLocation(latitude: nextLoc.coordinate.latitude, longitude: nextLoc.coordinate.longitude)
+        
+        let distance = l1.distance(from: l2).rounded()
+        
+        var rotation = camera.heading
+        
+        if(distance > 2.0) {
+            rotation = bearing(point.coordinate, nextLoc.coordinate)
+            rotation = (rotation * 100000).rounded() / 100000
+            print(getDifference(camera.heading, rotation))
+            camera.heading = rotation
         }
         
-        self.txtLocation.text = nextLoc.location == nil ? self.campaign.place.title : nextLoc.location
+//        if distance < 10.0 {
+//            rotation = 0.0
+//            nextLoc.coordinate = point.coordinate
+//        }
+//        else if rotation > 35.0 {
+//            rotation = 35.0
+//        } else if rotation < -35.0 {
+//            rotation = -35.0
+//        }
         
-        print("[ticking] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),rot:\(rotation)")
+        self.txtAltitude.text = String(format: "%.0fm", nextLoc.altitude)
+        point.coordinate = nextLoc.coordinate
         
-        lastPosition = nextLoc.coordinate
+        camera.pitch = 70
+        camera.centerCoordinate = nextLoc.coordinate
+        
+        mapView.setCamera(camera, withDuration: 1.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear), edgePadding: UIEdgeInsetsMake(280, 0, 118, 0))
+        
+        print("[vis] [dequeue] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),head:\(rotation),dist:\(distance)")
+    }
+    
+    func getDifference(_ a1: Double, _ a2: Double) -> Double {
+        return min((a1 - a2) < 0 ? (a1 - a2 + 360) : (a1 - a2), (a2-a1) < 0 ? (a2 - a1 + 360) : (a2 - a1))
+    }
+    
+    func degreesToRadians(degrees: Double) -> Double { return degrees * .pi / 180.0 }
+    func radiansToDegrees(radians: Double) -> Double { return radians * 180.0 / .pi }
+    
+    func bearing(_ startPoint: CLLocationCoordinate2D, _ endPoint: CLLocationCoordinate2D) -> Double {
+        
+        let lat1 = degreesToRadians(degrees: startPoint.latitude)
+        let lon1 = degreesToRadians(degrees: startPoint.longitude)
+        
+        let lat2 = degreesToRadians(degrees: endPoint.latitude)
+        let lon2 = degreesToRadians(degrees: endPoint.longitude)
+        
+        let dLon = lon2 - lon1
+        
+        let y = sin(dLon) * cos(lat2)
+        let x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
+        let radiansBearing = atan2(y, x)
+        
+        return radiansToDegrees(radians: radiansBearing)
     }
     
     func startTimer() {
-        print("start timer...")
+        print("[vis] start timer...")
         
         stopTimer()
         
-        runTimedCode()
-        timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
     }
     
     func stopTimer() {
@@ -163,7 +248,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
             return
         }
         
-        print("stop timer")
+        print("[vis] stop timer")
         
         self.timer.invalidate()
         
@@ -196,40 +281,6 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         }
         
         return annotationView
-    }
-    
-    func mapView(_ mapView: MGLMapView, regionDidChangeWith reason: MGLCameraChangeReason, animated: Bool) {
-        print("regionDidChangeWith")
-        
-        if reason == .programmatic {
-            mapView.setContentInset(UIEdgeInsetsMake(156, 0, 28, 0), animated: false)
-        }
-    }
-    
-    func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
-        self.mapView = mapView
-        
-        setMapConfig()
-    }
-    
-    func setMapConfig() {
-        self.mapView.isUserInteractionEnabled = false
-        
-        self.centerMap(false)
-        
-        topInfoContainer.setRadius(radius: 3)
-        imgStatus.backgroundColor = UIColor(hexString: "#00E08A")
-        imgStatus.setRadius(radius: 5.5)
-        
-        txtStatus.text = "Status"
-        txtLocation.text = "Aguardando campanha..."
-    }
-    
-    func centerMap(_ navigate: Bool) {
-        let coordinate = CLLocationCoordinate2D(latitude: -20.0, longitude: -47.8825)
-        camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 13000 * 1000, pitch: navigate ? 70 : 0, heading: 0)
-        
-        self.mapView.fly(to: camera, withDuration: 2.5, completionHandler: {})
     }
     
     func setNavigationBar() {
@@ -298,6 +349,17 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                         self.campaign.active = active
                         
                         if active {
+//                            self.campaignRef.child("heading").observe(.value, with: { snapshot in
+//                                guard let heading = snapshot.value as? Double else {
+//                                    return
+//                                }
+//
+//                                self.camera.heading = heading
+//                                self.camera.pitch = 70
+//
+//                                self.mapView.setCamera(self.camera, withDuration: 1.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear), edgePadding: UIEdgeInsetsMake(280, 0, 28, 0))
+//                            })
+                            
                             self.campaignRef.child("location").observe(.value, with: { snapshot in
                                 guard let locDict = snapshot.value as? [String:Any] else {
                                     return
@@ -312,7 +374,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                                 visLocation.coordinate = coordinate
                                 visLocation.altitude = newAlt
                                 
-                                if let location = locDict["description"] as? String {
+                                if let location = locDict["description"] as? String, !location.isEmpty {
                                     visLocation.location = location
                                 }
                                 
@@ -322,6 +384,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                                     self.posQueue = Queue<VisLocation>()
                                 }
                                 
+                                print("[vis] [enqueue] lat:\(visLocation.coordinate.latitude),lon:\(visLocation.coordinate.longitude),loc:\(visLocation.location ?? "nil")")
                                 self.posQueue.enqueue(visLocation)
                                 
                                 if self.timer == nil {
@@ -353,13 +416,11 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
             self.campaign.position = nil
         }
         
-        self.lastPosition = nil
-        
         self.posQueue = nil
         
         self.imgPlane.alpha = 0
         
-        self.centerMap(false)
+        self.centerMap()
     }
     
     private func setCampaignData(_ campaignId: String, _ cDict: [String:Any]) {
@@ -432,7 +493,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
             } else {
                 self.navItem.rightBarButtonItem?.image = UIImage(named: "IconZoom")
                 
-                self.distance = 10 * 1000
+                self.distance = 1000
             }
             
             camera.altitude = self.distance
@@ -442,8 +503,12 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 mapView.setCamera(camera, withDuration: 1.8, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
             }
         } else {
-            self.centerMap(false)
+            self.centerMap()
         }
     }
+    
+//    @objc func doubleTapMap() {
+//
+//    }
 }
 
