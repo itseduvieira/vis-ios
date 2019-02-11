@@ -16,7 +16,7 @@ class PageController: UIViewController {
     
     weak var parentVC: TutorialController!
     
-    //MARK: Actions
+    //MARK: Actions    
     override func viewDidLoad() {
         super.viewDidLoad()
         

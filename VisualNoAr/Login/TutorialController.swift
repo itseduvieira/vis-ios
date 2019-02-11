@@ -19,7 +19,17 @@ class TutorialController: UIPageViewController, UIPageViewControllerDataSource, 
     
     var index: Int = 0
     
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .default
+    }
+    
     //MARK: Actions
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationItem.hidesBackButton = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

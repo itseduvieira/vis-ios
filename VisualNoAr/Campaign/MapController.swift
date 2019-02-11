@@ -25,8 +25,6 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     @IBOutlet weak var txtPrefix: UILabel!
     @IBOutlet weak var txtPlace: UILabel!
     @IBOutlet weak var btnDetail: UIButton!
-    @IBOutlet weak var navBar: UINavigationBar!
-    @IBOutlet weak var navItem: UINavigationItem!
     @IBOutlet weak var imgPlane: UIImageView!
     @IBOutlet weak var txtStatus: UILabel!
     @IBOutlet weak var mapHandler: UIView!
@@ -43,25 +41,24 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     
     var userRef, campaignRef: DatabaseReference!
     
-    @IBAction func unwindToMap(segue: UIStoryboardSegue) {}
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .default
+    }
     
-    //MARK: Actions
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
         
-        setNavigationBar()
-        
-        setNavigationDrawer()
+//        self.setNavigationDrawer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        NavigationDrawer.sharedInstance.initialize(forViewController: self)
+        self.setNavigationBar()
         
-        listenCampaign()
+        self.listenCampaign()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -93,11 +90,11 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     }
     
     func centerMap() {
-        mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height + navBar.frame.height, 0, 0, 0), animated: true)
+        mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height + (navigationController?.navigationBar.frame.height ?? 0), 0, 0, 0), animated: true)
         
         let coordinate = CLLocationCoordinate2D(latitude: -20.0, longitude: -47.8825)
 
-        camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 13000 * 1000, pitch: 0, heading: 0)
+        camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 9000 * 1000, pitch: 0, heading: 0)
         
         mapView.fly(to: camera, withDuration: 2, completionHandler: { })
     }
@@ -255,22 +252,10 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         self.timer = nil
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "SegueMapToDetail" {
-            let detailVC = segue.destination as! DetailController
-            
-            detailVC.campaign = self.campaign
-        }
-    }
-    
     func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
-        // Assign a reuse identifier to be used by both of the annotation views, taking advantage of their similarities.
         let reuseIdentifier = "reusableDotView"
-        
-        // For better performance, always try to reuse existing annotations.
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
         
-        // If there’s no reusable annotation view available, initialize a new one.
         if annotationView == nil {
             annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
             annotationView?.frame = CGRect(x: 0, y: 0, width: 15, height: 15)
@@ -284,16 +269,21 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     }
     
     func setNavigationBar() {
-        navBar.setBackgroundImage(UIImage(), for: .default)
-        navBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.view.backgroundColor = UIColor.white
+        
         let menuItem = UIBarButtonItem(image: UIImage(named: "IconMenu"), style: .plain,target: self, action: #selector(openMenu))
-        navItem.leftBarButtonItem = menuItem
-        let placeItem = UIBarButtonItem(image: UIImage(named: "IconZoom"), style: .plain,target: self, action: #selector(center))
-        navItem.rightBarButtonItem = placeItem
+        self.navigationItem.leftBarButtonItem = menuItem
         
         if let company = UserDefaults.standard.string(forKey: "company") {
-            self.navBar.topItem?.title = company
+            navigationController?.navigationBar.topItem?.title = company
         }
+
+        navigationController?.navigationBar.tintColor = UIColor.black
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+        
+//        let placeItem = UIBarButtonItem(image: UIImage(named: "IconZoom"), style: .plain,target: self, action: #selector(center))
+//        self.navigationItem.rightBarButtonItem = placeItem
     }
     
     func setNavigationDrawer() {
@@ -301,19 +291,45 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         options.navigationDrawerType = .LeftDrawer
         options.navigationDrawerOpenDirection = .LeftEdge
         options.navigationDrawerWidth = UIScreen.main.bounds.width - 60
-        
+
         navigationDrawer.setup(withOptions: options)
         let menuVC = self.storyboard?.instantiateViewController(withIdentifier: "DrawerMenuViewController") as! DrawerMenuController
         navigationDrawer.setNavigationDrawerController(viewController: menuVC)
         navigationDrawer.delegate = self
+        navigationDrawer.initialize(forViewController: self.navigationController!)
     }
     
     @objc func openMenu() {
-        NavigationDrawer.sharedInstance.toggleNavigationDrawer(completionHandler: nil)
+        self.setNavigationDrawer()
+
+        navigationDrawer.toggleNavigationDrawer(completionHandler: nil)
+    }
+    
+    func goToHistory() {
+        self.dismissLargeAlert()
+        
+        navigationDrawer.toggleNavigationDrawer(completionHandler: nil)
+        
+        self.performSegue(withIdentifier: "SegueMapToHistory", sender: self)
+    }
+    
+    func logout() {
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print("Error at signOut")
+        }
+        
+        self.performSegue(withIdentifier: "SegueMapToLogin", sender: self)
     }
     
     func listenCampaign() {
         let user = Auth.auth().currentUser
+        
+        guard Auth.auth().currentUser != nil else {
+            return
+        }
+        
         userRef = Database.database().reference(withPath: "user").child(user!.uid)
         userRef.observe(.value, with: { snapshot in
             if let child = snapshot.value as? [String:Any] {
@@ -403,6 +419,12 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                     self.campaignRef.removeAllObservers()
                 }
                 
+                self.txtCampaign.text = ""
+                self.txtPrefix.text = ""
+                self.txtPlace.text = ""
+                
+                self.centerMap()
+                
                 self.presentLargeAlert(self, {})
                 self.btnDetail.isEnabled = false
                 
@@ -424,9 +446,35 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     }
     
     private func setCampaignData(_ campaignId: String, _ cDict: [String:Any]) {
-        self.txtCampaign.text = (cDict["name"] as? String)?.uppercased()
-        self.txtPrefix.text = (cDict["plane"] as? String)?.uppercased()
-        self.txtPlace.text = (cDict["place"] as? String)?.uppercased()
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.txtCampaign.alpha = 0.2
+        }) { completion in
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.txtCampaign.backgroundColor = UIColor.clear
+                self.txtCampaign.text = (cDict["name"] as? String)?.uppercased()
+                self.txtCampaign.alpha = 1.0
+            })
+        }
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.txtPrefix.alpha = 0.2
+        }) { completion in
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.txtPrefix.backgroundColor = UIColor.clear
+                self.txtPrefix.text = (cDict["plane"] as? String)?.uppercased()
+                self.txtPrefix.alpha = 1.0
+            })
+        }
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.txtPlace.alpha = 0.2
+        }) { completion in
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.txtPlace.backgroundColor = UIColor.clear
+                self.txtPlace.text = (cDict["place"] as? String)?.uppercased()
+                self.txtPlace.alpha = 1.0
+            })
+        }
         
         self.campaign = Campaign()
         self.campaign.id = campaignId
@@ -486,12 +534,12 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         if self.campaign != nil && self.campaign.position != nil {
             if self.distance < 80000 {
                 if self.distance > 40000 {
-                    self.navItem.rightBarButtonItem?.image = UIImage(named: "IconPlace")
+                    self.navigationItem.rightBarButtonItem?.image = UIImage(named: "IconPlace")
                 }
                 
                 self.distance *= 2.1
             } else {
-                self.navItem.rightBarButtonItem?.image = UIImage(named: "IconZoom")
+                self.navigationItem.rightBarButtonItem?.image = UIImage(named: "IconZoom")
                 
                 self.distance = 1000
             }
@@ -507,7 +555,18 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         }
     }
     
-//    @objc func doubleTapMap() {
+    @IBAction func goToDetail() {
+        self.performSegue(withIdentifier: "SegueMapToDetail", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SegueMapToDetail",
+            let vc = segue.destination as? DetailController {
+            vc.campaign = self.campaign
+        }
+    }
+    
+    //    @objc func doubleTapMap() {
 //
 //    }
 }

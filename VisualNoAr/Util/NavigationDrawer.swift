@@ -79,7 +79,6 @@ class NavigationDrawer: NSObject
         navigationDrawer.backgroundColor = options!.navigationDrawerBackgroundColor
         navigationDrawer.addGestureRecognizer(drawerCloseGesture)
         navigationDrawerContainer.addSubview(navigationDrawer)
-        
     }
     
     
@@ -253,10 +252,9 @@ class NavigationDrawer: NSObject
             options.anchorView = viewController.view
         }
         options.initDefaults()
-        viewController.addChildViewController(options.drawerController!)
+        //viewController.addChildViewController(options.drawerController!)
         initNavigationDrawer()
     }
-    
 }
 
 

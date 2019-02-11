@@ -11,7 +11,7 @@ import FirebaseAuth
 import PromiseKit
 
 class DataAccess {
-    private let url = "http://vis-api.herokuapp.com/v1"
+    private let url = "https://vis-api.herokuapp.com/m/v1"
     
     var sessionManager: SessionManager!
     
@@ -97,7 +97,7 @@ class DataAccess {
         return createRequest(path, method: method, parameters: parameters)
     }
     
-    func getUser() -> Promise<Void> {
+    func getUser() -> Promise<Void> {        
         return Promise { seal in
             firstly {
                 createRequest("users/\(Auth.auth().currentUser!.uid)", method: .get)

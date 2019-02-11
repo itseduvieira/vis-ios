@@ -19,7 +19,9 @@ class LoginController: UIViewController {
     @IBOutlet weak var background: UIImageView!
     @IBOutlet weak var controls: UIView!
     
-    @IBAction func unwindToLogin(segue: UIStoryboardSegue) {}
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
     
     //MARK: Actions
     override func viewDidLoad() {
@@ -37,15 +39,20 @@ class LoginController: UIViewController {
         })
         
         self.checkAndFillSavedCredentials()
+        
+        self.setNavigationBar()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        if Auth.auth().currentUser != nil {
-            self.presentAlert()
-            
-            self.getUserAndGoToNextScene()
+        if Auth.auth().currentUser == nil {
+            view.backgroundColor = UIColor.black
+            for v in view.subviews {
+                v.isHidden = false
+            }
+        } else {
+            self.goToNextScene()
         }
     }
     
@@ -112,17 +119,11 @@ class LoginController: UIViewController {
     }
     
     private func goToNextScene() {
-        var controllerId = "TutorialViewController"
-        var sb = self.storyboard
-        
         if UserDefaults.standard.bool(forKey: "tutorial") {
-            controllerId = "MapViewController"
-            sb = UIStoryboard(name: "Campaign", bundle:nil)
+            self.performSegue(withIdentifier: "SegueLoginToMap", sender: self)
+        } else {
+            self.performSegue(withIdentifier: "SegueLoginToTutorial", sender: self)
         }
-        
-        let next = sb?.instantiateViewController(withIdentifier: controllerId)
-        
-        self.present(next!, animated: true, completion: nil)
     }
     
     private func getUserAndGoToNextScene() {
@@ -137,8 +138,11 @@ class LoginController: UIViewController {
         }
     }
     
-    @IBAction func goToForgot() {
-        self.performSegue(withIdentifier: "SegueLoginToForgot", sender: self)
+    private func setNavigationBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.view.backgroundColor = UIColor.clear
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -148,6 +152,10 @@ class LoginController: UIViewController {
                 destination.email = email
             }
         }
+    }
+    
+    @IBAction func goToForgot() {
+        self.performSegue(withIdentifier: "SegueLoginToForgot", sender: self)
     }
 }
 

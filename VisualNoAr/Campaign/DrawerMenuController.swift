@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class DrawerMenuController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -51,42 +50,36 @@ class DrawerMenuController: UIViewController, UITableViewDataSource, UITableView
         return cell!
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        NavigationDrawer.sharedInstance.toggleNavigationDrawer { () -> Void in
-            tableView.deselectRow(at: indexPath, animated: true)
-            
-            switch indexPath.row {
-            case 0:
-                               
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "HistoryViewController") as! HistoryController
-                self.present(vc, animated: true, completion: {
-                    self.willMove(toParentViewController: nil)
-                    self.view.removeFromSuperview()
-                    self.removeFromParentViewController()
-                })
-                
-                break
-            case 1:
-                do {
-                    try Auth.auth().signOut()
-                } catch {
-                    print("Error at signOut")
-                }
-                
-                let storyboard = UIStoryboard.init(name: "Main", bundle: Bundle.main)
-                let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginController
-                self.present(vc, animated: true, completion: {
-                    self.willMove(toParentViewController: nil)
-                    self.view.removeFromSuperview()
-                    self.removeFromParentViewController()
-                })
-                
-                break
-            default:
-                
-                print("default")
-                
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        switch indexPath.row {
+        case 0:
+            if let map = NavigationDrawer.sharedInstance.delegate as? MapController {
+                map.goToHistory()
             }
+            
+            break
+        case 1:
+//            let storyboard = UIStoryboard.init(name: "Main", bundle: Bundle.main)
+//            let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginController
+//            self.present(vc, animated: true, completion: {
+//                self.willMove(toParentViewController: nil)
+//                self.view.removeFromSuperview()
+//                self.removeFromParentViewController()
+//            })
+//
+//            break
+            
+            if let map = NavigationDrawer.sharedInstance.delegate as? MapController {
+                map.logout()
+            }
+            
+            break
+        default:
+            
+            print("default")
+            
         }
     }
 }

@@ -3,80 +3,10 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "MapController.mapView(_:shouldChangeFrom:to:):MapController.swift">
+         contextName = "MapController.listenCampaign():MapController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "newCamera.altitude">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in PlaneAnnotationView.action(for:forKey:):PlaneAnnotationView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.subviews">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #2 in closure #1 in MapController.listenCampaign():MapController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.posQueue.list">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "MapController.applyNewCoordinates(_:):MapController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "NavigationDrawer.initialize(forViewController:):NavigationDrawer.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "viewController.view">
-            </PersistentString>
-            <PersistentString
-               value = "options.anchorView">
-            </PersistentString>
-            <PersistentString
-               value = "options.anchorView = viewController.view">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in MapController.listenPlaneLocation():MapController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "snapshot.value!">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "NavigationDrawer.toggleNavigationDrawer(completionHandler:):NavigationDrawer.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.options.anchorView!.subviews">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #2 in closure #1 in DataAccess.getPlace(_:):DataAccess.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "response as! [[String:Any]]">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in MapController.listenCampaign():MapController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.campaignRef">
+               value = "user!.uid">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -97,10 +27,85 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #2 in closure #1 in DataAccess.getPlace(_:):DataAccess.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "response as! [[String:Any]]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in PlaneAnnotationView.action(for:forKey:):PlaneAnnotationView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.subviews">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "MapController.viewDidLoad():MapController.swift">
          <PersistentStrings>
             <PersistentString
                value = "delegate.window?.rootViewController.restorationIdentifier">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in DataAccess.listCampaigns():DataAccess.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "jsonCampaign[&quot;plane&quot;] as? [String:Any]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapController.navigationDrawerDidShow(didShow:):MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.navigationController?.navigationBar.layer.zPosition">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "NavigationDrawer.toggleNavigationDrawer(completionHandler:):NavigationDrawer.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.options.anchorView!">
+            </PersistentString>
+            <PersistentString
+               value = "self.options.anchorView!.subviews">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapController.applyNewCoordinates(_:):MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in DataAccess.getUser():DataAccess.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "json[&quot;name&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "MapController.mapView(_:shouldChangeFrom:to:):MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "newCamera.altitude">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DetailController.viewDidLoad():DetailController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.campaign">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -121,18 +126,32 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #2 in closure #1 in DataAccess.getUser():DataAccess.swift">
+         contextName = "closure #1 in MapController.listenPlaneLocation():MapController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "json[&quot;name&quot;]">
+               value = "snapshot.value!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #2 in closure #1 in DataAccess.listCampaigns():DataAccess.swift">
+         contextName = "NavigationDrawer.initialize(forViewController:):NavigationDrawer.swift">
          <PersistentStrings>
             <PersistentString
-               value = "jsonCampaign[&quot;plane&quot;] as? [String:Any]">
+               value = "options.anchorView = viewController.view">
+            </PersistentString>
+            <PersistentString
+               value = "options.anchorView">
+            </PersistentString>
+            <PersistentString
+               value = "viewController.view">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in MapController.listenCampaign():MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.campaignRef">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -141,6 +160,14 @@
          <PersistentStrings>
             <PersistentString
                value = "mapView.annotations">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in closure #1 in MapController.listenCampaign():MapController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.posQueue.list">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
