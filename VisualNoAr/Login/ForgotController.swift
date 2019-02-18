@@ -13,6 +13,7 @@ class ForgotController: UIViewController {
     @IBOutlet weak var background: UIImageView!
     @IBOutlet weak var btnForgot: UIButton!
     @IBOutlet weak var txtEmail: UITextField!
+    @IBOutlet weak var controls: UIView!
     
     var email: String!
     
@@ -25,15 +26,14 @@ class ForgotController: UIViewController {
         
         self.hideKeyboardWhenTappedAround()
         
-        txtEmail.applyBottomBorder(UIColor.white)
+        txtEmail.applyBottomBorder(UIColor(hexString: "#111111"))
         
         if let email = self.email {
             txtEmail.text = email
         }
         
+        controls.setRadius(radius: 8)
         btnForgot.setRadius(radius: 22)
-        
-        self.background.alpha = 0.4
 
         self.setNavigationBar()
     }

@@ -29,25 +29,29 @@ class LoginController: UIViewController {
         
         self.hideKeyboardWhenTappedAround()
         
-        txtEmail.applyBottomBorder(UIColor.white)
-        txtPassword.applyBottomBorder(UIColor.white)
+        txtEmail.applyBottomBorder(UIColor(hexString: "#111111"))
+        txtPassword.applyBottomBorder(UIColor(hexString: "#111111"))
         
+        controls.setRadius(radius: 8)
         btnLogin.setRadius(radius: 22)
-        
-        UIView.animate(withDuration: 1.5, animations: {
-            self.background.alpha = 0.4
-        })
         
         self.checkAndFillSavedCredentials()
         
         self.setNavigationBar()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.controls.alpha = 1
+        })
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if Auth.auth().currentUser == nil {
-            view.backgroundColor = UIColor.black
             for v in view.subviews {
                 v.isHidden = false
             }

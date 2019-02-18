@@ -45,16 +45,10 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         return .default
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        mapView.delegate = self
-        
-//        self.setNavigationDrawer()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        mapView.delegate = self
         
         self.setNavigationBar()
         
@@ -159,10 +153,13 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         camera.pitch = 70
         camera.heading = 0.0
         camera.centerCoordinate = nextLoc.coordinate
+        
         mapView.fly(to: camera, withDuration: 1.5, completionHandler: {
-            UIView.animate(withDuration: 1) {
+            UIView.animate(withDuration: 0.5) {
                 self.imgPlane.alpha = 1
             }
+            
+            self.mapView.setCamera(self.camera, withDuration: 1.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear), edgePadding: UIEdgeInsetsMake(280, 0, 118, 0))
         })
         
         txtStatus.text = "Sobrevoando agora"
