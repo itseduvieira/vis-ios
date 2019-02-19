@@ -45,10 +45,21 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         return .default
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         mapView.delegate = self
+        
+        topInfoContainer.setRadius(radius: 3)
+        topInfoContainer.layer.shadowOpacity = 0.2
+        topInfoContainer.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        topInfoContainer.layer.shadowRadius = 0.3
+        topInfoContainer.layer.shadowColor = UIColor.black.cgColor
+        topInfoContainer.layer.masksToBounds = false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         
         self.setNavigationBar()
         
@@ -75,7 +86,6 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         
         self.centerMap()
         
-        topInfoContainer.setRadius(radius: 3)
         imgStatus.backgroundColor = UIColor(hexString: "#00E08A")
         imgStatus.setRadius(radius: 5.5)
         
@@ -84,7 +94,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     }
     
     func centerMap() {
-        mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height + (navigationController?.navigationBar.frame.height ?? 0), 0, 0, 0), animated: true)
+//        mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height + (navigationController?.navigationBar.frame.height ?? 0), 0, 0, 0), animated: true)
         
         let coordinate = CLLocationCoordinate2D(latitude: -20.0, longitude: -47.8825)
 
@@ -278,9 +288,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
 
         navigationController?.navigationBar.tintColor = UIColor.black
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
-        
-//        let placeItem = UIBarButtonItem(image: UIImage(named: "IconZoom"), style: .plain,target: self, action: #selector(center))
-//        self.navigationItem.rightBarButtonItem = placeItem
+        navigationController?.navigationBar.shadowImage = nil
     }
     
     func setNavigationDrawer() {

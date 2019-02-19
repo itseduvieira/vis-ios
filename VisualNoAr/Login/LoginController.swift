@@ -35,29 +35,31 @@ class LoginController: UIViewController {
         controls.setRadius(radius: 8)
         btnLogin.setRadius(radius: 22)
         
-        self.checkAndFillSavedCredentials()
-        
         self.setNavigationBar()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
-        UIView.animate(withDuration: 0.3, animations: {
-            self.controls.alpha = 1
-        })
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        for v in view.subviews {
+            v.isHidden = true
+        }
+        
+        self.controls.alpha = 0
         
         if Auth.auth().currentUser == nil {
+            self.checkAndFillSavedCredentials()
+            
             for v in view.subviews {
                 v.isHidden = false
             }
         } else {
             self.goToNextScene()
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.controls.alpha = 1
+        })
     }
     
     @IBAction func showOrHidePass(_ sender: UIButton) {

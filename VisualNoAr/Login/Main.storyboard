@@ -18,10 +18,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="DRD-zZ-jMF">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash1" translatesAutoresizingMaskIntoConstraints="NO" id="DRD-zZ-jMF">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3l-Rf-tZt">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3l-Rf-tZt">
                                 <rect key="frame" x="20" y="168.5" width="335" height="330"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Senha" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cRR-hj-Xhe">
@@ -30,7 +30,7 @@
                                             <constraint firstAttribute="height" constant="28" id="rLR-WA-saI"/>
                                         </constraints>
                                         <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cb0-d8-OTZ">
@@ -39,7 +39,7 @@
                                             <constraint firstAttribute="height" constant="28" id="8Z8-We-B38"/>
                                         </constraints>
                                         <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next" textContentType="username"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aMK-cL-uqm">
@@ -58,15 +58,15 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="poO-5F-1Cn">
-                                        <rect key="frame" x="97.5" y="32" width="140" height="38"/>
+                                        <rect key="frame" x="107.5" y="32" width="120" height="38"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="140" id="cOe-sR-TMl"/>
+                                            <constraint firstAttribute="width" constant="120" id="cOe-sR-TMl"/>
                                             <constraint firstAttribute="height" constant="38" id="gil-7c-LTd"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dz8-h4-E51">
-                                        <rect key="frame" x="97.5" y="284" width="140" height="27"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="12"/>
+                                        <rect key="frame" x="103.5" y="284" width="128" height="26"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="11"/>
                                         <state key="normal" title="ESQUECI MINHA SENHA">
                                             <color key="titleColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                         </state>
@@ -106,7 +106,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="1" alpha="0.96999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="cRR-hj-Xhe" firstAttribute="top" secondItem="cb0-d8-OTZ" secondAttribute="bottom" constant="28" id="12B-PN-P0J"/>
                                     <constraint firstItem="cb0-d8-OTZ" firstAttribute="top" secondItem="ZSH-Cp-FLW" secondAttribute="bottom" constant="4" id="4WS-HG-nrC"/>
@@ -417,7 +417,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="056-IF-NdX">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash1" translatesAutoresizingMaskIntoConstraints="NO" id="056-IF-NdX">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eQI-Fr-Ngc">
@@ -429,7 +429,7 @@
                                             <constraint firstAttribute="height" constant="28" id="7Zb-iT-Id7"/>
                                         </constraints>
                                         <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next" textContentType="username"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kRK-xm-Yhw">
@@ -464,14 +464,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="k4P-VM-Iqp">
-                                        <rect key="frame" x="97.5" y="32" width="140" height="38"/>
+                                        <rect key="frame" x="107.5" y="32" width="120" height="38"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="38" id="SPG-we-BD6"/>
-                                            <constraint firstAttribute="width" constant="140" id="bAm-vc-Wk8"/>
+                                            <constraint firstAttribute="width" constant="120" id="bAm-vc-Wk8"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="1" alpha="0.96999999999999997" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="kRK-xm-Yhw" firstAttribute="centerX" secondItem="eQI-Fr-Ngc" secondAttribute="centerX" id="5ZG-Ba-8JI"/>
                                     <constraint firstItem="kRK-xm-Yhw" firstAttribute="top" secondItem="vVf-GJ-8jV" secondAttribute="bottom" constant="34" id="6FX-zB-fuo"/>
@@ -534,7 +534,7 @@
     <resources>
         <image name="Logo" width="400" height="93"/>
         <image name="RevealPasswordIcon" width="80" height="80"/>
-        <image name="Splash" width="4016" height="6016"/>
+        <image name="Splash1" width="5212" height="3468"/>
         <image name="Step1" width="849" height="995"/>
         <image name="Step2" width="849" height="995"/>
         <image name="Step3" width="849" height="995"/>
