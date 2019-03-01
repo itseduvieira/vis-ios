@@ -403,11 +403,20 @@
                     </view>
                     <connections>
                         <outlet property="btnThirdToStart" destination="S6v-jt-Ubg" id="Dls-Pd-0fd"/>
+                        <segue destination="oEO-d8-dZo" kind="show" identifier="SegueTutorialToMap" id="E0d-fG-Mev"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bXi-8q-lhO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2111" y="1019"/>
+        </scene>
+        <!--Campaign-->
+        <scene sceneID="t4L-db-TUP">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Campaign" id="oEO-d8-dZo" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W33-8V-LPP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2710" y="1018"/>
         </scene>
         <!--Forgot Controller-->
         <scene sceneID="eSl-KA-25c">

@@ -61,16 +61,6 @@ class DrawerMenuController: UIViewController, UITableViewDataSource, UITableView
             
             break
         case 1:
-//            let storyboard = UIStoryboard.init(name: "Main", bundle: Bundle.main)
-//            let vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginController
-//            self.present(vc, animated: true, completion: {
-//                self.willMove(toParentViewController: nil)
-//                self.view.removeFromSuperview()
-//                self.removeFromParentViewController()
-//            })
-//
-//            break
-            
             if let map = NavigationDrawer.sharedInstance.delegate as? MapController {
                 map.logout()
             }

@@ -12,6 +12,7 @@ import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
 import PromiseKit
+import UserNotifications
 
 class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDelegate {
     
@@ -28,6 +29,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     @IBOutlet weak var imgPlane: UIImageView!
     @IBOutlet weak var txtStatus: UILabel!
     @IBOutlet weak var mapHandler: UIView!
+    @IBOutlet weak var bottomInfoContainer: UIView!
     
     let navigationDrawer = NavigationDrawer.sharedInstance
     
@@ -50,12 +52,38 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         
         mapView.delegate = self
         
+        bottomInfoContainer.layer.addBorder(edge: UIRectEdge.top, color: UIColor(hexString: "#eeeeee"), thickness: 0.5)
+        
+        imgPlane.alpha = 0
+        
         topInfoContainer.setRadius(radius: 3)
-        topInfoContainer.layer.shadowOpacity = 0.2
+        topInfoContainer.layer.shadowOpacity = 0.15
         topInfoContainer.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
         topInfoContainer.layer.shadowRadius = 0.3
         topInfoContainer.layer.shadowColor = UIColor.black.cgColor
         topInfoContainer.layer.masksToBounds = false
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(mapDoubleTapped))
+        tap.numberOfTapsRequired = 2
+        mapHandler.addGestureRecognizer(tap)
+        
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(mapPinch))
+        mapHandler.addGestureRecognizer(pinch)
+        
+        if #available(iOS 10.0, *) {
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+        }
+        
+        UIApplication.shared.registerForRemoteNotifications()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(sendFCMToken(_:)), name: Notification.Name("FCMToken"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,7 +91,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         
         self.setNavigationBar()
         
-        self.listenCampaign()
+         self.listenCampaign()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -77,13 +105,10 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
         self.mapView = mapView
         
-        setMapConfig()
+        self.setMapConfig()
     }
     
     func setMapConfig() {
-        //        let tap = UITapGestureRecognizer(target: self, action: Selector("followTrip:"))
-        //        bigButton.addGestureRecognizer(tap)
-        
         self.centerMap()
         
         imgStatus.backgroundColor = UIColor(hexString: "#00E08A")
@@ -101,6 +126,32 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 9000 * 1000, pitch: 0, heading: 0)
         
         mapView.fly(to: camera, withDuration: 2, completionHandler: { })
+    }
+    
+    @objc func mapDoubleTapped() {
+        guard self.mapView != nil, self.camera != nil, self.camera.altitude > 200 else {
+            return
+        }
+        
+        self.camera.altitude = self.camera.altitude - 300
+        self.mapView.fly(to: camera, withDuration: 1.5, completionHandler: { })
+    }
+    
+    @objc func mapPinch(sender: UIPinchGestureRecognizer) {
+        guard self.mapView != nil, self.camera != nil, sender.state == .changed else {
+            return
+        }
+        
+        let newAltitude = self.camera.altitude / Double(sender.scale)
+        
+        guard newAltitude > 200, newAltitude < 900000 else {
+            return
+        }
+        
+        self.camera.altitude = newAltitude
+        self.mapView.fly(to: camera, completionHandler: { })
+    
+        sender.scale = 1.0
     }
     
     func releaseListeners() {
@@ -158,6 +209,12 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         point = MGLPointAnnotation()
         point.coordinate = nextLoc.coordinate
         mapView.addAnnotation(point)
+
+        if camera == nil {
+            let coordinate = CLLocationCoordinate2D(latitude: -20.0, longitude: -47.8825)
+        
+            camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 9000 * 1000, pitch: 0, heading: 0)
+        }
         
         camera.altitude = distance
         camera.pitch = 70
@@ -169,7 +226,9 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                 self.imgPlane.alpha = 1
             }
             
-            self.mapView.setCamera(self.camera, withDuration: 1.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear), edgePadding: UIEdgeInsetsMake(280, 0, 118, 0))
+            self.mapView.setCamera(self.camera, withDuration: 1.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
+            
+            //, edgePadding: UIEdgeInsetsMake(280, 0, 118, 0)
         })
         
         txtStatus.text = "Sobrevoando agora"
@@ -210,7 +269,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         camera.pitch = 70
         camera.centerCoordinate = nextLoc.coordinate
         
-        mapView.setCamera(camera, withDuration: 1.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear), edgePadding: UIEdgeInsetsMake(280, 0, 118, 0))
+        mapView.setCamera(camera, withDuration: 1.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
         
         print("[vis] [dequeue] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),head:\(rotation),dist:\(distance)")
     }
@@ -320,6 +379,8 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     
     func logout() {
         do {
+            UIApplication.shared.unregisterForRemoteNotifications()
+            
             try Auth.auth().signOut()
         } catch {
             print("Error at signOut")
@@ -352,19 +413,19 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                         return
                     }
                     
-                    if self.campaign == nil {
-                        self.txtStatus.text = "Status"
-                        self.txtLocation.text = "Obtendo dados da campanha..."
-                        
-                        self.setCampaignData(campaignId, cDict)
-                        
-                        self.txtStatus.text = "Status"
-                        self.txtLocation.text = "Aguardando decolagem..."
-                    }
-                    
                     self.campaignRef.child("active").observe(.value, with: { (snapshot) in
                         guard let active = snapshot.value as? Bool else {
                             return
+                        }
+                        
+                        if self.campaign == nil {
+                            self.txtStatus.text = "Status"
+                            self.txtLocation.text = "Obtendo dados da campanha..."
+                            
+                            self.setCampaignData(campaignId, cDict)
+                            
+                            self.txtStatus.text = "Status"
+                            self.txtLocation.text = "Aguardando decolagem..."
                         }
                         
                         self.campaign.active = active
@@ -571,8 +632,18 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         }
     }
     
-    //    @objc func doubleTapMap() {
-//
-//    }
+    @objc func sendFCMToken(_ notification: Notification) {
+        if let object = notification.userInfo as? [String: Any] {
+            if let token = object["token"] as? String {
+                firstly {
+                    DataAccess.instance.sendFCMToken(token)
+                }.catch { error in
+                    print(error)
+                }
+            }
+        }
+        
+        
+    }
 }
 

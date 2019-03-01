@@ -59,10 +59,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in MapController.mapViewDidFinishLoadingMap(_:):MapController.swift">
+         contextName = "closure #2 in closure #1 in DataAccess.listCampaigns():DataAccess.swift">
          <PersistentStrings>
             <PersistentString
-               value = "">
+               value = "jsonCampaign[&quot;plane&quot;] as? [String:Any]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -137,13 +137,13 @@
          contextName = "NavigationDrawer.initialize(forViewController:):NavigationDrawer.swift">
          <PersistentStrings>
             <PersistentString
+               value = "options.anchorView = viewController.view">
+            </PersistentString>
+            <PersistentString
                value = "viewController.view">
             </PersistentString>
             <PersistentString
                value = "options.anchorView">
-            </PersistentString>
-            <PersistentString
-               value = "options.anchorView = viewController.view">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -180,10 +180,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #2 in closure #1 in DataAccess.listCampaigns():DataAccess.swift">
+         contextName = "closure #1 in MapController.mapViewDidFinishLoadingMap(_:):MapController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "jsonCampaign[&quot;plane&quot;] as? [String:Any]">
+               value = "">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

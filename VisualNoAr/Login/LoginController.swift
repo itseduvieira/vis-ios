@@ -43,7 +43,8 @@ class LoginController: UIViewController {
         
         self.controls.alpha = 0
         
-        if Auth.auth().currentUser == nil {
+        if Auth.auth().currentUser == nil ||
+                UserDefaults.standard.string(forKey: "username") == nil {
             self.checkAndFillSavedCredentials()
             
             for v in view.subviews {

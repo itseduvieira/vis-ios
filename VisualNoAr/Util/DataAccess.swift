@@ -119,6 +119,22 @@ class DataAccess {
         }
     }
     
+    func sendFCMToken(_ token: String) -> Promise<Void> {
+        let parameters: Parameters = [
+            "token": token
+        ]
+        
+        return Promise { seal in
+            firstly {
+                createRequest("users/\(Auth.auth().currentUser!.uid)/token", method: .post, parameters: parameters)
+            }.done { response in
+                seal.fulfill(())
+            }.catch { error in
+                seal.reject(error)
+            }
+        }
+    }
+    
     func getPlace(_ placeId: String) -> Promise<Place> {
         return Promise { seal in
             firstly {
