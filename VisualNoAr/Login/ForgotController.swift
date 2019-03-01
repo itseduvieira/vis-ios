@@ -13,37 +13,36 @@ class ForgotController: UIViewController {
     @IBOutlet weak var background: UIImageView!
     @IBOutlet weak var btnForgot: UIButton!
     @IBOutlet weak var txtEmail: UITextField!
-    @IBOutlet weak var navBar: UINavigationBar!
-    @IBOutlet weak var navItem: UINavigationItem!
+    @IBOutlet weak var controls: UIView!
     
     var email: String!
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
         
-        txtEmail.applyBottomBorder(UIColor.white)
+        txtEmail.applyBottomBorder(UIColor(hexString: "#111111"))
         
         if let email = self.email {
             txtEmail.text = email
         }
         
+        controls.setRadius(radius: 8)
         btnForgot.setRadius(radius: 22)
-        
-        UIView.animate(withDuration: 1.5, animations: {
-            self.background.alpha = 0.4
-        })
 
         self.setNavigationBar()
     }
 
-    func setNavigationBar() {
-        navBar.setBackgroundImage(UIImage(), for: .default)
-        navBar.shadowImage = UIImage()
-        
-        let backItem = UIBarButtonItem(title: "Voltar", style: .plain, target: self, action: #selector(back))
-        navItem.leftBarButtonItem = backItem
+    func setNavigationBar() {        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.view.backgroundColor = UIColor.clear
     }
     
     @objc func back() {
@@ -79,7 +78,7 @@ class ForgotController: UIViewController {
             let alert = UIAlertController(title: "Sucesso", message: "Verifique sua caixa de email e siga as instruções para troca de senha", preferredStyle: .alert)
             
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
-                self.performSegue(withIdentifier: "UnwindForgotToLogin", sender: self)
+                //self.performSegue(withIdentifier: "UnwindForgotToLogin", sender: self)
             }))
             
             self.dismissCustomAlert()

@@ -148,21 +148,21 @@ extension UIViewController {
         let screen = UIScreen.main.bounds
         customAlert.width.constant = screen.width - 32
         customAlert.height.constant = screen.height - 54
-        customAlert.center = CGPoint(x: screen.midX, y: screen.midY - 10)
+        customAlert.center = CGPoint(x: screen.midX, y: screen.midY)
         
         customAlert.btnHistory.setRadius(radius: 22)
         
-        self.view.addSubview(customAlert)
+        self.navigationController?.view.addSubview(customAlert)
         
         DispatchQueue.main.async {
-            UIView.animate(withDuration: 1, animations: {
+            UIView.animate(withDuration: 0.8, animations: {
                 customAlert.alpha = 1.0
             })
         }
     }
     
     func dismissLargeAlert() {
-        if let view = self.view.viewWithTag(12345) {
+        if let view = self.navigationController?.view.viewWithTag(12345) {
             view.removeFromSuperview()
         }
     }
@@ -214,5 +214,12 @@ extension UITextField {
         self.rightView = paddingView
         self.leftViewMode = .always
         self.rightViewMode = .always
+    }
+}
+
+extension UINavigationController {
+    
+    open override var preferredStatusBarStyle: UIStatusBarStyle {
+        return topViewController?.preferredStatusBarStyle ?? .default
     }
 }

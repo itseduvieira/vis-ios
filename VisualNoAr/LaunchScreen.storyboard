@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue-Bold</string>
-        </array>
-        <array key="HelveticaNeueExtras.ttc">
-            <string>HelveticaNeue-CondensedBold</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
@@ -26,32 +18,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="B8N-UN-WDL">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="Twy-CR-7Nr">
+                                <rect key="frame" x="97.5" y="279.5" width="180" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="0SD-dz-MvN"/>
+                                    <constraint firstAttribute="width" constant="180" id="h3s-89-U08"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VISUAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qcn-1Z-cHy">
-                                <rect key="frame" x="45" y="275" width="285" height="118"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="100"/>
-                                <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO AR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfJ-Zh-wdX">
-                                <rect key="frame" x="155" y="388" width="64.5" height="24"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="0.90000000000000002" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="C91-MO-j6h" firstAttribute="trailing" secondItem="B8N-UN-WDL" secondAttribute="trailing" id="9Rk-YH-uvg"/>
-                            <constraint firstItem="B8N-UN-WDL" firstAttribute="leading" secondItem="C91-MO-j6h" secondAttribute="leading" id="SFE-V3-oky"/>
-                            <constraint firstAttribute="bottom" secondItem="B8N-UN-WDL" secondAttribute="bottom" id="Vzz-6q-amj"/>
-                            <constraint firstItem="lfJ-Zh-wdX" firstAttribute="top" secondItem="qcn-1Z-cHy" secondAttribute="bottom" constant="-5" id="Xhm-Yj-k28"/>
-                            <constraint firstItem="B8N-UN-WDL" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="bqR-K0-nP5"/>
-                            <constraint firstItem="qcn-1Z-cHy" firstAttribute="centerX" secondItem="B8N-UN-WDL" secondAttribute="centerX" id="cJl-H0-Pgz"/>
-                            <constraint firstItem="qcn-1Z-cHy" firstAttribute="centerY" secondItem="B8N-UN-WDL" secondAttribute="centerY" id="khG-61-MIk"/>
-                            <constraint firstItem="lfJ-Zh-wdX" firstAttribute="centerX" secondItem="B8N-UN-WDL" secondAttribute="centerX" id="ooY-mD-Be8"/>
+                            <constraint firstItem="Twy-CR-7Nr" firstAttribute="centerX" secondItem="C91-MO-j6h" secondAttribute="centerX" id="Sal-wz-Mke"/>
+                            <constraint firstItem="Twy-CR-7Nr" firstAttribute="centerY" secondItem="C91-MO-j6h" secondAttribute="centerY" id="iGL-mf-pub"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="C91-MO-j6h"/>
                     </view>
@@ -62,6 +40,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Splash" width="1096" height="1995"/>
+        <image name="Logo" width="400" height="93"/>
     </resources>
 </document>

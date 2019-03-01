@@ -23,6 +23,16 @@ class DetailController: UIViewController {
     
     var campaign: Campaign!
     
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.setNavigationBar()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,12 +63,11 @@ class DetailController: UIViewController {
         }
     }
     
-    //MARK: Properties
-    
-    //MARK: Actions
-    @IBAction func back() {
-        DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "SegueUnwindToMap", sender: self)
-        }
+    func setNavigationBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.view.backgroundColor = UIColor.clear
+        navigationController?.navigationBar.tintColor = UIColor.white
     }
 }

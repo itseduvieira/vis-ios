@@ -12,6 +12,7 @@ import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
 import PromiseKit
+import UserNotifications
 
 class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDelegate {
     
@@ -25,11 +26,10 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     @IBOutlet weak var txtPrefix: UILabel!
     @IBOutlet weak var txtPlace: UILabel!
     @IBOutlet weak var btnDetail: UIButton!
-    @IBOutlet weak var navBar: UINavigationBar!
-    @IBOutlet weak var navItem: UINavigationItem!
     @IBOutlet weak var imgPlane: UIImageView!
     @IBOutlet weak var txtStatus: UILabel!
     @IBOutlet weak var mapHandler: UIView!
+    @IBOutlet weak var bottomInfoContainer: UIView!
     
     let navigationDrawer = NavigationDrawer.sharedInstance
     
@@ -43,25 +43,55 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     
     var userRef, campaignRef: DatabaseReference!
     
-    @IBAction func unwindToMap(segue: UIStoryboardSegue) {}
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .default
+    }
     
-    //MARK: Actions
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
         
-        setNavigationBar()
+        bottomInfoContainer.layer.addBorder(edge: UIRectEdge.top, color: UIColor(hexString: "#eeeeee"), thickness: 0.5)
         
-        setNavigationDrawer()
+        imgPlane.alpha = 0
+        
+        topInfoContainer.setRadius(radius: 3)
+        topInfoContainer.layer.shadowOpacity = 0.15
+        topInfoContainer.layer.shadowOffset = CGSize(width: 3.0, height: 3.0)
+        topInfoContainer.layer.shadowRadius = 0.3
+        topInfoContainer.layer.shadowColor = UIColor.black.cgColor
+        topInfoContainer.layer.masksToBounds = false
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(mapDoubleTapped))
+        tap.numberOfTapsRequired = 2
+        mapHandler.addGestureRecognizer(tap)
+        
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(mapPinch))
+        mapHandler.addGestureRecognizer(pinch)
+        
+        if #available(iOS 10.0, *) {
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(settings)
+        }
+        
+        UIApplication.shared.registerForRemoteNotifications()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(sendFCMToken(_:)), name: Notification.Name("FCMToken"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        NavigationDrawer.sharedInstance.initialize(forViewController: self)
+        self.setNavigationBar()
         
-        listenCampaign()
+         self.listenCampaign()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -75,16 +105,12 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     func mapViewDidFinishLoadingMap(_ mapView: MGLMapView) {
         self.mapView = mapView
         
-        setMapConfig()
+        self.setMapConfig()
     }
     
     func setMapConfig() {
-        //        let tap = UITapGestureRecognizer(target: self, action: Selector("followTrip:"))
-        //        bigButton.addGestureRecognizer(tap)
-        
         self.centerMap()
         
-        topInfoContainer.setRadius(radius: 3)
         imgStatus.backgroundColor = UIColor(hexString: "#00E08A")
         imgStatus.setRadius(radius: 5.5)
         
@@ -93,13 +119,39 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     }
     
     func centerMap() {
-        mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height + navBar.frame.height, 0, 0, 0), animated: true)
+//        mapView.setContentInset(UIEdgeInsetsMake(topInfoContainer.frame.height + (navigationController?.navigationBar.frame.height ?? 0), 0, 0, 0), animated: true)
         
         let coordinate = CLLocationCoordinate2D(latitude: -20.0, longitude: -47.8825)
 
-        camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 13000 * 1000, pitch: 0, heading: 0)
+        camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 9000 * 1000, pitch: 0, heading: 0)
         
         mapView.fly(to: camera, withDuration: 2, completionHandler: { })
+    }
+    
+    @objc func mapDoubleTapped() {
+        guard self.mapView != nil, self.camera != nil, self.camera.altitude > 200 else {
+            return
+        }
+        
+        self.camera.altitude = self.camera.altitude - 300
+        self.mapView.fly(to: camera, withDuration: 1.5, completionHandler: { })
+    }
+    
+    @objc func mapPinch(sender: UIPinchGestureRecognizer) {
+        guard self.mapView != nil, self.camera != nil, sender.state == .changed else {
+            return
+        }
+        
+        let newAltitude = self.camera.altitude / Double(sender.scale)
+        
+        guard newAltitude > 200, newAltitude < 900000 else {
+            return
+        }
+        
+        self.camera.altitude = newAltitude
+        self.mapView.fly(to: camera, completionHandler: { })
+    
+        sender.scale = 1.0
     }
     
     func releaseListeners() {
@@ -157,15 +209,26 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         point = MGLPointAnnotation()
         point.coordinate = nextLoc.coordinate
         mapView.addAnnotation(point)
+
+        if camera == nil {
+            let coordinate = CLLocationCoordinate2D(latitude: -20.0, longitude: -47.8825)
+        
+            camera = MGLMapCamera(lookingAtCenter: coordinate, fromDistance: 9000 * 1000, pitch: 0, heading: 0)
+        }
         
         camera.altitude = distance
         camera.pitch = 70
         camera.heading = 0.0
         camera.centerCoordinate = nextLoc.coordinate
+        
         mapView.fly(to: camera, withDuration: 1.5, completionHandler: {
-            UIView.animate(withDuration: 1) {
+            UIView.animate(withDuration: 0.5) {
                 self.imgPlane.alpha = 1
             }
+            
+            self.mapView.setCamera(self.camera, withDuration: 1.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
+            
+            //, edgePadding: UIEdgeInsetsMake(280, 0, 118, 0)
         })
         
         txtStatus.text = "Sobrevoando agora"
@@ -206,7 +269,7 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         camera.pitch = 70
         camera.centerCoordinate = nextLoc.coordinate
         
-        mapView.setCamera(camera, withDuration: 1.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear), edgePadding: UIEdgeInsetsMake(280, 0, 118, 0))
+        mapView.setCamera(camera, withDuration: 1.5, animationTimingFunction: CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear))
         
         print("[vis] [dequeue] lat:\(nextLoc.coordinate.latitude),lon:\(nextLoc.coordinate.longitude),head:\(rotation),dist:\(distance)")
     }
@@ -255,22 +318,10 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         self.timer = nil
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "SegueMapToDetail" {
-            let detailVC = segue.destination as! DetailController
-            
-            detailVC.campaign = self.campaign
-        }
-    }
-    
     func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
-        // Assign a reuse identifier to be used by both of the annotation views, taking advantage of their similarities.
         let reuseIdentifier = "reusableDotView"
-        
-        // For better performance, always try to reuse existing annotations.
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
         
-        // If there’s no reusable annotation view available, initialize a new one.
         if annotationView == nil {
             annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
             annotationView?.frame = CGRect(x: 0, y: 0, width: 15, height: 15)
@@ -284,16 +335,19 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     }
     
     func setNavigationBar() {
-        navBar.setBackgroundImage(UIImage(), for: .default)
-        navBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.view.backgroundColor = UIColor.white
+        
         let menuItem = UIBarButtonItem(image: UIImage(named: "IconMenu"), style: .plain,target: self, action: #selector(openMenu))
-        navItem.leftBarButtonItem = menuItem
-        let placeItem = UIBarButtonItem(image: UIImage(named: "IconZoom"), style: .plain,target: self, action: #selector(center))
-        navItem.rightBarButtonItem = placeItem
+        self.navigationItem.leftBarButtonItem = menuItem
         
         if let company = UserDefaults.standard.string(forKey: "company") {
-            self.navBar.topItem?.title = company
+            navigationController?.navigationBar.topItem?.title = company
         }
+
+        navigationController?.navigationBar.tintColor = UIColor.black
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.shadowImage = nil
     }
     
     func setNavigationDrawer() {
@@ -301,19 +355,47 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         options.navigationDrawerType = .LeftDrawer
         options.navigationDrawerOpenDirection = .LeftEdge
         options.navigationDrawerWidth = UIScreen.main.bounds.width - 60
-        
+
         navigationDrawer.setup(withOptions: options)
         let menuVC = self.storyboard?.instantiateViewController(withIdentifier: "DrawerMenuViewController") as! DrawerMenuController
         navigationDrawer.setNavigationDrawerController(viewController: menuVC)
         navigationDrawer.delegate = self
+        navigationDrawer.initialize(forViewController: self.navigationController!)
     }
     
     @objc func openMenu() {
-        NavigationDrawer.sharedInstance.toggleNavigationDrawer(completionHandler: nil)
+        self.setNavigationDrawer()
+
+        navigationDrawer.toggleNavigationDrawer(completionHandler: nil)
+    }
+    
+    func goToHistory() {
+        self.dismissLargeAlert()
+        
+        navigationDrawer.toggleNavigationDrawer(completionHandler: nil)
+        
+        self.performSegue(withIdentifier: "SegueMapToHistory", sender: self)
+    }
+    
+    func logout() {
+        do {
+            UIApplication.shared.unregisterForRemoteNotifications()
+            
+            try Auth.auth().signOut()
+        } catch {
+            print("Error at signOut")
+        }
+        
+        self.performSegue(withIdentifier: "SegueMapToLogin", sender: self)
     }
     
     func listenCampaign() {
         let user = Auth.auth().currentUser
+        
+        guard Auth.auth().currentUser != nil else {
+            return
+        }
+        
         userRef = Database.database().reference(withPath: "user").child(user!.uid)
         userRef.observe(.value, with: { snapshot in
             if let child = snapshot.value as? [String:Any] {
@@ -331,19 +413,19 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                         return
                     }
                     
-                    if self.campaign == nil {
-                        self.txtStatus.text = "Status"
-                        self.txtLocation.text = "Obtendo dados da campanha..."
-                        
-                        self.setCampaignData(campaignId, cDict)
-                        
-                        self.txtStatus.text = "Status"
-                        self.txtLocation.text = "Aguardando decolagem..."
-                    }
-                    
                     self.campaignRef.child("active").observe(.value, with: { (snapshot) in
                         guard let active = snapshot.value as? Bool else {
                             return
+                        }
+                        
+                        if self.campaign == nil {
+                            self.txtStatus.text = "Status"
+                            self.txtLocation.text = "Obtendo dados da campanha..."
+                            
+                            self.setCampaignData(campaignId, cDict)
+                            
+                            self.txtStatus.text = "Status"
+                            self.txtLocation.text = "Aguardando decolagem..."
                         }
                         
                         self.campaign.active = active
@@ -403,6 +485,12 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
                     self.campaignRef.removeAllObservers()
                 }
                 
+                self.txtCampaign.text = ""
+                self.txtPrefix.text = ""
+                self.txtPlace.text = ""
+                
+                self.centerMap()
+                
                 self.presentLargeAlert(self, {})
                 self.btnDetail.isEnabled = false
                 
@@ -424,9 +512,35 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
     }
     
     private func setCampaignData(_ campaignId: String, _ cDict: [String:Any]) {
-        self.txtCampaign.text = (cDict["name"] as? String)?.uppercased()
-        self.txtPrefix.text = (cDict["plane"] as? String)?.uppercased()
-        self.txtPlace.text = (cDict["place"] as? String)?.uppercased()
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.txtCampaign.alpha = 0.2
+        }) { completion in
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.txtCampaign.backgroundColor = UIColor.clear
+                self.txtCampaign.text = (cDict["name"] as? String)?.uppercased()
+                self.txtCampaign.alpha = 1.0
+            })
+        }
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.txtPrefix.alpha = 0.2
+        }) { completion in
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.txtPrefix.backgroundColor = UIColor.clear
+                self.txtPrefix.text = (cDict["plane"] as? String)?.uppercased()
+                self.txtPrefix.alpha = 1.0
+            })
+        }
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.txtPlace.alpha = 0.2
+        }) { completion in
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+                self.txtPlace.backgroundColor = UIColor.clear
+                self.txtPlace.text = (cDict["place"] as? String)?.uppercased()
+                self.txtPlace.alpha = 1.0
+            })
+        }
         
         self.campaign = Campaign()
         self.campaign.id = campaignId
@@ -486,12 +600,12 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         if self.campaign != nil && self.campaign.position != nil {
             if self.distance < 80000 {
                 if self.distance > 40000 {
-                    self.navItem.rightBarButtonItem?.image = UIImage(named: "IconPlace")
+                    self.navigationItem.rightBarButtonItem?.image = UIImage(named: "IconPlace")
                 }
                 
                 self.distance *= 2.1
             } else {
-                self.navItem.rightBarButtonItem?.image = UIImage(named: "IconZoom")
+                self.navigationItem.rightBarButtonItem?.image = UIImage(named: "IconZoom")
                 
                 self.distance = 1000
             }
@@ -507,8 +621,29 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         }
     }
     
-//    @objc func doubleTapMap() {
-//
-//    }
+    @IBAction func goToDetail() {
+        self.performSegue(withIdentifier: "SegueMapToDetail", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SegueMapToDetail",
+            let vc = segue.destination as? DetailController {
+            vc.campaign = self.campaign
+        }
+    }
+    
+    @objc func sendFCMToken(_ notification: Notification) {
+        if let object = notification.userInfo as? [String: Any] {
+            if let token = object["token"] as? String {
+                firstly {
+                    DataAccess.instance.sendFCMToken(token)
+                }.catch { error in
+                    print(error)
+                }
+            }
+        }
+        
+        
+    }
 }
 

@@ -7,11 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>590834106390-3d52n5f0k2a3rqi192vu4cf97he3boks.apps.googleusercontent.com</string>
+	<string>590834106390-rd3p331f1gdvsrp2fk5jsur8hs7fe9ei.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.590834106390-3d52n5f0k2a3rqi192vu4cf97he3boks</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>590834106390-35avmm2pcs637parqcm8e2uvc2o5t71k.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.590834106390-rd3p331f1gdvsrp2fk5jsur8hs7fe9ei</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAdxbNRJ2Zy8YgXxC45Y6PD0qGJVJLm-4M</string>
 	<key>GCM_SENDER_ID</key>
@@ -19,7 +17,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>app.visualnoar</string>
+	<string>br.com.visualnoar</string>
 	<key>PROJECT_ID</key>
 	<string>visual-no-ar</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,13 +27,13 @@
 	<key>IS_ANALYTICS_ENABLED</key>
 	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<false></false>
 	<key>IS_GCM_ENABLED</key>
 	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:590834106390:ios:21f70fac1417e05f</string>
+	<string>1:590834106390:ios:23ec2a5a2d5b2eb5</string>
 	<key>DATABASE_URL</key>
 	<string>https://visual-no-ar.firebaseio.com</string>
 </dict>

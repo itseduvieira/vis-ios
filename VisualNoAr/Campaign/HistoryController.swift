@@ -10,29 +10,25 @@ import UIKit
 import PromiseKit
 
 class HistoryController: UIViewController,  UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var navBar: UINavigationBar!
-    @IBOutlet weak var navItem: UINavigationItem!
     @IBOutlet weak var table: UITableView!
     
     var campaigns: [Campaign]! = []
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationItem.title = "Campanhas"
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.view.backgroundColor = UIColor.white
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.setNavigationBar()
         
         table.dataSource = self
         table.delegate = self
         
         self.getData()
-    }
-    
-    func setNavigationBar() {
-        navBar.setBackgroundImage(UIImage(), for: .default)
-        navBar.shadowImage = UIImage()
-        
-        let backItem = UIBarButtonItem(title: "Voltar", style: .plain, target: self, action: #selector(back))
-        navItem.leftBarButtonItem = backItem
     }
     
     func getData() {
@@ -45,11 +41,6 @@ class HistoryController: UIViewController,  UITableViewDelegate, UITableViewData
         }.catch { error in
             print(error)
         }
-    }
-    
-    @objc func back() {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MapViewController") as! MapController
-        self.present(vc, animated: true, completion: {})
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
