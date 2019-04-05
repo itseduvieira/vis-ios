@@ -4,7 +4,7 @@ target 'VisualNoAr' do
     use_frameworks!
     
     pod 'Mapbox-iOS-SDK', '~> 4.3'
-    pod 'MapboxGeocoder.swift', '~> 0.9'
+    pod 'MapboxGeocoder.swift', '~> 0.10'
     pod 'Firebase/Database'
     pod 'Firebase/Auth'
     pod 'Firebase/Storage'

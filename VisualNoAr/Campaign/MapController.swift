@@ -508,6 +508,10 @@ class MapController: UIViewController, MGLMapViewDelegate, NavigationDrawerDeleg
         
         self.imgPlane.alpha = 0
         
+        mapView.removeAnnotation(point)
+        
+        point = nil
+        
         self.centerMap()
     }
     

@@ -47,7 +47,7 @@ PODS:
   - GTMSessionFetcher/Core (1.2.0)
   - leveldb-library (1.20)
   - Mapbox-iOS-SDK (4.3.0)
-  - MapboxGeocoder.swift (0.9.0)
+  - MapboxGeocoder.swift (0.10.2)
   - PromiseKit/Alamofire (6.3.4):
     - Alamofire (~> 4.0)
     - PromiseKit/CorePromise
@@ -63,7 +63,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - Firebase/Storage
   - Mapbox-iOS-SDK (~> 4.3)
-  - MapboxGeocoder.swift (~> 0.9)
+  - MapboxGeocoder.swift (~> 0.10)
   - PromiseKit/Alamofire (~> 6.0)
 
 SPEC REPOS:
@@ -103,10 +103,10 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Mapbox-iOS-SDK: 7d8d510088ba7900d11aa3ceb98f563b040efca1
-  MapboxGeocoder.swift: 66d2e5e452c5de6b65ea9b01be436d1c5f100b7e
+  MapboxGeocoder.swift: 8cff5dddf98d87838509bf80a5bce5f1d0cf8393
   PromiseKit: e1425568123ec844a944c93f2bcb29d511d39cf5
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
 
-PODFILE CHECKSUM: c592670d27a69796e2c9255e027822238b7c31a6
+PODFILE CHECKSUM: 4838bc01929277a546fd6c079d2584495e2fb48c
 
 COCOAPODS: 1.5.3

@@ -2560,7 +2560,7 @@ Mapbox GL uses portions of software mentioned in [platform/android/LICENSE.md](h
 
 ## MapboxGeocoder.swift
 
-Copyright © 2014–2017, Mapbox
+Copyright © 2014–2019, Mapbox
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
