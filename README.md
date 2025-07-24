@@ -1,10 +1,10 @@
-# VIS-IOS
+# vis-ios
 
-Welcome to the **VIS-IOS** repository!
+Welcome to the **vis-ios** repository!
 
-This project is the official iPhone app for Visual Aerial Advertising. VIS-IOS allows clients to follow their banner towing flights in real time, receive notifications about campaign activity, and access flight details directly from their mobile device.
+This project is the official iPhone app for Visual Aerial Advertising. Visual allows clients to follow their banner towing flights in real time, receive notifications about campaign activity, and access flight details directly from their mobile device.
 
-![App Screenshots](image2)
+![App Screenshots](image2.jpg)
 
 ## About VISUAL
 
